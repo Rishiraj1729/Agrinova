@@ -4,8 +4,6 @@
 
 Inspired by solutions like KISANBANDHU, with Govt of India scheme integration, emissions tracking, and farmer-friendly bilingual UI.
 
-## Features
-
 ### Marketplace
 - List & sell crop residue to biomass buyers
 - Equipment booking (balers, Happy Seeders)
