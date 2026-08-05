@@ -1,14 +1,15 @@
 interface HeroProps {
   onGetStarted: () => void
+  onOpenTools: () => void
 }
 
-export default function Hero({ onGetStarted }: HeroProps) {
+export default function Hero({ onGetStarted, onOpenTools }: HeroProps) {
   return (
     <section className="relative overflow-hidden px-4 py-20 md:py-28">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(74,222,128,0.08)_0%,_transparent_60%)]" />
       <div className="relative mx-auto max-w-4xl text-center animate-fade-in">
         <p className="mb-4 text-sm font-medium uppercase tracking-widest text-agri-green">
-          Marketplace for Farmers
+          किसानों के लिए · Marketplace for Farmers
         </p>
         <h1 className="mb-6 text-4xl font-bold leading-tight md:text-6xl">
           Turning Crop Residue Into{' '}
@@ -24,14 +25,15 @@ export default function Hero({ onGetStarted }: HeroProps) {
             onClick={onGetStarted}
             className="pulse-green rounded-xl bg-agri-green px-8 py-4 text-lg font-bold text-agri-dark transition hover:bg-agri-green-dim"
           >
-            Start Selling Residue →
+            पराली बेचें · Sell Residue →
           </button>
-          <a
-            href="#impact"
+          <button
+            type="button"
+            onClick={onOpenTools}
             className="rounded-xl border border-agri-border px-8 py-4 text-lg font-medium text-white transition hover:border-agri-green/50"
           >
-            See the Impact
-          </a>
+            🧰 Kisan Toolkit
+          </button>
         </div>
       </div>
     </section>

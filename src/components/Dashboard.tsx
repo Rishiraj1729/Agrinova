@@ -1,13 +1,22 @@
 import { farmer, platformStats } from '../data/demoData'
+import { goiProblems } from '../data/goiSchemes'
 import type { ResidueListing } from '../types'
 
 interface DashboardProps {
   listings: ResidueListing[]
   onListResidue: () => void
   onViewMatches: () => void
+  onOpenTools: () => void
+  onOpenEmissions: () => void
 }
 
-export default function Dashboard({ listings, onListResidue, onViewMatches }: DashboardProps) {
+export default function Dashboard({
+  listings,
+  onListResidue,
+  onViewMatches,
+  onOpenTools,
+  onOpenEmissions,
+}: DashboardProps) {
   const totalEarned = listings
     .filter((l) => l.status === 'paid')
     .reduce((sum, l) => sum + l.estimatedValue, 0)
@@ -15,30 +24,59 @@ export default function Dashboard({ listings, onListResidue, onViewMatches }: Da
   const potentialEarnings = farmer.acres * 2400
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 animate-fade-in">
+    <div className="mx-auto max-w-6xl px-4 py-10 pb-24 md:pb-10 animate-fade-in">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold">Welcome, {farmer.name.split(' ')[0]} 👋</h1>
+        <h1 className="text-3xl font-bold">नमस्ते, {farmer.name.split(' ')[0]} 👋</h1>
         <p className="mt-1 text-agri-muted">
           {farmer.village}, {farmer.district} · {farmer.acres} acres
         </p>
       </div>
 
+      <div className="mb-6 rounded-xl border border-red-500/30 bg-red-500/10 p-4">
+        <p className="text-sm font-bold text-red-300">⚠️ {goiProblems[0].title} Alert — {goiProblems[0].source}</p>
+        <p className="mt-1 text-sm text-agri-muted">{goiProblems[0].hint}</p>
+      </div>
+
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {[
-          { label: 'Total Earned', value: `₹${totalEarned.toLocaleString('en-IN')}`, color: 'text-agri-green' },
-          { label: 'Active Listings', value: String(pending), color: 'text-white' },
-          { label: 'Potential This Season', value: `₹${potentialEarnings.toLocaleString('en-IN')}`, color: 'text-yellow-400' },
-          { label: 'Acres Protected', value: `${farmer.acres} ac`, color: 'text-blue-400' },
+          { label: 'Total Earned', hindi: 'कुल कमाई', value: `₹${totalEarned.toLocaleString('en-IN')}`, color: 'text-agri-green' },
+          { label: 'Active Listings', hindi: 'सूची', value: String(pending), color: 'text-white' },
+          { label: 'Potential Season', hindi: 'संभावित', value: `₹${potentialEarnings.toLocaleString('en-IN')}`, color: 'text-yellow-400' },
+          { label: 'CO₂ Avoided', hindi: 'उत्सर्जन बचत', value: `${(farmer.acres * 4.8).toFixed(1)} t`, color: 'text-blue-400' },
         ].map((stat) => (
           <div key={stat.label} className="rounded-xl border border-agri-border bg-agri-card p-5">
             <p className="text-sm text-agri-muted">{stat.label}</p>
+            <p className="text-[10px] text-agri-muted">{stat.hindi}</p>
             <p className={`mt-2 text-2xl font-bold ${stat.color}`}>{stat.value}</p>
           </div>
         ))}
       </div>
 
+      <h2 className="mb-4 text-lg font-bold">Quick Actions</h2>
+      <div className="mb-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          { icon: '💰', label: 'Sell Residue', hindi: 'पराली बेचें', action: onListResidue },
+          { icon: '📊', label: 'Emissions', hindi: 'उत्सर्जन', action: onOpenEmissions },
+          { icon: '🏛️', label: 'Govt Schemes', hindi: 'योजनाएं', action: onOpenTools },
+          { icon: '🧰', label: 'All Tools', hindi: 'सभी उपकरण', action: onOpenTools },
+        ].map((item) => (
+          <button
+            key={item.label}
+            type="button"
+            onClick={item.action}
+            className="flex items-center gap-3 rounded-xl border border-agri-border bg-agri-card p-4 text-left transition hover:border-agri-green/40 hover:bg-agri-green/5"
+          >
+            <span className="text-2xl">{item.icon}</span>
+            <div>
+              <p className="font-semibold">{item.label}</p>
+              <p className="text-xs text-agri-muted">{item.hindi}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+
       <div className="mb-10 rounded-xl border border-agri-green/30 bg-agri-green/5 p-6">
-        <h2 className="text-lg font-bold text-agri-green">🌍 Your Environmental Impact</h2>
+        <h2 className="text-lg font-bold text-agri-green">🌍 Environmental Impact (Scope 1 Saved)</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-3">
           <div>
             <p className="text-2xl font-bold">{farmer.acres * 2.4} t</p>

@@ -1,6 +1,13 @@
 export type View =
   | 'home'
   | 'dashboard'
+  | 'tools'
+  | 'emissions'
+  | 'schemes'
+  | 'msp'
+  | 'calendar'
+  | 'weather'
+  | 'soil'
   | 'list'
   | 'equipment'
   | 'matches'
@@ -45,3 +52,5 @@ export interface FarmerProfile {
   acres: number
   phone: string
 }
+
+export type ToolId = 'emissions' | 'schemes' | 'msp' | 'calendar' | 'weather' | 'soil'
