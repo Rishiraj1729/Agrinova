@@ -1,11 +1,16 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
+import { DonutChart } from '../../components/charts/DonutChart'
 import { buyers, residueListings, transactions, platformStats } from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 const demandData = buyers.map((b) => ({ name: b.name.split(' ')[0], demand: b.demandTonnes }))
-const COLORS = ['#3ecf6e', '#7a8f7a', '#4ade80', '#22c55e', '#16a34a']
+const procurementMix = demandData.slice(0, 5).map((d, i) => ({
+  name: d.name,
+  value: d.demand,
+  fill: ['#3ecf6e', '#4ade80', '#22c55e', '#3b82f6', '#eab308'][i],
+}))
 
 export default function BusinessDashboard() {
   return (
@@ -43,14 +48,14 @@ export default function BusinessDashboard() {
         <Card>
           <CardHeader><CardTitle>Procurement Mix</CardTitle></CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={demandData.slice(0, 5)} dataKey="demand" nameKey="name" cx="50%" cy="50%" outerRadius={80}>
-                  {demandData.slice(0, 5).map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                </Pie>
-                <Tooltip contentStyle={{ background: '#111611', border: '1px solid #1e2a1e', borderRadius: 8 }} />
-              </PieChart>
-            </ResponsiveContainer>
+            <DonutChart
+              data={procurementMix.map((d) => ({
+                name: d.name,
+                value: Math.round((d.value / procurementMix.reduce((s, x) => s + x.value, 0)) * 100),
+                fill: d.fill,
+              }))}
+              height={280}
+            />
           </CardContent>
         </Card>
       </div>

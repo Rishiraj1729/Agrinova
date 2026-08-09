@@ -1,11 +1,12 @@
 import {
-  AreaChart, Area, BarChart, Bar, LineChart, Line, PieChart, Pie, Cell,
+  AreaChart, Area, BarChart, Bar, LineChart, Line,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
   ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  ResponsiveContainer, ComposedChart,
+  ResponsiveContainer, ComposedChart, Cell,
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
+import { DonutChart } from '../components/charts/DonutChart'
 import {
   monthlyImpact, districtData, emissionScopes, emissionScopesAfter,
   sustainabilityRadar, residueFlow, aiAccuracy, priceDemandScatter,
@@ -125,29 +126,14 @@ export default function AnalyticsPage() {
         <Card>
           <CardHeader><CardTitle className="text-red-400">Emissions Before</CardTitle></CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={emissionScopes} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={2}>
-                  {emissionScopes.map((e, i) => <Cell key={i} fill={e.fill} />)}
-                </Pie>
-                <Tooltip contentStyle={tooltipStyle} />
-              </PieChart>
-            </ResponsiveContainer>
+            <DonutChart data={emissionScopes} height={280} />
           </CardContent>
         </Card>
 
-        {/* Emissions after */}
         <Card>
           <CardHeader><CardTitle className="text-nv-green">Emissions After Agrinova</CardTitle></CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <PieChart>
-                <Pie data={emissionScopesAfter} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={80} paddingAngle={2}>
-                  {emissionScopesAfter.map((e, i) => <Cell key={i} fill={e.fill} />)}
-                </Pie>
-                <Tooltip contentStyle={tooltipStyle} />
-              </PieChart>
-            </ResponsiveContainer>
+            <DonutChart data={emissionScopesAfter} height={280} />
           </CardContent>
         </Card>
 
