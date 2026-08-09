@@ -1,29 +1,12 @@
-# Agrinova
+# AgriNove
 
-**Turning Crop Residue Into Farmer Income** — a demo marketplace and Kisan toolkit for Indian farmers.
+**Predict. Protect. Prosper. Recycle.**
 
-Inspired by solutions like KISANBANDHU, with Govt of India scheme integration, emissions tracking, and farmer-friendly bilingual UI.
+**Made by Shikha Sharma • NCSE**
 
-### Marketplace
-- List & sell crop residue to biomass buyers
-- Equipment booking (balers, Happy Seeders)
-- Buyer matching & payment flow
+AI-powered agricultural intelligence + circular-economy platform — a research prototype for the **National Children's Science Congress (NCSC)** under the theme *"Science and Innovation for Sustainability."*
 
-### Kisan Toolkit
-- **Emissions Tracker** — Scope 1, 2 & 3 calculator with GOI context (NGT, CPCB, PM-KUSUM)
-- **Government Schemes** — PM-KISAN, Soil Health Card, PMFBY, PM-KUSUM, KCC, PMKSY
-- **MSP Prices** — 2025-26 minimum support prices
-- **Crop Calendar** — Season-wise farming guide for North India
-- **Weather Advisory** — CAQM/IMD-style alerts
-- **Soil Health Card** — Demo soil test results & recommendations
-
-### UI
-- Bilingual Hindi + English labels
-- Mobile bottom navigation
-- Tricolor accent bar
-- Farmer-friendly large touch targets
-
-## Run Locally
+## Run
 
 ```bash
 npm install
@@ -32,15 +15,31 @@ npm run dev
 
 Open http://localhost:5173
 
+## Portals
+
+| Portal | Features |
+|--------|----------|
+| **Farmer** | Dashboard, weather, crop intel, risk, market, income simulator, residue marketplace, logistics, carbon impact, AI assistant |
+| **Business** | Demand dashboard, supplier discovery, procurement, sustainability analytics |
+| **Research/Govt** | Resource maps, crop/risk analytics, residue flows, impact dashboard |
+| **Science** | Full methodology: Problem → Hypothesis → Data → Model → Results → Conclusion |
+| **Presentation** | `/presentation` — distraction-free judge demo with keyboard navigation |
+
+## Judge Demo Flow
+
+1. Farmer Dashboard → 2. Weather Warning → 3. Crop Risk → 4. Market → 5. List Rice Straw → 6. Buyer Match → 7. Transaction → 8. Logistics → 9. Carbon Impact → 10. Science page → 11. Presentation Mode
+
 ## Tech Stack
 
 - React + TypeScript + Vite
 - Tailwind CSS v4
+- React Router · Recharts · Lucide Icons
+- Multilingual: English, Hindi, Bengali
 
-## Demo Flow
+## Demo Data
 
-1. **Sell Residue** — List crop, match buyer, book equipment, get paid
-2. **Kisan Tools** — Explore emissions, schemes, MSP, weather, soil health
-3. **Dashboard** — Track earnings, impact, and GOI alerts
+All data is **fictional and clearly labelled**. 25 demo farmers, 10 buyers, weather events, transactions, and impact records. Carbon figures are project-level estimates — **not certified carbon credits**.
 
-All data is hardcoded for demo purposes.
+## Scientific Integrity
+
+Every prediction shows confidence, reason, and data context. Labels use "estimated" throughout. No fabricated verified results.
