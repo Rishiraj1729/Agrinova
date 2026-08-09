@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { TrustBadge } from '../../components/ui/TrustBadge'
-import { cropRisks, currentFarmer } from '../../data/agrinoveData'
+import { cropRisks, currentFarmer } from '../../data/agrinovaData'
 
 export default function CropPage() {
   return (

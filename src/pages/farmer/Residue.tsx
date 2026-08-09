@@ -7,7 +7,7 @@ import { Button } from '../../components/ui/Button'
 import { TrustBadge } from '../../components/ui/TrustBadge'
 import {
   currentFarmer, findBuyersForResidue, calculateCarbonImpact, logisticsJobs,
-} from '../../data/agrinoveData'
+} from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 import type { ResidueType } from '../../types'
 

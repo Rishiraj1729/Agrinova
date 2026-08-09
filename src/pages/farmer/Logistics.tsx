@@ -1,7 +1,7 @@
 import { Truck } from 'lucide-react'
 import { Card, CardContent } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
-import { logisticsJobs } from '../../data/agrinoveData'
+import { logisticsJobs } from '../../data/agrinovaData'
 
 export default function LogisticsPage() {
   return (

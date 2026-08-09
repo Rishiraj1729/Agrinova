@@ -1,6 +1,6 @@
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
-import { farmers, impactRecords, platformStats, cropRisks } from '../../data/agrinoveData'
+import { farmers, impactRecords, platformStats, cropRisks } from '../../data/agrinovaData'
 
 const trendData = [
   { month: 'Jun', rescued: 32, co2: 64 },

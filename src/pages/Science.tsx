@@ -1,4 +1,4 @@
-import { scienceSteps } from '../data/agrinoveData'
+import { scienceSteps } from '../data/agrinovaData'
 import { Card, CardContent } from '../components/ui/Card'
 
 const stepColors = [

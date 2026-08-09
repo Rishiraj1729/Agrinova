@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { TrustBadge } from '../../components/ui/TrustBadge'
-import { currentFarmer } from '../../data/agrinoveData'
+import { currentFarmer } from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 export default function IncomePage() {

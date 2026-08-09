@@ -1,7 +1,7 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
-import { buyers, residueListings, transactions, platformStats } from '../../data/agrinoveData'
+import { buyers, residueListings, transactions, platformStats } from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 const demandData = buyers.map((b) => ({ name: b.name.split(' ')[0], demand: b.demandTonnes }))

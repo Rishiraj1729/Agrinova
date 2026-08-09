@@ -3,7 +3,7 @@ import type { Lang } from '../types/index'
 type Dict = Record<string, string>
 
 const en: Dict = {
-  'app.name': 'AgriNove',
+  'app.name': 'Agrinova',
   'app.tagline': 'Predict. Protect. Prosper. Recycle.',
   'app.credit': 'Made by Shikha Sharma • NCSE',
   'nav.home': 'Home',

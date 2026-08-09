@@ -3,7 +3,7 @@ import { Mic, Send, Bot } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Badge } from '../../components/ui/Badge'
-import { parseVoiceInput, findBuyersForResidue } from '../../data/agrinoveData'
+import { parseVoiceInput, findBuyersForResidue } from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 export default function AIPage() {

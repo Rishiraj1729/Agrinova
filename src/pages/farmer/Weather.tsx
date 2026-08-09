@@ -2,7 +2,7 @@ import { Cloud, Droplets, Wind, Thermometer } from 'lucide-react'
 import { Card, CardContent } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { TrustBadge } from '../../components/ui/TrustBadge'
-import { weatherEvents } from '../../data/agrinoveData'
+import { weatherEvents } from '../../data/agrinovaData'
 
 export default function WeatherPage() {
   return (

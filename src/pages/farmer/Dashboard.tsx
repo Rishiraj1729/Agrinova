@@ -8,7 +8,7 @@ import { Button } from '../../components/ui/Button'
 import {
   currentFarmer, weatherEvents, cropRisks, marketPrices,
   platformStats, residueListings,
-} from '../../data/agrinoveData'
+} from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 const incomeData = [

@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
-import { impactRecords } from '../../data/agrinoveData'
+import { impactRecords } from '../../data/agrinovaData'
 
 export default function CarbonPage() {
   const chartData = impactRecords.map((r) => ({

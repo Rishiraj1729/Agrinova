@@ -15,6 +15,7 @@ import AIPage from './pages/farmer/AI'
 import BusinessDashboard from './pages/business/Dashboard'
 import ResearchDashboard from './pages/research/Dashboard'
 import SciencePage from './pages/Science'
+import AnalyticsPage from './pages/Analytics'
 import PresentationPage from './pages/Presentation'
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
             <Route path="business" element={<BusinessDashboard />} />
             <Route path="research" element={<ResearchDashboard />} />
             <Route path="science" element={<SciencePage />} />
+            <Route path="analytics" element={<AnalyticsPage />} />
           </Route>
           <Route path="presentation" element={<PresentationPage />} />
         </Routes>

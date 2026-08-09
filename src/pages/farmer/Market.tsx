@@ -2,7 +2,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recha
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { TrustBadge } from '../../components/ui/TrustBadge'
-import { marketPrices } from '../../data/agrinoveData'
+import { marketPrices } from '../../data/agrinovaData'
 import { formatINR } from '../../lib/utils'
 
 export default function MarketPage() {

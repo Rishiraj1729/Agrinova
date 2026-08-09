@@ -1,7 +1,7 @@
 import { Card, CardContent } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { TrustBadge } from '../../components/ui/TrustBadge'
-import { cropRisks, weatherEvents } from '../../data/agrinoveData'
+import { cropRisks, weatherEvents } from '../../data/agrinovaData'
 
 export default function RiskPage() {
   return (

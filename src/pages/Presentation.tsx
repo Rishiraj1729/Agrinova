@@ -13,7 +13,7 @@ const slides = [
   { title: 'Carbon Impact', body: 'Baseline (burning): 4.5 t CO₂e\nAlternative (selling): 0.8 t CO₂e\nEstimated avoided: 3.7 t CO₂e\n\nNot a certified carbon credit.', accent: 'text-nv-green' },
   { title: 'Science', body: 'Research Question:\nCan AI + marketplace reduce burning?\n\nHypothesis: Income + alerts → sell > burn.\nDemo: 25 farmers, 10 buyers, rule-based matching.', accent: 'text-purple-400' },
   { title: 'Results', body: '₹2,250 additional farmer income.\n3.7 t CO₂e estimated avoided.\n87% buyer match confidence.\nScalable circular economy model.', accent: 'text-nv-green' },
-  { title: 'Conclusion', body: 'AgriNove: Predict. Protect. Prosper. Recycle.\n\nMade by Shikha Sharma • NCSE\nNational Children\'s Science Congress', accent: 'text-nv-green' },
+  { title: 'Conclusion', body: 'Agrinova: Predict. Protect. Prosper. Recycle.\n\nMade by Shikha Sharma • NCSE\nNational Children\'s Science Congress', accent: 'text-nv-green' },
 ]
 
 export default function PresentationPage() {

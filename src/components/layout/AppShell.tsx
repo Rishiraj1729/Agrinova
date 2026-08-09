@@ -2,7 +2,7 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, Cloud, Sprout, AlertTriangle, TrendingUp,
   Calculator, Recycle, Truck, Leaf, Bot, Building2, Map, FlaskConical,
-  Presentation, Home, Menu, X,
+  Presentation, Home, Menu, X, BarChart3,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -28,6 +28,7 @@ const mainLinks = [
   { to: '/farmer', icon: LayoutDashboard, label: 'Farmer' },
   { to: '/business', icon: Building2, label: 'Business' },
   { to: '/research', icon: Map, label: 'Research' },
+  { to: '/analytics', icon: BarChart3, label: 'Analytics' },
   { to: '/science', icon: FlaskConical, label: 'Science' },
   { to: '/presentation', icon: Presentation, label: 'Presentation' },
 ]
@@ -43,7 +44,7 @@ export function AppShell() {
       <header className="sticky top-0 z-50 border-b border-nv-border bg-nv-dark/90 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-nv-green/15 text-nv-green text-sm font-bold">N</div>
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-nv-green/15 text-nv-green text-sm font-bold">A</div>
             <div>
               <p className="text-sm font-semibold tracking-tight">{t('app.name')}</p>
               <p className="text-[10px] text-nv-muted leading-none">{t('app.credit')}</p>

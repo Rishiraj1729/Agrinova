@@ -154,5 +154,5 @@ export const scienceSteps = [
   { step: 'Experiment', content: 'Simulate farmer listing 3 tonnes rice straw → platform matches buyers → logistics assigned → carbon impact calculated → income compared to burning (₹0).' },
   { step: 'Results', content: 'Estimated 3.7 t CO₂e avoided per 3t rice straw sold. Farmer earns ₹2,250 vs ₹0 from burning. Match confidence 87%.' },
   { step: 'Limitations', content: 'Demo uses fictional data. Carbon estimates are project-level, not certified credits. AI predictions show confidence intervals, not guarantees.' },
-  { step: 'Conclusion', content: 'AgriNove demonstrates that integrated agricultural intelligence + circular economy can create measurable environmental and economic impact.' },
+  { step: 'Conclusion', content: 'Agrinova demonstrates that integrated agricultural intelligence + circular economy can create measurable environmental and economic impact.' },
 ]
