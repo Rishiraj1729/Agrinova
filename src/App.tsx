@@ -4,6 +4,7 @@ import { CaseStudyProvider } from './contexts/CaseStudyContext'
 import { MarketplaceProvider } from './contexts/MarketplaceContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { AppShell } from './components/layout/AppShell'
+import { ToastProvider } from './components/ui/Toast'
 import HomePage from './pages/Home'
 import LoginPage from './pages/Login'
 import FarmerDashboard from './pages/farmer/Dashboard'
@@ -22,6 +23,7 @@ import DemandPage from './pages/farmer/Demand'
 import CreditsPage from './pages/farmer/Credits'
 import FarmMapPage from './pages/farmer/FarmMap'
 import LearnPage from './pages/farmer/Learn'
+import ImpactPage from './pages/farmer/Impact'
 import BusinessDashboard from './pages/business/Dashboard'
 import AdminDashboard from './pages/admin/Dashboard'
 import GovernmentDashboard from './pages/government/Dashboard'
@@ -49,6 +51,7 @@ export default function App() {
       <AuthProvider>
         <CaseStudyProvider>
           <MarketplaceProvider>
+            <ToastProvider>
             <BrowserRouter>
               <Routes>
                 <Route path="login" element={<LoginPage />} />
@@ -74,6 +77,7 @@ export default function App() {
                     <Route path="farmer/demand" element={<DemandPage />} />
                     <Route path="farmer/credits" element={<CreditsPage />} />
                     <Route path="farmer/learn" element={<LearnPage />} />
+                    <Route path="farmer/impact" element={<ImpactPage />} />
                     <Route path="farmer/logistics" element={<LogisticsPage />} />
                     <Route path="farmer/carbon" element={<CarbonPage />} />
                     <Route path="farmer/ai" element={<Navigate to="/farmer/kisansathi" replace />} />
@@ -93,6 +97,7 @@ export default function App() {
                 </Route>
               </Routes>
             </BrowserRouter>
+            </ToastProvider>
           </MarketplaceProvider>
         </CaseStudyProvider>
       </AuthProvider>

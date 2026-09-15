@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Cloud, Recycle, Truck, Coins, Bot, Map,
   Menu, X, BookOpen, Shield, ClipboardList, Globe, TrendingUp,
   LogOut, Sprout, UserRound, ShoppingCart, FileBarChart,
-  GraduationCap, Flame,
+  GraduationCap, Flame, Calculator,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useLanguage } from '../../contexts/LanguageContext'
@@ -15,6 +15,7 @@ import type { Lang } from '../../types/index'
 const sellerNav = [
   { to: '/farmer', icon: LayoutDashboard, label: 'Dashboard' },
   { to: '/farmer/map', icon: Map, label: 'Plot map' },
+  { to: '/farmer/impact', icon: Calculator, label: 'Burn vs sell' },
   { to: '/farmer/sell', icon: Recycle, label: 'Sell residue' },
   { to: '/farmer/listings', icon: ClipboardList, label: 'My listings' },
   { to: '/farmer/credits', icon: Coins, label: 'Credits' },

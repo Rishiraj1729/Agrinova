@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { AlertTriangle, ArrowRight, Coins } from 'lucide-react'
+import { AlertTriangle, ArrowRight, Calculator, Coins } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Badge } from '../../components/ui/Badge'
 import { Button } from '../../components/ui/Button'
@@ -37,7 +37,10 @@ export default function FarmerDashboard() {
           </p>
           <p className="text-sm mt-2 text-nv-fg/90 max-w-xl">“{profile.quote}”</p>
         </div>
-        <Link to="/farmer/sell?qty=5"><Button>List residue</Button></Link>
+        <div className="flex flex-wrap gap-2">
+          <Link to="/farmer/impact"><Button variant="outline"><Calculator className="mr-1.5 h-4 w-4" /> Burn vs sell</Button></Link>
+          <Link to="/farmer/sell?qty=5"><Button>List residue</Button></Link>
+        </div>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-3">

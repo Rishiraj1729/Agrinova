@@ -2,6 +2,8 @@ import { Coins, Leaf } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Badge } from '../../components/ui/Badge'
+import { PageHeader } from '../../components/ui/PageHeader'
+import { useToast } from '../../components/ui/Toast'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
 import { useAuth } from '../../contexts/AuthContext'
@@ -10,6 +12,7 @@ import { redemptionCatalog, CREDITS_PER_TCO2E } from '../../data/redemptionCatal
 export default function CreditsPage() {
   const { demoFarmer, farmers } = useCaseStudy()
   const { user } = useAuth()
+  const { notify } = useToast()
   const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
   const { getWallet, redeemCredits, redemptions, ledger } = useMarketplace()
   const wallet = getWallet(farmer.id)
@@ -18,14 +21,20 @@ export default function CreditsPage() {
     .filter((e) => e.farmerId === farmer.id)
     .reduce((s, e) => s + Math.round(e.avoidedTco2e * CREDITS_PER_TCO2E), 0)
 
+  function onRedeem(itemId: string, itemName: string, cost: number) {
+    const ok = redeemCredits(farmer.id, itemId)
+    if (ok) notify('Redeemed', `${itemName} for ${cost} credits`, 'success')
+    else notify('Not enough credits', `Need ${cost} credits for ${itemName}`, 'warning')
+  }
+
   return (
     <div className="animate-fade-in space-y-6 max-w-3xl">
-      <div>
-        <h1 className="text-2xl font-semibold">Carbon credit wallet</h1>
-        <p className="text-sm text-nv-muted mt-1">
-          {user?.displayName ?? farmer.name}'s credits from completed residue sales and redemptions.
-        </p>
-      </div>
+      <PageHeader
+        icon={Coins}
+        eyebrow="Farmer wallet"
+        title="Carbon credit wallet"
+        description={`${user?.displayName ?? farmer.name}'s credits from completed residue sales and redemptions.`}
+      />
 
       <Card className="border-nv-credit/30 bg-gradient-to-br from-nv-credit/10 to-transparent">
         <CardContent className="pt-6 flex flex-wrap items-end justify-between gap-4">
@@ -60,7 +69,7 @@ export default function CreditsPage() {
                 variant="outline"
                 className="mt-3 w-full border-nv-credit/40 text-nv-credit hover:bg-nv-credit/10"
                 disabled={wallet.balance < item.creditsCost}
-                onClick={() => redeemCredits(farmer.id, item.id)}
+                onClick={() => onRedeem(item.id, item.name, item.creditsCost)}
               >
                 Redeem
               </Button>
