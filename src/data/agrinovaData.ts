@@ -13,11 +13,11 @@ export const DEMO_FARMER_ID = 'farmer-001'
 
 export const farmers: Farmer[] = firstNames.map((first, i) => ({
   id: `farmer-${String(i + 1).padStart(3, '0')}`,
-  name: `${first} ${lastNames[i % lastNames.length]}`,
+  name: i === 0 ? 'Ramesh Singh' : i === 22 ? 'Simran Kaur' : `${first} ${lastNames[i % lastNames.length]}`,
   village: villages[i % villages.length],
-  district: 'Patiala',
+  district: i === 22 ? 'Sangrur' : 'Patiala',
   state: 'Punjab',
-  acres: 2 + (i % 8),
+  acres: i === 0 ? 6 : 2 + (i % 8),
   crops: [crops[i % crops.length], crops[(i + 2) % crops.length]],
   phone: `+91 9876${String(10000 + i).slice(1)}`,
   lat: 30.2 + (i * 0.02),
@@ -27,7 +27,7 @@ export const farmers: Farmer[] = firstNames.map((first, i) => ({
 export const currentFarmer = farmers[0]
 
 export const buyers: Buyer[] = [
-  { id: 'buy-001', name: 'GreenPower Biomass', type: 'Biomass Plant', location: 'Rajpura', distanceKm: 8.2, pricePerTon: 750, demandTonnes: 500, rating: 4.8, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
+  { id: 'buy-001', name: 'GreenPower Biomass', type: 'Biomass Plant', location: 'Rajpura', distanceKm: 8.2, pricePerTon: 750, demandTonnes: 500, rating: 4.8, residueTypes: ['Rice Straw', 'Wheat Stubble'], contactName: 'Priya Malhotra', contactRole: 'Procurement lead', plantCapacityTpd: 15, moistureSpecMax: 15 },
   { id: 'buy-002', name: 'Punjab Paper Mills', type: 'Paper Mill', location: 'Barnala', distanceKm: 14.5, pricePerTon: 700, demandTonnes: 300, rating: 4.6, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
   { id: 'buy-003', name: 'AgroFeed Cattle Unit', type: 'Cattle Feed', location: 'Sangrur', distanceKm: 6.1, pricePerTon: 650, demandTonnes: 200, rating: 4.5, residueTypes: ['Rice Straw', 'Maize Stover'] },
   { id: 'buy-004', name: 'CarbonEarth Biochar', type: 'Biochar', location: 'Ludhiana', distanceKm: 22.0, pricePerTon: 800, demandTonnes: 150, rating: 4.9, residueTypes: ['Rice Straw', 'Wheat Stubble', 'Cotton Stalks'] },

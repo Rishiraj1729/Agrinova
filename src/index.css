@@ -1,28 +1,76 @@
 @import "tailwindcss";
 
 @theme {
-  --color-nv-dark: #0a0f0a;
-  --color-nv-card: #111611;
-  --color-nv-border: #1e2a1e;
-  --color-nv-green: #3ecf6e;
-  --color-nv-green-light: #4ade80;
-  --color-nv-muted: #7a8f7a;
-  --color-nv-fg: #f0f4f0;
+  /* Light tricolor UI — white base, saffron + India green accents */
+  --color-nv-dark: #ffffff;
+  --color-nv-card: #ffffff;
+  --color-nv-elevated: #f4f7f5;
+  --color-nv-border: #d8e0d9;
+  --color-nv-green: #138808;
+  --color-nv-green-light: #1aa30f;
+  --color-nv-saffron: #ff9933;
+  --color-nv-credit: #e67e00;
+  --color-nv-credit-dim: #c96d00;
+  --color-nv-muted: #5c6b60;
+  --color-nv-fg: #142018;
+  --color-nv-danger: #c62828;
+  --color-nv-success: #138808;
+  --color-nv-navy: #0b3d91;
+  --color-nv-page: #f7f9f7;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--color-nv-dark);
+  background:
+    linear-gradient(180deg, rgba(255, 153, 51, 0.06) 0%, transparent 180px),
+    linear-gradient(0deg, rgba(19, 136, 8, 0.05) 0%, transparent 160px),
+    var(--color-nv-page);
   color: var(--color-nv-fg);
-  font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  font-family: "Noto Sans", "Noto Sans Devanagari", "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in { animation: fade-in 0.4s ease-out forwards; }
+.animate-fade-in { animation: fade-in 0.35s ease-out forwards; }
+
+.tri-bar {
+  height: 5px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #ff9933 0%,
+    #ff9933 33.33%,
+    #ffffff 33.33%,
+    #ffffff 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.tri-mark {
+  background: linear-gradient(180deg, #ff9933 0%, #ff9933 33%, #ffffff 33%, #ffffff 66%, #138808 66%, #138808 100%);
+  color: #0b3d91;
+  font-weight: 800;
+  border: 1px solid rgba(11, 61, 145, 0.2);
+}
+
+.leaflet-container {
+  font-family: inherit;
+  background: #eef2ef;
+}
+.leaflet-popup-content-wrapper {
+  background: #ffffff;
+  color: #142018;
+  border-radius: 8px;
+  border: 1px solid #d8e0d9;
+}
+.leaflet-popup-tip {
+  background: #ffffff;
+}

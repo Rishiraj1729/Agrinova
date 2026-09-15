@@ -37,7 +37,7 @@ export default function ResearchDashboard() {
             <AreaChart data={trendData}>
               <XAxis dataKey="month" stroke="#7a8f7a" fontSize={12} />
               <YAxis stroke="#7a8f7a" fontSize={12} />
-              <Tooltip contentStyle={{ background: '#111611', border: '1px solid #1e2a1e', borderRadius: 8 }} />
+              <Tooltip contentStyle={{ background: '#fff', border: '1px solid #d8e0d9', color: '#142018', borderRadius: 8 }} />
               <Area type="monotone" dataKey="rescued" stroke="#3ecf6e" fill="#3ecf6e" fillOpacity={0.15} name="Tonnes" />
               <Area type="monotone" dataKey="co2" stroke="#7a8f7a" fill="#7a8f7a" fillOpacity={0.1} name="CO₂ t" />
             </AreaChart>

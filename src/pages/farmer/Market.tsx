@@ -22,7 +22,7 @@ export default function MarketPage() {
             <BarChart data={chartData}>
               <XAxis dataKey="crop" stroke="#7a8f7a" fontSize={11} />
               <YAxis stroke="#7a8f7a" fontSize={11} />
-              <Tooltip contentStyle={{ background: '#111611', border: '1px solid #1e2a1e', borderRadius: 8 }} />
+              <Tooltip contentStyle={{ background: '#fff', border: '1px solid #d8e0d9', color: '#142018', borderRadius: 8 }} />
               <Bar dataKey="msp" fill="#3ecf6e" name="MSP" radius={[4, 4, 0, 0]} />
               <Bar dataKey="mandi" fill="#7a8f7a" name="Mandi Avg" radius={[4, 4, 0, 0]} />
             </BarChart>
