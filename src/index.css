@@ -19,7 +19,10 @@
   --color-nv-page: #f7f9f7;
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
 
 body {
   margin: 0;
@@ -30,6 +33,28 @@ body {
   color: var(--color-nv-fg);
   font-family: "Noto Sans", "Noto Sans Devanagari", "Segoe UI", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(19, 136, 8, 0.18);
+  color: #142018;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(19, 136, 8, 0.45);
+  outline-offset: 2px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #b6c5b9 transparent;
 }
 
 @keyframes fade-in {

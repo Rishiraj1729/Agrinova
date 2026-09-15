@@ -11,6 +11,7 @@ import { MatchScoreBreakdown } from '../../components/marketplace/MatchScoreBrea
 import { TransactionStepper } from '../../components/marketplace/TransactionStepper'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { classifyResidue } from '../../services/classifyResidue'
 import { estimateValue } from '../../services/estimateValue'
 import { recommendPathways } from '../../services/recommendPathways'
@@ -26,7 +27,9 @@ const stepOrder: Step[] = ['farm', 'quality', 'listing', 'pathways', 'offers', '
 
 export default function SellWizardPage() {
   const [searchParams] = useSearchParams()
-  const { demoFarmer, buyers, region } = useCaseStudy()
+  const { demoFarmer, farmers, buyers, region } = useCaseStudy()
+  const { user } = useAuth()
+  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
   const {
     addListing,
     seedOffersForListing,
@@ -39,8 +42,8 @@ export default function SellWizardPage() {
 
   const [step, setStep] = useState<Step>('farm')
   const [crop, setCrop] = useState<CropType>('Rice')
-  const [landAcres, setLandAcres] = useState(demoFarmer.acres)
-  const [residueAcres, setResidueAcres] = useState(Math.max(1, demoFarmer.acres - 1))
+  const [landAcres, setLandAcres] = useState(user?.acres ?? farmer.acres)
+  const [residueAcres, setResidueAcres] = useState(Math.max(1, Math.min(user?.acres ?? farmer.acres, farmer.riceAcresThisSeason ?? 2.5)))
   const [quantity, setQuantity] = useState(Number(searchParams.get('qty')) || 5)
   const [moisture, setMoisture] = useState(12)
   const [isBaled, setIsBaled] = useState(true)
@@ -73,18 +76,18 @@ export default function SellWizardPage() {
   const listingOffers = listingId ? getOffersForListing(listingId) : []
   const stepIndex = stepOrder.indexOf(step)
   const completedTxn = transactions.find((t) => t.id === txnId)
-  const wallet = getWallet(demoFarmer.id)
+  const wallet = getWallet(farmer.id)
 
   function publish() {
     setPathway(pathways[0]?.id ?? 'biomass')
     const top = ranked[0]
     const listing = addListing({
-      farmerId: demoFarmer.id,
-      farmerName: demoFarmer.name,
+      farmerId: farmer.id,
+      farmerName: user?.displayName ?? farmer.name,
       residueType,
       crop,
       quantityTonnes: quantity,
-      location: `${demoFarmer.village}, ${demoFarmer.district}, ${demoFarmer.state}`,
+      location: `${user?.village ?? farmer.village}, ${user?.district ?? farmer.district}, ${farmer.state}`,
       pricePerTon: expectedPrice || top?.buyer.pricePerTon || 700,
       pathway: pathways[0]?.id ?? 'biomass',
       provenance: 'DEMONSTRATION_DATA',
@@ -132,9 +135,9 @@ export default function SellWizardPage() {
   return (
     <div className="animate-fade-in space-y-6 max-w-3xl">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">List residue — {demoFarmer.name}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">List residue — {user?.displayName ?? farmer.name}</h1>
         <p className="text-sm text-nv-muted">
-          {demoFarmer.riceAcresThisSeason ?? 2.5} acres paddy × ~2 t/acre ≈ {((demoFarmer.riceAcresThisSeason ?? 2.5) * 2).toFixed(1)} t straw.
+          {farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)} acres paddy × ~2 t/acre ≈ {((farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)) * 2).toFixed(1)} t straw.
           Moisture and bales decide whether GreenPower can lift it.
         </p>
       </div>
@@ -159,15 +162,15 @@ export default function SellWizardPage() {
             <div className="grid sm:grid-cols-2 gap-4">
               <div>
                 <Label>Farmer</Label>
-                <Input value={demoFarmer.name} readOnly />
+                <Input value={user?.displayName ?? farmer.name} readOnly />
               </div>
               <div>
                 <Label>Phone</Label>
-                <Input value={demoFarmer.phone} readOnly />
+                <Input value={user?.phone ?? farmer.phone} readOnly />
               </div>
               <div className="sm:col-span-2">
                 <Label>Location</Label>
-                <Input value={`${demoFarmer.village}, ${demoFarmer.district}, ${demoFarmer.state}`} readOnly />
+                <Input value={`${user?.village ?? farmer.village}, ${user?.district ?? farmer.district}, ${farmer.state}`} readOnly />
               </div>
               <div>
                 <Label>Total land (acres)</Label>

@@ -17,7 +17,7 @@ export default function CarbonPage() {
         <p className="text-sm text-nv-muted">Baseline − Alternative = Estimated avoided emissions</p>
       </div>
 
-      <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-300/90">
+      <div className="rounded-lg border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">
         Project-level estimate; not a certified carbon credit. All values are fictional demo calculations.
       </div>
 

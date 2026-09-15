@@ -10,8 +10,8 @@ export function Button({ className, variant = 'primary', size = 'md', ...props }
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-lg font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nv-green/40 disabled:opacity-50',
-        variant === 'primary' && 'bg-nv-green text-white hover:bg-nv-green-light',
+        'inline-flex cursor-pointer items-center justify-center rounded-lg font-semibold shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-nv-green/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        variant === 'primary' && 'bg-nv-green text-white hover:-translate-y-0.5 hover:bg-nv-green-light hover:shadow-md',
         variant === 'secondary' && 'border border-nv-saffron/40 bg-nv-saffron/10 text-nv-fg hover:bg-nv-saffron/20',
         variant === 'ghost' && 'text-nv-muted hover:bg-nv-elevated hover:text-nv-fg',
         variant === 'outline' && 'border border-nv-border bg-white text-nv-fg hover:border-nv-green hover:text-nv-green',

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Sprout, Building2, Landmark, Shield } from 'lucide-react'
+import { Sprout, Building2, Landmark, Shield, Download } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import { demoProfiles } from '../data/profiles'
 import { Button } from '../components/ui/Button'
@@ -176,12 +176,18 @@ export default function LoginPage() {
           <Button className="w-full" size="lg" onClick={enter}>
             Login as {name.split(' ')[0]}
           </Button>
-          <Link
-            to="/presentation"
-            className="mt-4 block text-center text-sm text-nv-navy underline-offset-2 hover:underline"
-          >
-            Open project presentation
-          </Link>
+          <div className="mt-4 flex items-center justify-center gap-4 text-sm">
+            <Link to="/presentation" className="text-nv-navy underline-offset-2 hover:underline">
+              View presentation
+            </Link>
+            <a
+              href="/AgriNova_Presentation.pdf"
+              download
+              className="inline-flex items-center gap-1.5 text-nv-green underline-offset-2 hover:underline"
+            >
+              <Download className="h-4 w-4" /> Download PDF
+            </a>
+          </div>
         </div>
       </div>
     </div>

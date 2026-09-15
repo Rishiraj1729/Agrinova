@@ -13,7 +13,7 @@ import {
   farmerIncomeWaterfall, liveMetrics, comparisonStats,
 } from '../data/analyticsData'
 
-const tooltipStyle = { background: '#111611', border: '1px solid #1e2a1e', borderRadius: 8, fontSize: 12 }
+const tooltipStyle = { background: '#fff', border: '1px solid #d8e0d9', color: '#142018', borderRadius: 8, fontSize: 12 }
 
 export default function AnalyticsPage() {
   return (
@@ -43,11 +43,11 @@ export default function AnalyticsPage() {
       {/* Before vs After */}
       <div className="grid gap-4 lg:grid-cols-2">
         <Card className="border-red-500/20">
-          <CardHeader><CardTitle className="text-red-400">Without Agrinova</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-red-700">Without Agrinova</CardTitle></CardHeader>
           <CardContent className="grid grid-cols-2 gap-4">
             <div><p className="text-2xl font-bold">₹{(comparisonStats.withoutAgrinova.income / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Annual Income</p></div>
-            <div><p className="text-2xl font-bold text-red-400">{comparisonStats.withoutAgrinova.co2}t</p><p className="text-xs text-nv-muted">CO₂ Emitted</p></div>
-            <div><p className="text-2xl font-bold text-red-400">₹{(comparisonStats.withoutAgrinova.fines / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Fine Risk</p></div>
+            <div><p className="text-2xl font-bold text-red-700">{comparisonStats.withoutAgrinova.co2}t</p><p className="text-xs text-nv-muted">CO₂ Emitted</p></div>
+            <div><p className="text-2xl font-bold text-red-700">₹{(comparisonStats.withoutAgrinova.fines / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Fine Risk</p></div>
             <div><p className="text-2xl font-bold">{comparisonStats.withoutAgrinova.soilScore}%</p><p className="text-xs text-nv-muted">Soil Score</p></div>
           </CardContent>
         </Card>
@@ -124,7 +124,7 @@ export default function AnalyticsPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Emissions before */}
         <Card>
-          <CardHeader><CardTitle className="text-red-400">Emissions Before</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-red-700">Emissions Before</CardTitle></CardHeader>
           <CardContent>
             <DonutChart data={emissionScopes} height={280} />
           </CardContent>

@@ -4,15 +4,18 @@ import { Button } from '../../components/ui/Button'
 import { Badge } from '../../components/ui/Badge'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { redemptionCatalog, CREDITS_PER_TCO2E } from '../../data/redemptionCatalog'
 
 export default function CreditsPage() {
-  const { demoFarmer } = useCaseStudy()
+  const { demoFarmer, farmers } = useCaseStudy()
+  const { user } = useAuth()
+  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
   const { getWallet, redeemCredits, redemptions, ledger } = useMarketplace()
-  const wallet = getWallet(demoFarmer.id)
-  const myRedemptions = (redemptions ?? []).filter((r) => r.farmerId === demoFarmer.id)
+  const wallet = getWallet(farmer.id)
+  const myRedemptions = (redemptions ?? []).filter((r) => r.farmerId === farmer.id)
   const earnedFromLedger = ledger
-    .filter((e) => e.farmerId === demoFarmer.id)
+    .filter((e) => e.farmerId === farmer.id)
     .reduce((s, e) => s + Math.round(e.avoidedTco2e * CREDITS_PER_TCO2E), 0)
 
   return (
@@ -20,7 +23,7 @@ export default function CreditsPage() {
       <div>
         <h1 className="text-2xl font-semibold">Carbon credit wallet</h1>
         <p className="text-sm text-nv-muted mt-1">
-          Ramesh starts at 0. Simran Kaur (Sangrur) already earned credits from 3.2 t stubble and redeemed urea — check Ops / ledger.
+          {user?.displayName ?? farmer.name}'s credits from completed residue sales and redemptions.
         </p>
       </div>
 
@@ -57,7 +60,7 @@ export default function CreditsPage() {
                 variant="outline"
                 className="mt-3 w-full border-nv-credit/40 text-nv-credit hover:bg-nv-credit/10"
                 disabled={wallet.balance < item.creditsCost}
-                onClick={() => redeemCredits(demoFarmer.id, item.id)}
+                onClick={() => redeemCredits(farmer.id, item.id)}
               >
                 Redeem
               </Button>

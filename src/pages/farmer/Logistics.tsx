@@ -6,14 +6,17 @@ import { Button } from '../../components/ui/Button'
 import { TransactionStepper } from '../../components/marketplace/TransactionStepper'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { logisticsJobs } from '../../data/caseStudies/punjab'
 import { formatINR } from '../../lib/utils'
 
 export default function LogisticsPage() {
-  const { demoFarmer, buyers } = useCaseStudy()
+  const { demoFarmer, farmers, buyers } = useCaseStudy()
+  const { user } = useAuth()
+  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
   const { transactions, advanceTransaction, completeTransaction } = useMarketplace()
 
-  const mine = transactions.filter((t) => t.farmerId === demoFarmer.id)
+  const mine = transactions.filter((t) => t.farmerId === farmer.id)
   const active = mine.find((t) => t.status !== 'completed')
 
   return (
@@ -32,7 +35,7 @@ export default function LogisticsPage() {
               Buyer: {buyers.find((b) => b.id === active.buyerId)?.name ?? 'Processor'} · {active.quantityTonnes}t · {formatINR(active.amount)}
             </p>
             <p className="text-sm text-nv-muted">
-              {demoFarmer.village} → {active.logisticsMode === 'consolidated' ? 'Kharar collection hub → Rajpura plant' : 'Direct to Rajpura biomass plant'}
+              {user?.village ?? farmer.village} → {active.logisticsMode === 'consolidated' ? `${user?.village ?? farmer.village} collection hub → Rajpura plant` : 'Direct to Rajpura biomass plant'}
             </p>
             <div className="flex gap-2 flex-wrap">
               {active.status !== 'completed' && (

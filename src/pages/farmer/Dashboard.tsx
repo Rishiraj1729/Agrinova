@@ -7,30 +7,33 @@ import { TransactionStepper } from '../../components/marketplace/TransactionStep
 import { SourceNote } from '../../components/SourceNote'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { cropRisks } from '../../data/caseStudies/punjab'
 import { demoProfiles } from '../../data/profiles'
 import { formatINR } from '../../lib/utils'
 
 export default function FarmerDashboard() {
-  const { demoFarmer } = useCaseStudy()
+  const { demoFarmer, farmers } = useCaseStudy()
+  const { user } = useAuth()
+  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
   const { listings, transactions, getWallet } = useMarketplace()
-  const profile = demoProfiles.find((p) => p.farmerId === demoFarmer.id) ?? demoProfiles[0]
-  const wallet = getWallet(demoFarmer.id)
-  const myListings = listings.filter((l) => l.farmerId === demoFarmer.id)
-  const myTxn = transactions.find((t) => t.farmerId === demoFarmer.id && t.status !== 'completed')
-  const strawEstimate = (demoFarmer.riceAcresThisSeason ?? 2.5) * 2
+  const profile = demoProfiles.find((p) => p.farmerId === farmer.id) ?? demoProfiles[0]
+  const wallet = getWallet(farmer.id)
+  const myListings = listings.filter((l) => l.farmerId === farmer.id)
+  const myTxn = transactions.find((t) => t.farmerId === farmer.id && t.status !== 'completed')
+  const strawEstimate = (farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)) * 2
   const highRisk = cropRisks.find((r) => r.riskLevel === 'high')
 
   return (
     <div className="animate-fade-in space-y-6 max-w-4xl">
       <div className="flex gap-4 items-start">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-nv-elevated text-lg font-semibold">
-          {demoFarmer.initials ?? 'RS'}
+          {farmer.initials ?? user?.displayName.split(' ').map((p) => p[0]).join('').slice(0, 2) ?? 'FS'}
         </div>
         <div className="flex-1 min-w-0">
-          <h1 className="text-2xl font-semibold tracking-tight">{demoFarmer.name}</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">{user?.displayName ?? farmer.name}</h1>
           <p className="text-sm text-nv-muted">
-            {demoFarmer.village}, {demoFarmer.district} · {demoFarmer.acres} acres · rice–wheat · KCC ···{demoFarmer.kccLast4 ?? '4821'}
+            {user?.village ?? farmer.village}, {user?.district ?? farmer.district} · {user?.acres ?? farmer.acres} acres · rice–wheat · KCC ···{farmer.kccLast4 ?? '4821'}
           </p>
           <p className="text-sm mt-2 text-nv-fg/90 max-w-xl">“{profile.quote}”</p>
         </div>
@@ -41,7 +44,7 @@ export default function FarmerDashboard() {
         <Card>
           <CardContent className="pt-5">
             <p className="text-xs text-nv-muted">Days to wheat sowing</p>
-            <p className="text-3xl font-semibold text-nv-credit mt-1">{demoFarmer.sowingWindowDays ?? 12}</p>
+            <p className="text-3xl font-semibold text-nv-credit mt-1">{farmer.sowingWindowDays ?? 12}</p>
             <SourceNote provenance="PUBLIC_DATA">Typical 10–20 day CRM window.</SourceNote>
           </CardContent>
         </Card>
@@ -50,7 +53,7 @@ export default function FarmerDashboard() {
             <p className="text-xs text-nv-muted">Straw on the field now</p>
             <p className="text-3xl font-semibold mt-1">{strawEstimate.toFixed(1)} t</p>
             <p className="text-[11px] text-nv-muted mt-1">
-              {demoFarmer.riceAcresThisSeason ?? 2.5} rice acres × ~2 t/acre (IARI-style factor)
+              {farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)} rice acres × ~2 t/acre (IARI-style factor)
             </p>
           </CardContent>
         </Card>
@@ -71,7 +74,7 @@ export default function FarmerDashboard() {
             <Badge variant="info">This season’s job</Badge>
             <p className="font-semibold mt-2">Sell ~5 t rice straw before the window closes</p>
             <p className="text-sm text-nv-muted max-w-lg mt-1">
-              Last kharif you burned {demoFarmer.lastSeasonBurnedTonnes ?? 4.8} t — ₹0 and a fire risk. Moisture, bales, and land area go on the listing so Priya at GreenPower can bid.
+              Last kharif you burned {farmer.lastSeasonBurnedTonnes ?? 4.8} t — ₹0 and a fire risk. Moisture, bales, and land area go on the listing so GreenPower can bid.
             </p>
           </div>
           <Link to="/farmer/map">
@@ -111,9 +114,9 @@ export default function FarmerDashboard() {
       {highRisk && (
         <Card className="border-amber-500/30 bg-amber-500/5">
           <CardContent className="flex items-start gap-3 pt-5">
-            <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
             <div>
-              <p className="font-medium text-amber-300">Rice risk — harvest / residue overlap</p>
+              <p className="font-medium text-amber-800">Rice risk — harvest / residue overlap</p>
               <p className="text-sm text-nv-muted mt-1">{highRisk.recommendation}</p>
             </div>
           </CardContent>

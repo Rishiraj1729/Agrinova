@@ -4,12 +4,15 @@ import { Badge } from '../../components/ui/Badge'
 import { Button } from '../../components/ui/Button'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
+import { useAuth } from '../../contexts/AuthContext'
 import { formatINR } from '../../lib/utils'
 
 export default function ListingsPage() {
   const { listings, offers } = useMarketplace()
-  const { demoFarmer, region } = useCaseStudy()
-  const mine = listings.filter((l) => l.farmerId === demoFarmer.id || l.region === region)
+  const { demoFarmer, farmers } = useCaseStudy()
+  const { user } = useAuth()
+  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const mine = listings.filter((l) => l.farmerId === farmer.id)
 
   return (
     <div className="animate-fade-in space-y-6">

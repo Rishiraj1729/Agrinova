@@ -1,6 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
-const tooltipStyle = { background: '#111611', border: '1px solid #1e2a1e', borderRadius: 8, fontSize: 12, color: '#f0f4f0' }
+const tooltipStyle = { background: '#fff', border: '1px solid #d8e0d9', borderRadius: 8, fontSize: 12, color: '#142018' }
 
 export interface DonutSlice {
   name: string

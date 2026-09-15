@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, X, Presentation as PresIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Download, X, Presentation as PresIcon } from 'lucide-react'
 
 type Slide = {
   kicker: string
@@ -184,9 +184,18 @@ export default function PresentationPage() {
             {current + 1} / {slides.length}
           </span>
         </div>
-        <Link to="/login" className="text-nv-muted hover:text-nv-fg" aria-label="Exit">
-          <X className="h-5 w-5" />
-        </Link>
+        <div className="flex items-center gap-4">
+          <a
+            href="/AgriNova_Presentation.pdf"
+            download
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-nv-green hover:underline"
+          >
+            <Download className="h-4 w-4" /> Full PDF
+          </a>
+          <Link to="/login" className="text-nv-muted hover:text-nv-fg" aria-label="Exit">
+            <X className="h-5 w-5" />
+          </Link>
+        </div>
       </div>
 
       <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col justify-center px-6 py-8">

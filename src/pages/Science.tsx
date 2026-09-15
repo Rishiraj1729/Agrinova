@@ -35,7 +35,7 @@ export default function SciencePage() {
       </div>
 
       <Card className="border-amber-500/30 bg-amber-500/5">
-        <CardContent className="pt-5 text-sm text-amber-300/90">
+        <CardContent className="pt-5 text-sm text-amber-800">
           <strong>Scientific Integrity:</strong> All data in this prototype is fictional and clearly labelled.
           Carbon impact figures are project-level estimates, not certified carbon credits.
           AI predictions display confidence intervals and are not guarantees.
