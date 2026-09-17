@@ -1,246 +1,220 @@
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis,
-  ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-  ResponsiveContainer, ComposedChart, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  ResponsiveContainer, ComposedChart,
 } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card'
 import { Badge } from '../components/ui/Badge'
+import { ProvenanceBadge } from '../components/ProvenanceBadge'
 import { DonutChart } from '../components/charts/DonutChart'
 import {
   monthlyImpact, districtData, emissionScopes, emissionScopesAfter,
-  sustainabilityRadar, residueFlow, aiAccuracy, priceDemandScatter,
-  farmerIncomeWaterfall, liveMetrics, comparisonStats,
+  sustainabilityRadar, residueFlow, priceDemandScatter,
+  farmerIncomeWaterfall, comparisonStats,
 } from '../data/analyticsData'
 
 const tooltipStyle = { background: '#fff', border: '1px solid #d8e0d9', color: '#142018', borderRadius: 8, fontSize: 12 }
+
+/** NCSC field book (n=10) — Madhyamgram–Barasat + Punjab phone */
+const fieldBookFate = [
+  { name: 'Burned', value: 3, fill: '#9a6b32' },
+  { name: 'Stacked / dump', value: 3, fill: '#6e6e73' },
+  { name: 'Sold', value: 2, fill: '#1f4d3a' },
+  { name: 'Mixed waste', value: 2, fill: '#3d6b54' },
+]
+
+const fieldBookPickup = [
+  { label: 'Yes (5-day)', count: 8 },
+  { label: 'Maybe', count: 2 },
+  { label: 'No', count: 0 },
+]
+
+const fieldBookImpact = [
+  { k: 'Acres in book', v: '40.5' },
+  { k: 'Straw (~2 t/ac)', v: '81 t' },
+  { k: 'Burned last season', v: '27 t' },
+  { k: 'Would list (8/10)', v: '~72 t' },
+]
 
 export default function AnalyticsPage() {
   return (
     <div className="animate-fade-in space-y-8">
       <div className="text-center py-4">
-        <Badge variant="info" className="mb-3">Live Intelligence Dashboard</Badge>
+        <Badge variant="info" className="mb-3">Impact analytics</Badge>
         <h1 className="text-3xl font-semibold tracking-tight">Agrinova Analytics</h1>
         <p className="mt-2 text-nv-muted max-w-2xl mx-auto">
-          Deep impact analysis across farmers, emissions, income, and circular economy — fictional demo data
+          Field-book numbers and demonstration cluster charts — each panel is labelled by provenance.
         </p>
       </div>
 
-      {/* Live metrics */}
-      <div className="grid gap-3 grid-cols-2 lg:grid-cols-6">
-        {liveMetrics.map((m) => (
+      <section className="space-y-4 rounded-3xl border border-nv-border bg-white p-6">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 className="text-lg font-semibold">NCSC field book</h2>
+          <ProvenanceBadge provenance="FIELD_SURVEY" />
+        </div>
+        <p className="text-sm text-nv-muted">
+          Ten farmers (6 Madhyamgram–Barasat doorstep, 4 Punjab phone) · September 2025 · not a census.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {fieldBookImpact.map((m) => (
+            <div key={m.k} className="rounded-2xl border border-nv-border bg-nv-elevated/40 px-4 py-4 text-center">
+              <p className="text-2xl font-semibold tracking-tight text-nv-fg">{m.v}</p>
+              <p className="mt-1 text-[12px] text-nv-muted">{m.k}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader><CardTitle>Last-season fate (n=10)</CardTitle></CardHeader>
+            <CardContent>
+              <DonutChart data={fieldBookFate} height={240} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader><CardTitle>Would list if pickup in 5 days</CardTitle></CardHeader>
+            <CardContent className="h-60">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={fieldBookPickup}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                  <XAxis dataKey="label" tick={{ fontSize: 11 }} />
+                  <YAxis allowDecimals={false} tick={{ fontSize: 11 }} />
+                  <Tooltip contentStyle={tooltipStyle} />
+                  <Bar dataKey="count" fill="#1f4d3a" radius={[8, 8, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <section className="space-y-3">
+        <div className="flex flex-wrap items-center gap-3 px-1">
+          <h2 className="text-lg font-semibold">Demonstration cluster</h2>
+          <ProvenanceBadge provenance="DEMONSTRATION_DATA" />
+        </div>
+        <p className="px-1 text-sm text-nv-muted">Larger in-app case-study numbers for booth walkthrough — not the survey claim.</p>
+      </section>
+
+      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+        {[
+          { label: 'Farmer income (demo)', before: `₹${(comparisonStats.withoutAgrinova.income / 1000).toFixed(0)}k`, after: `₹${(comparisonStats.withAgrinova.income / 1000).toFixed(0)}k` },
+          { label: 'CO₂ burden index', before: String(comparisonStats.withoutAgrinova.co2), after: String(comparisonStats.withAgrinova.co2) },
+          { label: 'Burn fines (demo)', before: `₹${comparisonStats.withoutAgrinova.fines / 1000}k`, after: `₹${comparisonStats.withAgrinova.fines}` },
+          { label: 'Soil score', before: String(comparisonStats.withoutAgrinova.soilScore), after: String(comparisonStats.withAgrinova.soilScore) },
+        ].map((m) => (
           <Card key={m.label} className="text-center">
             <CardContent className="pt-4 pb-4">
-              <span className="text-2xl">{m.icon}</span>
-              <p className="text-xl font-bold mt-1">{m.value}</p>
+              <p className="text-xl font-bold mt-1">{m.after}</p>
               <p className="text-[10px] text-nv-muted leading-tight">{m.label}</p>
-              <p className="text-xs text-nv-green mt-1">{m.change}</p>
+              <p className="text-xs text-nv-green mt-1">was {m.before}</p>
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Before vs After */}
       <div className="grid gap-4 lg:grid-cols-2">
-        <Card className="border-red-500/20">
-          <CardHeader><CardTitle className="text-red-700">Without Agrinova</CardTitle></CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
-            <div><p className="text-2xl font-bold">₹{(comparisonStats.withoutAgrinova.income / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Annual Income</p></div>
-            <div><p className="text-2xl font-bold text-red-700">{comparisonStats.withoutAgrinova.co2}t</p><p className="text-xs text-nv-muted">CO₂ Emitted</p></div>
-            <div><p className="text-2xl font-bold text-red-700">₹{(comparisonStats.withoutAgrinova.fines / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Fine Risk</p></div>
-            <div><p className="text-2xl font-bold">{comparisonStats.withoutAgrinova.soilScore}%</p><p className="text-xs text-nv-muted">Soil Score</p></div>
-          </CardContent>
-        </Card>
-        <Card className="border-nv-green/30">
-          <CardHeader><CardTitle className="text-nv-green">With Agrinova</CardTitle></CardHeader>
-          <CardContent className="grid grid-cols-2 gap-4">
-            <div><p className="text-2xl font-bold text-nv-green">₹{(comparisonStats.withAgrinova.income / 1000).toFixed(0)}K</p><p className="text-xs text-nv-muted">Annual Income (+34%)</p></div>
-            <div><p className="text-2xl font-bold text-nv-green">{comparisonStats.withAgrinova.co2}t</p><p className="text-xs text-nv-muted">CO₂ Emitted (-70%)</p></div>
-            <div><p className="text-2xl font-bold text-nv-green">₹0</p><p className="text-xs text-nv-muted">Fine Risk (eliminated)</p></div>
-            <div><p className="text-2xl font-bold text-nv-green">{comparisonStats.withAgrinova.soilScore}%</p><p className="text-xs text-nv-muted">Soil Score (+164%)</p></div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Burn vs Sell trend */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Burning vs Selling — 12 Month Transformation</CardTitle>
-          <p className="text-sm text-nv-muted">Tonnes of residue: burned (declining) vs sold (rising)</p>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={320}>
-            <ComposedChart data={monthlyImpact}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a1e" />
-              <XAxis dataKey="month" stroke="#7a8f7a" fontSize={12} />
-              <YAxis yAxisId="left" stroke="#7a8f7a" fontSize={12} />
-              <YAxis yAxisId="right" orientation="right" stroke="#3ecf6e" fontSize={12} />
-              <Tooltip contentStyle={tooltipStyle} />
-              <Legend />
-              <Area yAxisId="left" type="monotone" dataKey="burned" stackId="1" stroke="#ef4444" fill="#ef4444" fillOpacity={0.3} name="Burned (t)" />
-              <Area yAxisId="left" type="monotone" dataKey="sold" stackId="2" stroke="#3ecf6e" fill="#3ecf6e" fillOpacity={0.4} name="Sold (t)" />
-              <Line yAxisId="right" type="monotone" dataKey="co2Avoided" stroke="#4ade80" strokeWidth={2} dot={false} name="CO₂ Avoided (t)" />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      <div className="grid gap-6 lg:grid-cols-2">
-        {/* District impact */}
         <Card>
-          <CardHeader><CardTitle>Regional Impact by District</CardTitle></CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={districtData} layout="vertical">
-                <XAxis type="number" stroke="#7a8f7a" fontSize={11} />
-                <YAxis type="category" dataKey="district" stroke="#7a8f7a" fontSize={11} width={70} />
+          <CardHeader><CardTitle>Monthly residue diverted (demo)</CardTitle></CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={monthlyImpact}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                <XAxis dataKey="month" tick={{ fontSize: 11 }} />
+                <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Bar dataKey="tonnes" fill="#3ecf6e" name="Tonnes Rescued" radius={[0, 4, 4, 0]} />
-                <Bar dataKey="co2" fill="#4ade80" name="CO₂ Avoided (t)" radius={[0, 4, 4, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-
-        {/* Sustainability radar */}
-        <Card>
-          <CardHeader><CardTitle>Sustainability Score — Before vs After</CardTitle></CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={280}>
-              <RadarChart data={sustainabilityRadar}>
-                <PolarGrid stroke="#1e2a1e" />
-                <PolarAngleAxis dataKey="metric" stroke="#7a8f7a" fontSize={11} />
-                <PolarRadiusAxis stroke="#7a8f7a" fontSize={10} domain={[0, 100]} />
-                <Radar name="Before" dataKey="before" stroke="#ef4444" fill="#ef4444" fillOpacity={0.2} />
-                <Radar name="After Agrinova" dataKey="after" stroke="#3ecf6e" fill="#3ecf6e" fillOpacity={0.3} />
-                <Legend />
-                <Tooltip contentStyle={tooltipStyle} />
-              </RadarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Emissions before */}
-        <Card>
-          <CardHeader><CardTitle className="text-red-700">Emissions Before</CardTitle></CardHeader>
-          <CardContent>
-            <DonutChart data={emissionScopes} height={280} />
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader><CardTitle className="text-nv-green">Emissions After Agrinova</CardTitle></CardHeader>
-          <CardContent>
-            <DonutChart data={emissionScopesAfter} height={280} />
-          </CardContent>
-        </Card>
-
-        {/* Income breakdown */}
-        <Card>
-          <CardHeader><CardTitle>Farmer Income Breakdown</CardTitle></CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={220}>
-              <BarChart data={farmerIncomeWaterfall}>
-                <XAxis dataKey="stage" stroke="#7a8f7a" fontSize={10} />
-                <YAxis stroke="#7a8f7a" fontSize={10} />
-                <Tooltip contentStyle={tooltipStyle} formatter={(v) => `₹${Number(v).toLocaleString('en-IN')}`} />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
-                  {farmerIncomeWaterfall.map((e, i) => <Cell key={i} fill={e.fill} />)}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Residue flow + AI accuracy */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Card>
-          <CardHeader><CardTitle>Residue Flow by Crop Type (tonnes)</CardTitle></CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={280}>
-              <AreaChart data={residueFlow}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e2a1e" />
-                <XAxis dataKey="month" stroke="#7a8f7a" fontSize={12} />
-                <YAxis stroke="#7a8f7a" fontSize={12} />
-                <Tooltip contentStyle={tooltipStyle} />
-                <Legend />
-                <Area type="monotone" dataKey="rice" stackId="1" stroke="#3ecf6e" fill="#3ecf6e" fillOpacity={0.6} />
-                <Area type="monotone" dataKey="wheat" stackId="1" stroke="#4ade80" fill="#4ade80" fillOpacity={0.5} />
-                <Area type="monotone" dataKey="cotton" stackId="1" stroke="#7a8f7a" fill="#7a8f7a" fillOpacity={0.4} />
-                <Area type="monotone" dataKey="maize" stackId="1" stroke="#eab308" fill="#eab308" fillOpacity={0.3} />
+                <Area type="monotone" dataKey="tonnes" stroke="#1f4d3a" fill="#1f4d3a33" />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
         <Card>
-          <CardHeader><CardTitle>AI Model Accuracy (%)</CardTitle></CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={280}>
-              <LineChart data={aiAccuracy}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e2a1e" />
-                <XAxis dataKey="week" stroke="#7a8f7a" fontSize={12} />
-                <YAxis stroke="#7a8f7a" fontSize={12} domain={[60, 95]} />
+          <CardHeader><CardTitle>District tonnes (demo)</CardTitle></CardHeader>
+          <CardContent className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={districtData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                <XAxis dataKey="district" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 11 }} />
                 <Tooltip contentStyle={tooltipStyle} />
-                <Legend />
-                <Line type="monotone" dataKey="weather" stroke="#3b82f6" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="crop" stroke="#3ecf6e" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="market" stroke="#eab308" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="match" stroke="#4ade80" strokeWidth={2} dot={false} />
-              </LineChart>
+                <Bar dataKey="tonnes" fill="#3d6b54" radius={[6, 6, 0, 0]} />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
 
-      {/* Price vs Demand scatter */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader><CardTitle>Emissions before (demo)</CardTitle></CardHeader>
+          <CardContent><DonutChart data={emissionScopes} height={240} /></CardContent>
+        </Card>
+        <Card>
+          <CardHeader><CardTitle>Emissions after (demo)</CardTitle></CardHeader>
+          <CardContent><DonutChart data={emissionScopesAfter} height={240} /></CardContent>
+        </Card>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <Card>
+          <CardHeader><CardTitle>Sustainability radar</CardTitle></CardHeader>
+          <CardContent className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={sustainabilityRadar}>
+                <PolarGrid />
+                <PolarAngleAxis dataKey="axis" tick={{ fontSize: 10 }} />
+                <PolarRadiusAxis tick={{ fontSize: 10 }} />
+                <Radar name="Before" dataKey="before" stroke="#9a6b32" fill="#9a6b3233" />
+                <Radar name="After" dataKey="after" stroke="#1f4d3a" fill="#1f4d3a33" />
+                <Legend />
+              </RadarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader><CardTitle>Income waterfall (demo)</CardTitle></CardHeader>
+          <CardContent className="h-72">
+            <ResponsiveContainer width="100%" height="100%">
+              <ComposedChart data={farmerIncomeWaterfall}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                <XAxis dataKey="step" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Bar dataKey="value" fill="#1f4d3a" />
+                <Line type="monotone" dataKey="value" stroke="#9a6b32" dot={false} />
+              </ComposedChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+      </div>
+
       <Card>
-        <CardHeader>
-          <CardTitle>Market Intelligence — Price vs Demand</CardTitle>
-          <p className="text-sm text-nv-muted">Buyer types clustered by price per tonne and demand volume</p>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <ScatterChart>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a1e" />
-              <XAxis type="number" dataKey="price" name="Price ₹/t" stroke="#7a8f7a" fontSize={12} domain={[550, 850]} />
-              <YAxis type="number" dataKey="demand" name="Demand (t)" stroke="#7a8f7a" fontSize={12} />
-              <Tooltip contentStyle={tooltipStyle} cursor={{ strokeDasharray: '3 3' }} />
-              <Scatter data={priceDemandScatter} fill="#3ecf6e">
-                {priceDemandScatter.map((_, i) => (
-                  <Cell key={i} fill={['#3ecf6e', '#4ade80', '#22c55e', '#3b82f6', '#eab308'][i % 5]} />
-                ))}
-              </Scatter>
-            </ScatterChart>
-          </ResponsiveContainer>
+        <CardHeader><CardTitle>Residue flow & price–demand (demo)</CardTitle></CardHeader>
+        <CardContent className="grid gap-4 lg:grid-cols-2">
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={residueFlow}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                <XAxis dataKey="name" tick={{ fontSize: 10 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Bar dataKey="value" fill="#3d6b54" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={priceDemandScatter}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#e6e4df" />
+                <XAxis dataKey="price" tick={{ fontSize: 11 }} />
+                <YAxis tick={{ fontSize: 11 }} />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Line type="monotone" dataKey="demand" stroke="#1f4d3a" />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </CardContent>
       </Card>
-
-      {/* Income + CO2 dual chart */}
-      <Card>
-        <CardHeader><CardTitle>Platform Growth — Income & Environmental Impact</CardTitle></CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <ComposedChart data={monthlyImpact}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a1e" />
-              <XAxis dataKey="month" stroke="#7a8f7a" fontSize={12} />
-              <YAxis yAxisId="left" stroke="#3ecf6e" fontSize={12} tickFormatter={(v) => `₹${(v / 100000).toFixed(1)}L`} />
-              <YAxis yAxisId="right" orientation="right" stroke="#4ade80" fontSize={12} />
-              <Tooltip contentStyle={tooltipStyle} formatter={(v, name) => name === 'income' ? `₹${Number(v).toLocaleString('en-IN')}` : `${v}t`} />
-              <Legend />
-              <Bar yAxisId="left" dataKey="income" fill="#3ecf6e" fillOpacity={0.7} name="Farmer Income (₹)" radius={[4, 4, 0, 0]} />
-              <Line yAxisId="right" type="monotone" dataKey="co2Avoided" stroke="#4ade80" strokeWidth={3} name="CO₂ Avoided (t)" dot={{ fill: '#4ade80' }} />
-            </ComposedChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      <p className="text-center text-xs text-nv-muted pb-8">
-        All analytics use fictional demo data · Carbon figures are project-level estimates, not certified credits
-      </p>
     </div>
   )
 }

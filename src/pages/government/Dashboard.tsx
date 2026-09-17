@@ -1,13 +1,15 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts'
-import { Landmark, Leaf, LogIn, TrendingDown, IndianRupee, Factory } from 'lucide-react'
+import { Landmark, Leaf, TrendingDown, IndianRupee, Factory } from 'lucide-react'
 import { PunjabPollutionMap } from '../../components/PunjabPollutionMap'
 import { AgentChat } from '../../components/AgentChat'
+import { EcologicalTracker } from '../../components/EcologicalTracker'
 import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { SourceNote } from '../../components/SourceNote'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { isDemoSession, useAuth } from '../../contexts/AuthContext'
 import {
   agrinovaOperationalSites,
   beforeAfterProjection,
@@ -20,14 +22,19 @@ import { BUYER_TAX_INR_PER_TCO2E } from '../../services/buyerCredits'
 import { formatINR } from '../../lib/utils'
 
 export default function GovernmentDashboard() {
+  const { user } = useAuth()
+  const demo = isDemoSession(user)
   const { region } = useCaseStudy()
-  const { ledger, transactions, wallets } = useMarketplace()
+  const { ledger, transactions, wallets, listings, requirements } = useMarketplace()
   const [district, setDistrict] = useState('Patiala')
   const [utilPct, setUtilPct] = useState(70)
 
   const liveCo2 = ledger.filter((e) => e.region === region).reduce((s, e) => s + e.avoidedTco2e, 0)
   const totalCredits = Object.values(wallets ?? {}).reduce((s, w) => s + w.lifetimeEarned, 0)
   const completedTxns = transactions.filter((t) => t.status === 'completed' && t.region === region).length
+  const openListings = listings.filter((l) => l.region === region && l.status !== 'completed')
+  const listedTonnes = openListings.reduce((s, l) => s + (l.quantityTonnes ?? 0), 0)
+  const buyerDemand = requirements.filter((r) => r.region === region).reduce((s, r) => s + (r.quantityTonnes ?? 0), 0)
   const proj = beforeAfterProjection
   const ops = operationalSavingsTotals()
   const districtSave = useMemo(() => projectDistrictSavings(district, utilPct), [district, utilPct])
@@ -50,21 +57,15 @@ export default function GovernmentDashboard() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-[#0b3d91]">
-              Government of Punjab · Demo portal
+              {user?.state ?? 'Punjab'} · {demo ? 'Demo portal' : 'Officer desk'}
             </p>
             <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
               Department of Agriculture &amp; Farmers Welfare
             </h1>
             <p className="text-xs text-slate-600">
-              Crop Residue Management · Air Quality Mission desk · AgriNova decision support
+              {user?.displayName} · {user?.district} · Residue, waste, and ecological tracking
             </p>
           </div>
-          <Link
-            to="/login"
-            className="inline-flex items-center gap-2 rounded-sm border border-[#0b3d91] px-3 py-2 text-xs font-semibold text-[#0b3d91] hover:bg-[#0b3d91] hover:text-white"
-          >
-            <LogIn className="h-3.5 w-3.5" /> Login
-          </Link>
         </div>
       </header>
 
@@ -75,6 +76,30 @@ export default function GovernmentDashboard() {
           <span className="font-medium text-[#0b3d91]">Residue &amp; air quality dashboard</span>
           <ProvenanceBadge provenance="MODEL_ESTIMATE" className="ml-2" />
         </div>
+
+        <section className="rounded-sm border border-[#c5cad3] bg-white p-4 shadow-sm">
+          <h2 className="text-sm font-bold text-[#0b3d91]">Buyer ↔ government matching desk</h2>
+          <p className="mt-1 text-xs text-slate-600">
+            Aggregates only — open farmer listings and posted buyer demand in this region. No farmer phones.
+          </p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+            <div className="rounded border border-slate-200 bg-slate-50 p-3">
+              <p className="text-[11px] uppercase text-slate-500">Open listings</p>
+              <p className="text-xl font-bold">{openListings.length}</p>
+            </div>
+            <div className="rounded border border-slate-200 bg-slate-50 p-3">
+              <p className="text-[11px] uppercase text-slate-500">Listed tonnes</p>
+              <p className="text-xl font-bold">{listedTonnes.toFixed(1)} t</p>
+            </div>
+            <div className="rounded border border-slate-200 bg-slate-50 p-3">
+              <p className="text-[11px] uppercase text-slate-500">Buyer RFQ demand</p>
+              <p className="text-xl font-bold">{buyerDemand.toFixed(1)} t</p>
+            </div>
+          </div>
+          <Link to="/business" className="mt-3 inline-block text-sm font-medium text-[#0b3d91] underline">
+            Open buyer procurement desk
+          </Link>
+        </section>
 
         <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
@@ -162,6 +187,14 @@ export default function GovernmentDashboard() {
           </div>
         </section>
 
+        <EcologicalTracker
+          storageKey={demo ? 'agrinova_eco_demo' : `agrinova_eco_${user?.profileId ?? 'gov'}`}
+          seedDemo={demo}
+          officer={user?.displayName ?? 'Officer'}
+          defaultDistrict={user?.district ?? district}
+        />
+
+        {demo && (
         <section className="rounded-sm border border-[#c5cad3] bg-white p-4 shadow-sm">
           <div className="mb-4 flex flex-wrap items-end justify-between gap-2">
             <div>
@@ -233,7 +266,9 @@ export default function GovernmentDashboard() {
             Operational savings are demo-cluster rollups for judges — not official state MIS.
           </SourceNote>
         </section>
+        )}
 
+        {demo && (
         <section className="rounded-sm border border-[#c5cad3] bg-white p-4 shadow-sm">
           <h2 className="mb-3 text-base font-bold text-[#0b3d91]">
             Without AgriNova vs 70% utilisation projection (25-farm pack)
@@ -265,6 +300,7 @@ export default function GovernmentDashboard() {
           </div>
           <p className="mt-3 text-xs text-slate-500">{proj.method}</p>
         </section>
+        )}
 
         <section className="rounded-sm border border-[#c5cad3] bg-white p-4 shadow-sm">
           <h2 className="mb-3 text-base font-bold text-[#0b3d91]">Policy AI (OpenAI)</h2>
@@ -272,7 +308,13 @@ export default function GovernmentDashboard() {
             <AgentChat
               role="government"
               title="AgriNova Policy Analyst"
-              subtitle="Heatmap, operational savings, district utilisation"
+              subtitle="Utilisation, SWM feedstock, ecological register"
+              promptLabels={['SWM gap', 'Record a lift', 'Dump vs sell']}
+              prompts={[
+                'How should a district officer use AgriNova to keep paddy straw out of municipal mixed waste?',
+                'What should I log in the ecological register after a compost-plant lift?',
+                'Summarise utilised vs dumped vs burned for a briefing note. No farmer names.',
+              ]}
             />
           </div>
         </section>

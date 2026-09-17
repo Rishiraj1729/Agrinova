@@ -2,32 +2,40 @@ import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/Card'
 import { Button } from '../../components/ui/Button'
 import { Badge } from '../../components/ui/Badge'
-import { ProvenanceBadge } from '../../components/ProvenanceBadge'
 import { SourceNote } from '../../components/SourceNote'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
+import { isDemoSession, useAuth } from '../../contexts/AuthContext'
 import { demoProfiles } from '../../data/profiles'
 import { formatINR } from '../../lib/utils'
 
 export default function AdminDashboard() {
+  const { user } = useAuth()
+  const demo = isDemoSession(user)
   const { listings, transactions, ledger, mrv, offers, requirements, resetDemo, wallets } = useMarketplace()
   const { farmers } = useCaseStudy()
-  const kavya = demoProfiles.find((p) => p.id === 'kavya')!
+  const kavya = demoProfiles.find((p) => p.id === 'kavya')
+  const name = user?.displayName ?? kavya?.name ?? 'Operations'
+  const initials = name.split(' ').map((p) => p[0]).join('').slice(0, 2)
   const creditsOut = Object.values(wallets ?? {}).reduce((s, w) => s + w.lifetimeEarned, 0)
 
   return (
     <div className="animate-fade-in space-y-6 max-w-5xl">
       <div className="flex flex-wrap justify-between gap-4 items-start">
         <div className="flex gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-nv-elevated font-semibold">{kavya.initials}</div>
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-nv-elevated font-semibold">{initials}</div>
           <div>
-            <h1 className="text-2xl font-semibold">{kavya.name}</h1>
-            <p className="text-sm text-nv-muted">{kavya.title} · {kavya.org}</p>
-            <p className="text-sm mt-1 max-w-lg">“{kavya.quote}”</p>
-            <ProvenanceBadge provenance="DEMONSTRATION_DATA" className="mt-2" />
+            <h1 className="text-2xl font-semibold">{name}</h1>
+            <p className="text-sm text-nv-muted">{demo ? kavya?.title : 'Marketplace operations'} · {user?.district}</p>
+            {demo && kavya?.quote && <p className="text-sm mt-1 max-w-lg">“{kavya.quote}”</p>}
+            {!demo && (
+              <p className="text-sm mt-1 max-w-lg text-nv-muted">
+                This desk only shows activity from this login — not the lived-in demo pipeline.
+              </p>
+            )}
           </div>
         </div>
-        <Button variant="outline" onClick={resetDemo}>Reload lived-in demo</Button>
+        {demo && <Button variant="outline" onClick={resetDemo}>Reload lived-in demo</Button>}
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

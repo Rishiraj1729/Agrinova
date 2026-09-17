@@ -6,14 +6,14 @@ import { PageHeader } from '../../components/ui/PageHeader'
 import { useToast } from '../../components/ui/Toast'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, useAuth } from '../../contexts/AuthContext'
 import { redemptionCatalog, CREDITS_PER_TCO2E } from '../../data/redemptionCatalog'
 
 export default function CreditsPage() {
   const { demoFarmer, farmers } = useCaseStudy()
   const { user } = useAuth()
   const { notify } = useToast()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
   const { getWallet, redeemCredits, redemptions, ledger } = useMarketplace()
   const wallet = getWallet(farmer.id)
   const myRedemptions = (redemptions ?? []).filter((r) => r.farmerId === farmer.id)

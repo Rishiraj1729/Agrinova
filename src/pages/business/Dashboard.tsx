@@ -6,16 +6,19 @@ import { Button } from '../../components/ui/Button'
 import { Input, Label, Select } from '../../components/ui/Input'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
+import { buyerFromSession, isDemoSession, useAuth } from '../../contexts/AuthContext'
 import { formatINR } from '../../lib/utils'
 import type { ResidueType } from '../../types'
 
 type Tab = 'procure' | 'requirements' | 'offers'
 
 export default function BusinessDashboard() {
-  const { buyers, meta } = useCaseStudy()
+  const { user } = useAuth()
+  const demo = isDemoSession(user)
+  const { buyers, region } = useCaseStudy()
   const { listings, offers, requirements, postRequirement, createOffer, getWallet, transactions } = useMarketplace()
   const [tab, setTab] = useState<Tab>('procure')
-  const demoBuyer = buyers[0]
+  const demoBuyer = buyerFromSession(user, buyers, buyers[0])
   const buyerWallet = getWallet(demoBuyer.id)
   const buyerTonnes = transactions
     .filter((t) => t.buyerId === demoBuyer.id && t.status === 'completed')
@@ -31,6 +34,9 @@ export default function BusinessDashboard() {
   const available = listings.filter((l) => l.status === 'listed' || l.status === 'offer_received')
   const selected = available.find((l) => l.id === selectedId)
   const myOffers = offers.filter((o) => o.buyerId === demoBuyer.id)
+  const regionListed = listings
+    .filter((l) => l.region === region && l.status !== 'completed')
+    .reduce((s, l) => s + l.quantityTonnes, 0)
 
   const demandData = buyers.map((b) => ({ name: b.name.split(' ')[0], demand: b.demandTonnes }))
 
@@ -43,7 +49,7 @@ export default function BusinessDashboard() {
       maxRadiusKm: 75,
       targetPricePerTon: reqPrice,
       horizonDays: 30,
-      region: meta.region,
+      region,
     })
     setTab('requirements')
   }
@@ -57,7 +63,7 @@ export default function BusinessDashboard() {
   return (
     <div className="animate-fade-in space-y-6 max-w-5xl">
       <div>
-        <h1 className="text-2xl font-semibold">Buyer desk — Priya Malhotra</h1>
+        <h1 className="text-2xl font-semibold">Buyer desk — {user?.displayName ?? demoBuyer.contactName}</h1>
         <p className="text-sm text-nv-muted">{demoBuyer.name} · {demoBuyer.contactRole ?? 'Procurement'} · {demoBuyer.location} · max {demoBuyer.moistureSpecMax ?? 15}% moisture · {demoBuyer.plantCapacityTpd ?? 15} TPD</p>
       </div>
 
@@ -82,6 +88,11 @@ export default function BusinessDashboard() {
             <p className="text-2xl font-semibold">{buyerTonnes.toFixed(1)} t</p>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="rounded-2xl border border-nv-border bg-nv-elevated/50 px-4 py-3 text-sm text-nv-muted">
+        Ward / ULB context: <span className="font-semibold text-nv-fg">{regionListed.toFixed(1)} t</span> still open on the matching desk in this region.
+        Government sees the same aggregates without farmer phones.
       </div>
 
       <div className="flex gap-2 flex-wrap">
@@ -198,6 +209,7 @@ export default function BusinessDashboard() {
         </div>
       )}
 
+      {demo && (
       <Card>
         <CardHeader><CardTitle className="text-base">Regional demand (demo)</CardTitle></CardHeader>
         <CardContent>
@@ -211,6 +223,7 @@ export default function BusinessDashboard() {
           </ResponsiveContainer>
         </CardContent>
       </Card>
+      )}
     </div>
   )
 }

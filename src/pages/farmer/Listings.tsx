@@ -4,14 +4,14 @@ import { Badge } from '../../components/ui/Badge'
 import { Button } from '../../components/ui/Button'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, useAuth } from '../../contexts/AuthContext'
 import { formatINR } from '../../lib/utils'
 
 export default function ListingsPage() {
   const { listings, offers } = useMarketplace()
   const { demoFarmer, farmers } = useCaseStudy()
   const { user } = useAuth()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
   const mine = listings.filter((l) => l.farmerId === farmer.id)
 
   return (

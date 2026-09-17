@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
-import type { CropType } from '../types'
+import type { Buyer, CropType, Farmer } from '../types'
 import { demoProfiles, type DemoProfile } from '../data/profiles'
-import { defaultKhararRiceParcel, polygonAreaAcresLatLng } from '../lib/geo'
+import { defaultParcelAround, DISTRICT_COORDS, polygonAreaAcresLatLng } from '../lib/geo'
+import { clearLocalAppState, supabase } from '../lib/supabase'
 
 export type AuthRole = 'seller' | 'buyer' | 'government' | 'admin'
 
@@ -19,7 +20,6 @@ export interface PlotParcel {
   crop: CropType
   acres: number
   forSale: boolean
-  /** Real map vertices (WGS84) */
   points: { lat: number; lng: number }[]
 }
 
@@ -44,33 +44,74 @@ export interface SessionUser {
 interface AuthContextValue {
   user: SessionUser | null
   loginAs: (profileId: string, overrides?: Partial<SessionUser>) => void
+  loginCustom: (draft: CustomLoginDraft) => void
   updateSession: (patch: Partial<SessionUser>) => void
   logout: () => void
   profile: DemoProfile | undefined
 }
 
+export interface CustomLoginDraft {
+  role: AuthRole
+  displayName: string
+  village: string
+  district: string
+  state?: string
+  acres: number
+  phone: string
+  gender?: SessionUser['gender']
+  age?: number
+}
+
 const STORAGE = 'agrinova_session_v2'
+const WB_DISTRICTS = new Set(['Burdwan', 'Hooghly', 'Nadia', 'Murshidabad', 'Malda', 'Howrah', 'Kolkata'])
+export const DEMO_PROFILE_IDS = new Set(demoProfiles.map((p) => p.id))
+
+export function isDemoSession(user: SessionUser | null) {
+  return !!user && DEMO_PROFILE_IDS.has(user.profileId)
+}
 
 const AuthContext = createContext<AuthContextValue | null>(null)
 
-function defaultSoil(): SoilProfile {
+function defaultSoil(district: string): SoilProfile {
+  const wb = WB_DISTRICTS.has(district)
   return {
     type: 'alluvial',
-    ph: 7.2,
-    organicCarbonPercent: 0.45,
+    ph: wb ? 6.8 : 7.2,
+    organicCarbonPercent: wb ? 0.62 : 0.45,
     nitrogen: 'medium',
-    notes: 'Patiala belt alluvial — demo soil card for Kisan AI.',
+    notes: wb
+      ? 'Gangetic alluvium — demo soil card for West Bengal listings.'
+      : 'Patiala belt alluvial — demo soil card for Kisan AI.',
   }
 }
 
+function parcelsFor(district: string, role: AuthRole): PlotParcel[] {
+  if (role !== 'seller') return []
+  const center = DISTRICT_COORDS[district] ?? DISTRICT_COORDS.Patiala
+  const points = defaultParcelAround(center)
+  return [
+    {
+      id: 'parcel-rice',
+      label: 'Paddy block A',
+      crop: 'Rice',
+      acres: polygonAreaAcresLatLng(points),
+      forSale: true,
+      points,
+    },
+  ]
+}
+
 function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): SessionUser {
+  const district =
+    overrides?.district ??
+    (p.role === 'government' ? 'Patiala' : p.org.includes('Sangrur') ? 'Sangrur' : 'Patiala')
   const base: SessionUser = {
     profileId: p.id,
     role: p.role,
     displayName: p.name,
     village: p.org.includes(',') ? p.org.split(',')[0] : p.location.split(',')[0] || 'Kharar',
-    district: p.role === 'government' ? 'Patiala' : p.org.includes('Sangrur') ? 'Sangrur' : 'Patiala',
-    state: 'Punjab',
+    district,
+    state: WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab',
     acres: p.id === 'ramesh' ? 6 : p.id === 'simran' ? 4 : 5,
     phone: '+91 98765 00001',
     gender: p.id === 'simran' || p.id === 'priya' || p.id === 'kavya' ? 'female' : 'male',
@@ -78,21 +119,67 @@ function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): S
     crops: ['Rice', 'Wheat'],
     farmerId: p.farmerId,
     buyerId: p.buyerId,
-    soil: defaultSoil(),
-    parcels: p.role === 'seller'
-      ? [
-          {
-            id: 'parcel-rice',
-            label: 'Paddy block A',
-            crop: 'Rice',
-            acres: polygonAreaAcresLatLng(defaultKhararRiceParcel()),
-            forSale: true,
-            points: defaultKhararRiceParcel(),
-          },
-        ]
-      : [],
+    soil: defaultSoil(district),
+    parcels: parcelsFor(district, p.role),
   }
   return { ...base, ...overrides, soil: { ...base.soil, ...overrides?.soil }, parcels: overrides?.parcels ?? base.parcels }
+}
+
+export function farmerFromSession(user: SessionUser | null, farmers: Farmer[], fallback: Farmer): Farmer {
+  if (!user) return fallback
+  const found = farmers.find((f) => f.id === user.farmerId)
+  if (found) {
+    return {
+      ...found,
+      name: user.displayName || found.name,
+      village: user.village || found.village,
+      district: user.district || found.district,
+      acres: user.acres || found.acres,
+      phone: user.phone || found.phone,
+    }
+  }
+  return {
+    ...fallback,
+    id: user.farmerId ?? 'farmer-custom',
+    name: user.displayName,
+    village: user.village,
+    district: user.district,
+    state: user.state,
+    acres: user.acres,
+    phone: user.phone,
+    initials: user.displayName.split(' ').map((p) => p[0]).join('').slice(0, 2),
+    riceAcresThisSeason: Math.min(user.acres, 2.5),
+    sowingWindowDays: WB_DISTRICTS.has(user.district) ? 18 : 12,
+    lastSeasonBurnedTonnes: 0,
+    bio: 'Custom listing account for this session.',
+  }
+}
+
+export function buyerFromSession(user: SessionUser | null, buyers: Buyer[], fallback: Buyer): Buyer {
+  if (!user || user.role !== 'buyer') return fallback
+  const found = buyers.find((b) => b.id === user.buyerId)
+  if (found) {
+    return {
+      ...found,
+      contactName: user.displayName,
+      location: `${user.village}, ${user.district}`,
+    }
+  }
+  return {
+    id: user.buyerId ?? 'buyer-custom',
+    name: `${user.displayName} desk`,
+    type: 'Biomass Plant',
+    location: `${user.village}, ${user.district}`,
+    distanceKm: 12,
+    pricePerTon: 700,
+    demandTonnes: 80,
+    rating: 4.5,
+    residueTypes: ['Rice Straw', 'Wheat Stubble'],
+    contactName: user.displayName,
+    contactRole: 'Procurement',
+    plantCapacityTpd: 8,
+    moistureSpecMax: 15,
+  }
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -110,6 +197,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     else localStorage.removeItem(STORAGE)
   }, [user])
 
+  async function persistProfile(next: SessionUser) {
+    if (!supabase) return
+    try {
+      await supabase.from('profiles').upsert({
+        id: next.profileId,
+        role: next.role,
+        display_name: next.displayName,
+        village: next.village,
+        district: next.district,
+        state: next.state,
+        acres: next.acres,
+        soil: next.soil,
+        is_demo: DEMO_PROFILE_IDS.has(next.profileId),
+      })
+    } catch {
+      /* non-blocking */
+    }
+  }
+
+  function beginSession(next: SessionUser) {
+    clearLocalAppState()
+    setUser(next)
+    void persistProfile(next)
+  }
+
   const value = useMemo<AuthContextValue>(
     () => ({
       user,
@@ -117,10 +229,43 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginAs: (profileId, overrides) => {
         const p = demoProfiles.find((x) => x.id === profileId)
         if (!p) return
-        setUser(sessionFromProfile(p, overrides))
+        beginSession(sessionFromProfile(p, overrides))
       },
-      updateSession: (patch) => setUser((u) => (u ? { ...u, ...patch, soil: { ...u.soil, ...patch.soil }, parcels: patch.parcels ?? u.parcels } : u)),
-      logout: () => setUser(null),
+      loginCustom: (draft) => {
+        const district = draft.district.trim() || 'Patiala'
+        const state = draft.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
+        const id = `custom-${draft.role}-${Date.now()}`
+        const role = draft.role
+        const next: SessionUser = {
+          profileId: id,
+          role,
+          displayName: draft.displayName.trim() || 'Guest',
+          village: draft.village.trim() || district,
+          district,
+          state,
+          acres: Number.isFinite(draft.acres) ? draft.acres : 0,
+          phone: draft.phone.trim() || '',
+          gender: draft.gender ?? 'other',
+          age: draft.age ?? 35,
+          crops: ['Rice', 'Wheat'],
+          farmerId: role === 'seller' ? id : undefined,
+          buyerId: role === 'buyer' ? id : undefined,
+          soil: defaultSoil(district),
+          parcels: parcelsFor(district, role),
+        }
+        beginSession(next)
+      },
+      updateSession: (patch) =>
+        setUser((u) => {
+          if (!u) return u
+          const next = { ...u, ...patch, soil: { ...u.soil, ...patch.soil }, parcels: patch.parcels ?? u.parcels }
+          void persistProfile(next)
+          return next
+        }),
+      logout: () => {
+        clearLocalAppState()
+        setUser(null)
+      },
     }),
     [user],
   )
@@ -134,7 +279,6 @@ export function useAuth() {
   return ctx
 }
 
-/** Straw estimate: ~2 t/acre for paddy (IARI-style), 1.6 for wheat stubble demo */
 export function estimateStrawFromParcels(parcels: PlotParcel[]) {
   return parcels
     .filter((p) => p.forSale)

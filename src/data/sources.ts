@@ -69,4 +69,11 @@ export const dataSources: DataSource[] = [
     provenance: 'DEMONSTRATION_DATA',
     note: 'Built so judges can follow a story. Do not treat as survey respondents.',
   },
+  {
+    id: 'wb-swm',
+    label: 'West Bengal — residue in the waste stream',
+    what: 'SWM Rules 2016 require ULB processing of biodegradable waste. Paddy straw in Burdwan–Nadia often dumps, rots, or mixes into municipal waste instead of reaching compost / paper / biogas gates.',
+    provenance: 'PUBLIC_DATA',
+    note: 'Policy reading of MoEFCC SWM Rules 2016, NPMCR, and WB municipal processing notes. Cluster survey (n=80) is a demonstration pack, not a census.',
+  },
 ]

@@ -7,7 +7,7 @@ import { Button } from '../../components/ui/Button'
 import { Input, Label } from '../../components/ui/Input'
 import { PageHeader, StatTile } from '../../components/ui/PageHeader'
 import { SourceNote } from '../../components/SourceNote'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, useAuth } from '../../contexts/AuthContext'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { calculateCarbonImpact } from '../../services/carbonLedger'
 import { rankBuyersForListing } from '../../services/scoreMatch'
@@ -26,7 +26,7 @@ const STRAW_PER_ACRE = 2
 export default function ImpactPage() {
   const { user } = useAuth()
   const { demoFarmer, farmers, buyers } = useCaseStudy()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
 
   const [acres, setAcres] = useState(Math.min(user?.acres ?? farmer.acres, 2.5))
   const [pricePerTon, setPricePerTon] = useState(750)

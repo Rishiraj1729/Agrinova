@@ -11,7 +11,7 @@ import { MatchScoreBreakdown } from '../../components/marketplace/MatchScoreBrea
 import { TransactionStepper } from '../../components/marketplace/TransactionStepper'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, useAuth } from '../../contexts/AuthContext'
 import { classifyResidue } from '../../services/classifyResidue'
 import { estimateValue } from '../../services/estimateValue'
 import { recommendPathways } from '../../services/recommendPathways'
@@ -29,7 +29,7 @@ export default function SellWizardPage() {
   const [searchParams] = useSearchParams()
   const { demoFarmer, farmers, buyers, region } = useCaseStudy()
   const { user } = useAuth()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
   const {
     addListing,
     seedOffersForListing,

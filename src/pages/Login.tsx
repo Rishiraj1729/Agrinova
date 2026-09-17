@@ -1,195 +1,207 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Sprout, Building2, Landmark, Shield, Download } from 'lucide-react'
-import { useAuth } from '../contexts/AuthContext'
+import { Sprout, Building2, Landmark, Shield, ChevronDown } from 'lucide-react'
+import { useAuth, type AuthRole } from '../contexts/AuthContext'
+import { useLanguage } from '../contexts/LanguageContext'
 import { demoProfiles } from '../data/profiles'
 import { Button } from '../components/ui/Button'
 import { Input, Label, Select } from '../components/ui/Input'
-import type { CropType } from '../types'
 import { cn } from '../lib/utils'
 
-const homeFor: Record<string, string> = {
+const homeFor: Record<AuthRole, string> = {
   seller: '/farmer',
   buyer: '/business',
   government: '/government',
   admin: '/admin',
 }
 
-const roles = [
-  { id: 'seller' as const, label: 'Farmer', hint: 'Sell residue · credits', Icon: Sprout },
-  { id: 'buyer' as const, label: 'Buyer', hint: 'Procure biomass', Icon: Building2 },
-  { id: 'government' as const, label: 'Government', hint: 'Air & policy desk', Icon: Landmark },
-  { id: 'admin' as const, label: 'Admin', hint: 'Operations · MRV', Icon: Shield },
+const roleMeta = [
+  { id: 'seller' as const, labelKey: 'login.farmer', hintKey: 'login.farmerh', Icon: Sprout },
+  { id: 'buyer' as const, labelKey: 'login.buyer', hintKey: 'login.buyerh', Icon: Building2 },
+  { id: 'government' as const, labelKey: 'login.gov', hintKey: 'login.govh', Icon: Landmark },
+  { id: 'admin' as const, labelKey: 'login.admin', hintKey: 'login.adminh', Icon: Shield },
 ]
 
-const defaultByRole: Record<string, string> = {
+const defaultByRole: Record<AuthRole, string> = {
   seller: 'ramesh',
   buyer: 'priya',
   government: 'anil',
   admin: 'kavya',
 }
 
+const defaults = {
+  seller: { name: '', village: '', district: 'Patiala', acres: 4, phone: '' },
+  buyer: { name: '', village: '', district: 'Rajpura', acres: 0, phone: '' },
+  government: { name: '', village: '', district: 'Patiala', acres: 0, phone: '' },
+  admin: { name: '', village: '', district: 'Chandigarh', acres: 0, phone: '' },
+}
+
 export default function LoginPage() {
-  const { loginAs } = useAuth()
+  const { loginAs, loginCustom } = useAuth()
+  const { t } = useLanguage()
   const navigate = useNavigate()
-  const [role, setRole] = useState<'seller' | 'buyer' | 'government' | 'admin'>('seller')
-  const [selected, setSelected] = useState('ramesh')
-  const [name, setName] = useState('Ramesh Singh')
-  const [village, setVillage] = useState('Kharar')
+  const [step, setStep] = useState<'role' | 'form'>('role')
+  const [role, setRole] = useState<AuthRole>('seller')
+  const [name, setName] = useState('')
+  const [village, setVillage] = useState('')
   const [district, setDistrict] = useState('Patiala')
-  const [acres, setAcres] = useState(6)
-  const [age, setAge] = useState(42)
-  const [gender, setGender] = useState<'male' | 'female' | 'other'>('male')
-  const [phone, setPhone] = useState('+91 98765 10421')
+  const [acres, setAcres] = useState(4)
+  const [phone, setPhone] = useState('')
+  const [showDemo, setShowDemo] = useState(false)
+  const [demoId, setDemoId] = useState('ramesh')
 
   const people = demoProfiles.filter((p) => p.role === role)
 
-  function chooseRole(next: typeof role) {
+  function chooseRole(next: AuthRole) {
     setRole(next)
-    pick(defaultByRole[next])
+    const d = defaults[next]
+    setName(d.name)
+    setVillage(d.village)
+    setDistrict(d.district)
+    setAcres(d.acres)
+    setPhone(d.phone)
+    setDemoId(defaultByRole[next])
+    setShowDemo(false)
+    setStep('form')
   }
 
-  function pick(id: string) {
-    const p = demoProfiles.find((x) => x.id === id)!
-    setSelected(id)
-    setName(p.name)
-    setGender(id === 'simran' || id === 'priya' || id === 'kavya' ? 'female' : 'male')
-    if (id === 'ramesh') {
-      setVillage('Kharar'); setDistrict('Patiala'); setAcres(6); setAge(42); setPhone('+91 98765 10421')
-    } else if (id === 'simran') {
-      setVillage('Sunam'); setDistrict('Sangrur'); setAcres(4); setAge(34); setPhone('+91 98765 22023')
-    } else if (id === 'priya') {
-      setVillage('Rajpura'); setDistrict('Patiala'); setAcres(0); setAge(36); setPhone('+91 98150 33001')
-    } else if (id === 'anil') {
-      setVillage('Patiala'); setDistrict('Patiala'); setAcres(0); setAge(48); setPhone('+91 17200 00001')
-    } else {
-      setVillage('Chandigarh'); setDistrict('SAS Nagar'); setAcres(0); setAge(29); setPhone('+91 98720 00009')
-    }
-  }
-
-  function enter() {
-    const p = demoProfiles.find((x) => x.id === selected)!
-    loginAs(selected, {
+  function enterNew() {
+    loginCustom({
+      role,
       displayName: name,
       village,
       district,
       acres,
-      age,
-      gender,
       phone,
-      crops: ['Rice', 'Wheat'] as CropType[],
     })
-    navigate(homeFor[p.role] ?? '/')
+    navigate(homeFor[role])
+  }
+
+  function enterDemo() {
+    const p = demoProfiles.find((x) => x.id === demoId)
+    if (!p) return
+    const overrides: Parameters<typeof loginAs>[1] = {}
+    if (name.trim()) overrides.displayName = name.trim()
+    if (village.trim()) overrides.village = village.trim()
+    if (district.trim()) overrides.district = district.trim()
+    if (phone.trim()) overrides.phone = phone.trim()
+    if (role === 'seller') overrides.acres = acres
+    loginAs(demoId, overrides)
+    navigate(homeFor[p.role])
   }
 
   return (
-    <div className="min-h-screen bg-nv-page text-nv-fg">
-      <div className="tri-bar" />
-      <div className="mx-auto flex min-h-[calc(100vh-5px)] max-w-lg flex-col justify-center px-4 py-10">
-        <div className="mb-8 text-center">
-          <div className="tri-mark mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-lg">
-            A
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight text-nv-fg">AgriNova</h1>
-          <p className="mt-1 text-sm text-nv-muted">Login — select your role to continue</p>
+    <div className="mx-auto flex min-h-[calc(100vh-56px)] max-w-lg flex-col justify-center px-4 py-12">
+      <div className="text-center">
+        <h1 className="text-3xl font-semibold tracking-tight">{t('login.title')}</h1>
+        <p className="mt-2 text-sm leading-relaxed text-nv-muted">{t('login.sub')}</p>
+      </div>
+
+      {step === 'role' && (
+        <div className="mt-8 space-y-2">
+          <p className="mb-3 text-xs font-medium uppercase tracking-[0.12em] text-nv-muted">{t('login.role')}</p>
+          {roleMeta.map(({ id, labelKey, hintKey, Icon }) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => chooseRole(id)}
+              className="flex w-full items-center gap-4 rounded-2xl border border-nv-border bg-white px-4 py-4 text-left transition-colors hover:bg-[#fafafa]"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-nv-elevated text-nv-green">
+                <Icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[15px] font-semibold">{t(labelKey)}</span>
+                <span className="block text-sm text-nv-muted">{t(hintKey)}</span>
+              </span>
+            </button>
+          ))}
         </div>
+      )}
 
-        <div className="rounded-2xl border border-nv-border bg-white p-6 shadow-sm">
-          <Label>Role</Label>
-          <div className="mb-5 grid grid-cols-2 gap-2">
-            {roles.map(({ id, label, hint, Icon }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => chooseRole(id)}
-                className={cn(
-                  'rounded-xl border p-3 text-left transition',
-                  role === id
-                    ? 'border-nv-green bg-nv-green/8 ring-1 ring-nv-green/30'
-                    : 'border-nv-border bg-nv-elevated hover:border-nv-saffron/50',
-                )}
-              >
-                <Icon className={cn('mb-1.5 h-4 w-4', role === id ? 'text-nv-green' : 'text-nv-saffron')} />
-                <p className="text-sm font-semibold">{label}</p>
-                <p className="text-[11px] text-nv-muted">{hint}</p>
-              </button>
-            ))}
+      {step === 'form' && (
+        <form
+          className="mt-8 space-y-4 rounded-3xl border border-nv-border bg-white p-6"
+          onSubmit={(e) => {
+            e.preventDefault()
+            enterNew()
+          }}
+        >
+          <p className="text-sm text-nv-muted">
+            {t('login.role')}{' '}
+            <strong className="text-nv-fg">{t(roleMeta.find((r) => r.id === role)!.labelKey)}</strong>
+            {' · '}
+            <button type="button" className="underline underline-offset-2" onClick={() => setStep('role')}>
+              {t('login.back')}
+            </button>
+          </p>
+
+          <div>
+            <Label>{t('login.name')}</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" />
           </div>
-
-          <Label>Profile</Label>
-          <Select
-            className="mb-4"
-            value={selected}
-            onChange={(e) => pick(e.target.value)}
-          >
-            {people.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name} — {p.title}
-              </option>
-            ))}
-          </Select>
-
-          <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label>Name</Label>
-              <Input value={name} onChange={(e) => setName(e.target.value)} />
+              <Label>{t('login.district')}</Label>
+              <Input value={district} onChange={(e) => setDistrict(e.target.value)} required />
             </div>
             <div>
-              <Label>District</Label>
-              <Input value={district} onChange={(e) => setDistrict(e.target.value)} />
-            </div>
-          </div>
-
-          <div className="mb-5 grid grid-cols-2 gap-3">
-            <div>
-              <Label>Village / office</Label>
+              <Label>{t('login.village')}</Label>
               <Input value={village} onChange={(e) => setVillage(e.target.value)} />
             </div>
-            <div>
-              <Label>Phone</Label>
-              <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
-            </div>
           </div>
-
+          <div>
+            <Label>{t('login.phone')}</Label>
+            <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91" />
+          </div>
           {role === 'seller' && (
-            <div className="mb-5">
-              <Label>Land (acres)</Label>
-              <Input type="number" value={acres} onChange={(e) => setAcres(Number(e.target.value))} />
+            <div>
+              <Label>{t('login.acres')}</Label>
+              <Input type="number" min={0.5} step={0.5} value={acres} onChange={(e) => setAcres(Number(e.target.value))} />
             </div>
           )}
 
-          <div className="mb-5 grid grid-cols-2 gap-3">
-            <div>
-              <Label>Age</Label>
-              <Input type="number" value={age} onChange={(e) => setAge(Number(e.target.value))} />
-            </div>
-            <div>
-              <Label>Gender</Label>
-              <Select value={gender} onChange={(e) => setGender(e.target.value as typeof gender)}>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </Select>
-            </div>
-          </div>
-
-          <Button className="w-full" size="lg" onClick={enter}>
-            Login as {name.split(' ')[0]}
+          <Button className="w-full" size="lg" type="submit">
+            {t('login.new')}
           </Button>
-          <div className="mt-4 flex items-center justify-center gap-4 text-sm">
-            <Link to="/presentation" className="text-nv-navy underline-offset-2 hover:underline">
-              View presentation
-            </Link>
-            <a
-              href="/AgriNova_Presentation.pdf"
-              download
-              className="inline-flex items-center gap-1.5 text-nv-green underline-offset-2 hover:underline"
+
+          <div className="border-t border-nv-border pt-3">
+            <button
+              type="button"
+              onClick={() => setShowDemo((v) => !v)}
+              className="flex w-full items-center justify-between text-left text-sm text-nv-muted hover:text-nv-fg"
             >
-              <Download className="h-4 w-4" /> Download PDF
-            </a>
+              <span>{t('login.demo')}</span>
+              <ChevronDown className={cn('h-4 w-4 transition', showDemo && 'rotate-180')} />
+            </button>
+            {showDemo && (
+              <div className="mt-3 space-y-3">
+                <p className="text-[12px] leading-relaxed text-nv-muted">{t('login.demoHint')}</p>
+                <Select value={demoId} onChange={(e) => setDemoId(e.target.value)}>
+                  {people.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.name} — {p.title}
+                    </option>
+                  ))}
+                </Select>
+                <Button type="button" variant="outline" className="w-full" onClick={enterDemo}>
+                  {t('login.enter')}
+                </Button>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
+        </form>
+      )}
+
+      <p className="mt-8 text-center text-xs text-nv-muted">
+        <Link to="/case-studies" className="hover:text-nv-fg">
+          {t('nav.cases')}
+        </Link>
+        {' · '}
+        <Link to="/presentation" className="hover:text-nv-fg">
+          {t('nav.presentation')}
+        </Link>
+      </p>
     </div>
   )
 }

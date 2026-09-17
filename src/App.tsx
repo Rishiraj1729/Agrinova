@@ -4,8 +4,9 @@ import { CaseStudyProvider } from './contexts/CaseStudyContext'
 import { MarketplaceProvider } from './contexts/MarketplaceContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { AppShell } from './components/layout/AppShell'
+import { PublicShell } from './components/PublicShell'
 import { ToastProvider } from './components/ui/Toast'
-import HomePage from './pages/Home'
+import LandingPage from './pages/Landing'
 import LoginPage from './pages/Login'
 import FarmerDashboard from './pages/farmer/Dashboard'
 import WeatherPage from './pages/farmer/Weather'
@@ -52,51 +53,53 @@ export default function App() {
         <CaseStudyProvider>
           <MarketplaceProvider>
             <ToastProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="login" element={<LoginPage />} />
-                <Route path="presentation" element={<PresentationPage />} />
-                <Route element={<RequireAuth />}>
-                  <Route element={<AppShell />}>
-                    <Route index element={<HomePage />} />
+              <BrowserRouter>
+                <Routes>
+                  <Route element={<PublicShell />}>
+                    <Route index element={<LandingPage />} />
+                    <Route path="login" element={<LoginPage />} />
                     <Route path="case-studies" element={<CaseStudiesHub />} />
                     <Route path="case-studies/punjab" element={<PunjabCaseStudy />} />
                     <Route path="case-studies/west-bengal" element={<WestBengalCaseStudy />} />
-                    <Route path="farmer" element={<FarmerDashboard />} />
-                    <Route path="farmer/map" element={<FarmMapPage />} />
-                    <Route path="farmer/weather" element={<WeatherPage />} />
-                    <Route path="farmer/crop" element={<CropPage />} />
-                    <Route path="farmer/risk" element={<RiskPage />} />
-                    <Route path="farmer/market" element={<MarketPage />} />
-                    <Route path="farmer/income" element={<IncomePage />} />
-                    <Route path="farmer/residue" element={<Navigate to="/farmer/sell" replace />} />
-                    <Route path="farmer/sell" element={<SellWizardPage />} />
-                    <Route path="farmer/kisansathi" element={<KisanSathiPage />} />
-                    <Route path="farmer/listings" element={<ListingsPage />} />
-                    <Route path="farmer/pathways" element={<PathwaysPage />} />
-                    <Route path="farmer/demand" element={<DemandPage />} />
-                    <Route path="farmer/credits" element={<CreditsPage />} />
-                    <Route path="farmer/learn" element={<LearnPage />} />
-                    <Route path="farmer/impact" element={<ImpactPage />} />
-                    <Route path="farmer/logistics" element={<LogisticsPage />} />
-                    <Route path="farmer/carbon" element={<CarbonPage />} />
-                    <Route path="farmer/ai" element={<Navigate to="/farmer/kisansathi" replace />} />
-                    <Route path="business" element={<BusinessDashboard />} />
-                    <Route path="buyer" element={<Navigate to="/business" replace />} />
-                    <Route path="admin" element={<AdminDashboard />} />
-                    <Route path="government" element={<GovernmentDashboard />} />
-                    <Route path="research" element={<Navigate to="/government" replace />} />
-                    <Route path="carbon/ledger" element={<CarbonLedgerPage />} />
-                    <Route path="carbon/mrv" element={<MrvPage />} />
-                    <Route path="qa/checklist" element={<QaChecklistPage />} />
-                    <Route path="guide" element={<GuidePage />} />
-                    <Route path="profiles" element={<ProfilesPage />} />
                     <Route path="science" element={<SciencePage />} />
-                    <Route path="analytics" element={<AnalyticsPage />} />
                   </Route>
-                </Route>
-              </Routes>
-            </BrowserRouter>
+                  <Route path="presentation" element={<PresentationPage />} />
+                  <Route element={<RequireAuth />}>
+                    <Route element={<AppShell />}>
+                      <Route path="farmer" element={<FarmerDashboard />} />
+                      <Route path="farmer/map" element={<FarmMapPage />} />
+                      <Route path="farmer/weather" element={<WeatherPage />} />
+                      <Route path="farmer/crop" element={<CropPage />} />
+                      <Route path="farmer/risk" element={<RiskPage />} />
+                      <Route path="farmer/market" element={<MarketPage />} />
+                      <Route path="farmer/income" element={<IncomePage />} />
+                      <Route path="farmer/residue" element={<Navigate to="/farmer/sell" replace />} />
+                      <Route path="farmer/sell" element={<SellWizardPage />} />
+                      <Route path="farmer/kisansathi" element={<KisanSathiPage />} />
+                      <Route path="farmer/listings" element={<ListingsPage />} />
+                      <Route path="farmer/pathways" element={<PathwaysPage />} />
+                      <Route path="farmer/demand" element={<DemandPage />} />
+                      <Route path="farmer/credits" element={<CreditsPage />} />
+                      <Route path="farmer/learn" element={<LearnPage />} />
+                      <Route path="farmer/impact" element={<ImpactPage />} />
+                      <Route path="farmer/logistics" element={<LogisticsPage />} />
+                      <Route path="farmer/carbon" element={<CarbonPage />} />
+                      <Route path="farmer/ai" element={<Navigate to="/farmer/kisansathi" replace />} />
+                      <Route path="business" element={<BusinessDashboard />} />
+                      <Route path="buyer" element={<Navigate to="/business" replace />} />
+                      <Route path="admin" element={<AdminDashboard />} />
+                      <Route path="government" element={<GovernmentDashboard />} />
+                      <Route path="research" element={<Navigate to="/government" replace />} />
+                      <Route path="carbon/ledger" element={<CarbonLedgerPage />} />
+                      <Route path="carbon/mrv" element={<MrvPage />} />
+                      <Route path="qa/checklist" element={<QaChecklistPage />} />
+                      <Route path="guide" element={<GuidePage />} />
+                      <Route path="profiles" element={<ProfilesPage />} />
+                      <Route path="analytics" element={<AnalyticsPage />} />
+                    </Route>
+                  </Route>
+                </Routes>
+              </BrowserRouter>
             </ToastProvider>
           </MarketplaceProvider>
         </CaseStudyProvider>

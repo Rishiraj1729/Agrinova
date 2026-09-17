@@ -6,14 +6,14 @@ import { Button } from '../../components/ui/Button'
 import { TransactionStepper } from '../../components/marketplace/TransactionStepper'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, useAuth } from '../../contexts/AuthContext'
 import { logisticsJobs } from '../../data/caseStudies/punjab'
 import { formatINR } from '../../lib/utils'
 
 export default function LogisticsPage() {
   const { demoFarmer, farmers, buyers } = useCaseStudy()
   const { user } = useAuth()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
   const { transactions, advanceTransaction, completeTransaction } = useMarketplace()
 
   const mine = transactions.filter((t) => t.farmerId === farmer.id)

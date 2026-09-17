@@ -1,5 +1,6 @@
 import { scienceSteps } from '../data/agrinovaData'
 import { Card, CardContent } from '../components/ui/Card'
+import { ProvenanceBadge } from '../components/ProvenanceBadge'
 
 const stepColors = [
   'border-red-500/30', 'border-orange-500/30', 'border-yellow-500/30',
@@ -7,13 +8,34 @@ const stepColors = [
   'border-pink-500/30', 'border-nv-green/40', 'border-amber-500/30', 'border-nv-green/50',
 ]
 
+const extras = [
+  {
+    title: 'Match score',
+    body: 'Distance, demand, moisture, pathway, price and rating. Wet Madhyamgram heaps prefer compost; dry Punjab lots prefer ≤15% biomass. Moisture can zero a bad match.',
+  },
+  {
+    title: 'Residue & carbon factors',
+    body: 'Working figures: ~2.0 t straw/acre rice; ~1.5 tCO₂e/t avoided when burned straw is utilised (IPCC-style order-of-magnitude). Not Verra credits.',
+  },
+  {
+    title: 'Kisan Bandhu vision pipeline',
+    body: 'Leaf photo → client compress → OpenAI vision JSON (crop, disease, confidence, first actions) with educational disclaimer. Offline heuristic KB if the API is down. Scans can persist to Supabase Storage.',
+  },
+  {
+    title: 'India 2070 contribution logic',
+    body: 'AgriNova does not claim national net-zero accounting. It shows a cluster pathway: fewer open burns, fewer mixed drain loads, ward utilised tonnes — practical abatement on the road to 2070.',
+  },
+]
+
 export default function SciencePage() {
   return (
-    <div className="animate-fade-in mx-auto max-w-3xl space-y-6">
-      <div className="text-center py-8">
+    <div className="animate-fade-in mx-auto max-w-3xl space-y-6 px-4 py-8">
+      <div className="text-center py-4">
         <p className="text-xs uppercase tracking-widest text-nv-green mb-2">NCSC Research Prototype</p>
         <h1 className="text-3xl font-semibold tracking-tight">Science & Methodology</h1>
-        <p className="mt-2 text-nv-muted">Problem → Observation → Hypothesis → Data → Model → Experiment → Results → Limitations → Conclusion</p>
+        <p className="mt-2 text-nv-muted">
+          Problem → Observation → Hypothesis → Data → Model → Experiment → Results → Limitations → Conclusion
+        </p>
       </div>
 
       <div className="space-y-4">
@@ -34,11 +56,30 @@ export default function SciencePage() {
         ))}
       </div>
 
+      <div className="space-y-3">
+        <h2 className="text-lg font-semibold">Scientific depth modules</h2>
+        {extras.map((e) => (
+          <Card key={e.title}>
+            <CardContent className="pt-5">
+              <p className="font-semibold">{e.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-nv-muted">{e.body}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       <Card className="border-amber-500/30 bg-amber-500/5">
-        <CardContent className="pt-5 text-sm text-amber-800">
-          <strong>Scientific Integrity:</strong> All data in this prototype is fictional and clearly labelled.
-          Carbon impact figures are project-level estimates, not certified carbon credits.
-          AI predictions display confidence intervals and are not guarantees.
+        <CardContent className="pt-5 text-sm text-amber-800 space-y-2">
+          <div className="flex flex-wrap gap-2">
+            <ProvenanceBadge provenance="FIELD_SURVEY" />
+            <ProvenanceBadge provenance="DEMONSTRATION_DATA" />
+            <ProvenanceBadge provenance="MODEL_ESTIMATE" />
+          </div>
+          <p>
+            <strong>Scientific integrity:</strong> Field-book claims are the n=10 September pack. Larger website clusters are
+            labelled demonstration. Carbon figures are estimates, not certified credits. Disease scan is educational vision —
+            not a laboratory diagnosis.
+          </p>
         </CardContent>
       </Card>
     </div>

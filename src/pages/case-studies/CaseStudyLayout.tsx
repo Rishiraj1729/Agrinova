@@ -23,21 +23,27 @@ export function CaseStudyDetail({ runCtaTo }: { runCtaTo: string }) {
     : meta.districts.map((d, i) => ({ name: d.slice(0, 6), supply: 20 + i * 8, demand: 28 + i * 6 }))
 
   return (
-    <div className="animate-fade-in space-y-8 max-w-4xl">
+    <div className="animate-fade-in space-y-8 max-w-4xl mx-auto px-4 py-10">
       <div>
         <ProvenanceBadge provenance={meta.provenance} className="mb-2" />
         <h1 className="text-2xl font-semibold">{meta.title}</h1>
         <p className="text-sm text-nv-muted mt-2 leading-relaxed">{meta.problem}</p>
       </div>
 
-      <Card className="border-nv-green/30">
+      <Card>
         <CardContent className="pt-5 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="font-semibold">Walk this as Ramesh Singh, Kharar</p>
-            <p className="text-sm text-nv-muted">2.5 acres paddy × ~2 t straw/acre ≈ 5 t to move in 12 days.</p>
+            <p className="font-semibold">
+              {region === 'west-bengal' ? 'Walk this as a Burdwan paddy farmer' : 'Walk this as Ramesh Singh, Kharar'}
+            </p>
+            <p className="text-sm text-nv-muted">
+              {region === 'west-bengal'
+                ? 'List straw before it is dumped in a drain or mixed into municipal waste.'
+                : '2.5 acres paddy × ~2 t straw/acre ≈ 5 t to move in 12 days.'}
+            </p>
           </div>
           <div className="flex gap-2">
-            <Link to="/profiles"><Button variant="outline">Sources</Button></Link>
+            <Link to="/login"><Button variant="outline">Sign in</Button></Link>
             <Link to={runCtaTo}><Button>Open KisanSathi</Button></Link>
           </div>
         </CardContent>

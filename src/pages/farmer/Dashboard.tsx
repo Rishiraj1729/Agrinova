@@ -7,7 +7,7 @@ import { TransactionStepper } from '../../components/marketplace/TransactionStep
 import { SourceNote } from '../../components/SourceNote'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
-import { useAuth } from '../../contexts/AuthContext'
+import { farmerFromSession, isDemoSession, useAuth } from '../../contexts/AuthContext'
 import { cropRisks } from '../../data/caseStudies/punjab'
 import { demoProfiles } from '../../data/profiles'
 import { formatINR } from '../../lib/utils'
@@ -15,9 +15,10 @@ import { formatINR } from '../../lib/utils'
 export default function FarmerDashboard() {
   const { demoFarmer, farmers } = useCaseStudy()
   const { user } = useAuth()
-  const farmer = farmers.find((f) => f.id === user?.farmerId) ?? demoFarmer
+  const farmer = farmerFromSession(user, farmers, demoFarmer)
+  const demo = isDemoSession(user)
   const { listings, transactions, getWallet } = useMarketplace()
-  const profile = demoProfiles.find((p) => p.farmerId === farmer.id) ?? demoProfiles[0]
+  const profile = demoProfiles.find((p) => p.farmerId === farmer.id)
   const wallet = getWallet(farmer.id)
   const myListings = listings.filter((l) => l.farmerId === farmer.id)
   const myTxn = transactions.find((t) => t.farmerId === farmer.id && t.status !== 'completed')
@@ -33,9 +34,10 @@ export default function FarmerDashboard() {
         <div className="flex-1 min-w-0">
           <h1 className="text-2xl font-semibold tracking-tight">{user?.displayName ?? farmer.name}</h1>
           <p className="text-sm text-nv-muted">
-            {user?.village ?? farmer.village}, {user?.district ?? farmer.district} · {user?.acres ?? farmer.acres} acres · rice–wheat · KCC ···{farmer.kccLast4 ?? '4821'}
+            {user?.village ?? farmer.village}, {user?.district ?? farmer.district} · {user?.acres ?? farmer.acres} acres · rice–wheat
+            {farmer.kccLast4 ? ` · KCC ···${farmer.kccLast4}` : ''}
           </p>
-          <p className="text-sm mt-2 text-nv-fg/90 max-w-xl">“{profile.quote}”</p>
+          {profile?.quote && <p className="text-sm mt-2 text-nv-fg/90 max-w-xl">“{profile.quote}”</p>}
         </div>
         <div className="flex flex-wrap gap-2">
           <Link to="/farmer/impact"><Button variant="outline"><Calculator className="mr-1.5 h-4 w-4" /> Burn vs sell</Button></Link>
@@ -77,7 +79,9 @@ export default function FarmerDashboard() {
             <Badge variant="info">This season’s job</Badge>
             <p className="font-semibold mt-2">Sell ~5 t rice straw before the window closes</p>
             <p className="text-sm text-nv-muted max-w-lg mt-1">
-              Last kharif you burned {farmer.lastSeasonBurnedTonnes ?? 4.8} t — ₹0 and a fire risk. Moisture, bales, and land area go on the listing so GreenPower can bid.
+              {demo
+                ? `Last kharif you burned ${farmer.lastSeasonBurnedTonnes ?? 4.8} t — ₹0 and a fire risk. Moisture, bales, and land area go on the listing so GreenPower can bid.`
+                : `List this season’s straw from ${user?.village ?? farmer.village}. No past demo sales are attached to this login.`}
             </p>
           </div>
           <Link to="/farmer/map">
@@ -114,7 +118,7 @@ export default function FarmerDashboard() {
         </Card>
       )}
 
-      {highRisk && (
+      {demo && highRisk && (
         <Card className="border-amber-500/30 bg-amber-500/5">
           <CardContent className="flex items-start gap-3 pt-5">
             <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />

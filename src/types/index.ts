@@ -1,4 +1,4 @@
-export type Lang = 'en' | 'hi' | 'bn'
+export type Lang = 'en' | 'hi' | 'bn' | 'pa'
 
 export type DataProvenance =
   | 'DEMONSTRATION_DATA'

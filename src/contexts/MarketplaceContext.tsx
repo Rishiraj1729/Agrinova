@@ -17,6 +17,8 @@ import { scoreBuyerMatch } from '../services/scoreMatch'
 import { buyerCreditsFromAvoided } from '../services/buyerCredits'
 import { buildLivedInSeed } from '../data/seedLivedIn'
 import { useCaseStudy } from './CaseStudyContext'
+import { isDemoSession, useAuth } from './AuthContext'
+import { supabase } from '../lib/supabase'
 
 const STORAGE_KEY = 'agrinova_marketplace_v4'
 
@@ -101,8 +103,13 @@ function loadState(): StoredState | null {
   }
 }
 
+function isSeedId(id: string) {
+  return /^(lst-simran|lst-harpreet|lst-cluster|off-harpreet|off-simran|req-gp|txn-simran|ledger-txn-simran|mrv-ledger-txn-simran|red-simran)/.test(id)
+}
+
 export function MarketplaceProvider({ children }: { children: ReactNode }) {
   const { region, buyers, incrementSimulation } = useCaseStudy()
+  const { user } = useAuth()
   const [state, setState] = useState<StoredState>(() => {
     const saved = loadState()
     if (saved?.listings?.length) {
@@ -114,10 +121,52 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
     }
     return buildLivedInSeed()
   })
+  const [hydratedRemote, setHydratedRemote] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+    async function hydrate() {
+      if (!supabase || !user) {
+        setHydratedRemote(true)
+        return
+      }
+      try {
+        const { data } = await supabase.from('marketplace_snapshots').select('state').eq('id', 'global').maybeSingle()
+        if (!cancelled && data?.state && typeof data.state === 'object') {
+          const remote = data.state as StoredState
+          if (remote.listings?.length) {
+            setState({
+              ...remote,
+              wallets: remote.wallets ?? {},
+              redemptions: remote.redemptions ?? [],
+            })
+          }
+        }
+      } catch {
+        /* keep local */
+      } finally {
+        if (!cancelled) setHydratedRemote(true)
+      }
+    }
+    void hydrate()
+    return () => {
+      cancelled = true
+    }
+  }, [user?.profileId])
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
-  }, [state])
+    if (!supabase || !hydratedRemote || !user) return
+    const client = supabase
+    const t = window.setTimeout(() => {
+      void client.from('marketplace_snapshots').upsert({
+        id: 'global',
+        state,
+        updated_at: new Date().toISOString(),
+      })
+    }, 600)
+    return () => window.clearTimeout(t)
+  }, [state, hydratedRemote, user?.profileId])
 
   const addListing = useCallback(
     (partial: Omit<ResidueListing, 'id' | 'createdAt' | 'status'> & { status?: ListingStatus }) => {
@@ -476,11 +525,30 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
     setState(buildLivedInSeed())
   }, [])
 
+  const demo = isDemoSession(user)
+
+  const scoped = useMemo(() => {
+    if (demo || !user) return state
+    const listings = state.listings.filter((l) => !isSeedId(l.id))
+    const listingIds = new Set(listings.map((l) => l.id))
+    const offers = state.offers.filter((o) => !isSeedId(o.id) && listingIds.has(o.listingId))
+    const requirements = state.requirements.filter((r) => !isSeedId(r.id) && r.buyerId === user.buyerId)
+    const transactions = state.transactions.filter((t) => !isSeedId(t.id))
+    const txnIds = new Set(transactions.map((t) => t.id))
+    const ledger = state.ledger.filter((e) => !isSeedId(e.id) && txnIds.has(e.txnId))
+    const mrv = state.mrv.filter((m) => !isSeedId(m.id) && txnIds.has(m.txnId))
+    const redemptions = (state.redemptions ?? []).filter((r) => !isSeedId(r.id) && r.farmerId === user.farmerId)
+    const wallets = Object.fromEntries(
+      Object.entries(state.wallets ?? {}).filter(([id]) => id === user.farmerId || id === user.buyerId),
+    )
+    return { listings, offers, requirements, transactions, ledger, mrv, wallets, redemptions }
+  }, [demo, user, state])
+
   const value = useMemo(
     () => ({
-      ...state,
-      wallets: state.wallets ?? {},
-      redemptions: state.redemptions ?? [],
+      ...scoped,
+      wallets: scoped.wallets ?? {},
+      redemptions: scoped.redemptions ?? [],
       addListing,
       updateListingStatus,
       createOffer,
@@ -495,7 +563,7 @@ export function MarketplaceProvider({ children }: { children: ReactNode }) {
       redeemCredits,
       getOffersForListing,
     }),
-    [state, addListing, updateListingStatus, createOffer, seedOffersForListing, acceptOffer, acceptOfferAndStartTxn, advanceTransaction, completeTransaction, postRequirement, resetDemo, getWallet, redeemCredits, getOffersForListing],
+    [scoped, addListing, updateListingStatus, createOffer, seedOffersForListing, acceptOffer, acceptOfferAndStartTxn, advanceTransaction, completeTransaction, postRequirement, resetDemo, getWallet, redeemCredits, getOffersForListing],
   )
 
   return <MarketplaceContext.Provider value={value}>{children}</MarketplaceContext.Provider>
