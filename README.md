@@ -9,10 +9,10 @@ Class XI NCSC research prototype — **Science and Innovation for Sustainability
 |---|---|
 | **Group members** | Shikha Sharma · Samriddhi Ghosh |
 | **School** | Kendriya Vidyalaya Dum Dum, Kolkata |
-| **Live demo** | [agrinova-ochre.vercel.app](https://agrinova-ochre.vercel.app) |
+| **Live demo** | [agrinova-hazel.vercel.app](https://agrinova-hazel.vercel.app) |
 | **GitHub** | [github.com/Rishiraj1729/Agrinova](https://github.com/Rishiraj1729/Agrinova) |
 
-> Use **agrinova-ochre.vercel.app** — not `agrinova.vercel.app` (that URL is a different project).
+> Production URL: **agrinova-hazel.vercel.app** (free Vercel Hobby).
 
 ---
 
