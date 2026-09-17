@@ -21,7 +21,7 @@ const CaseStudyContext = createContext<CaseStudyContextValue | null>(null)
 const SIM_KEY = 'agrinova_sim_count'
 
 export function CaseStudyProvider({ children }: { children: ReactNode }) {
-  const [region, setRegion] = useState<CaseStudyRegion>('punjab')
+  const [region, setRegion] = useState<CaseStudyRegion>('west-bengal')
   const [liveSimulationCount, setLiveSimulationCount] = useState(() => {
     const n = localStorage.getItem(SIM_KEY)
     return n ? parseInt(n, 10) : 0

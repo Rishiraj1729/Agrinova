@@ -16,11 +16,11 @@ export function PublicShell() {
   const { t } = useLanguage()
 
   return (
-    <div className="min-h-screen bg-nv-page text-nv-fg">
-      <header className="sticky top-0 z-50 border-b border-nv-border/80 bg-[#f5f5f7]/80 backdrop-blur-xl">
+    <div className="min-h-screen bg-[#f5f5f7] text-nv-fg">
+      <header className="sticky top-0 z-50 border-b border-white/40 bg-[#f5f5f7]/65 backdrop-blur-2xl backdrop-saturate-150">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4">
           <Link to="/" className="flex items-center gap-2.5">
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-nv-green text-[11px] font-semibold text-white">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-nv-green to-[#3d6b54] text-[11px] font-semibold text-white shadow-[0_6px_16px_-6px_rgba(31,77,58,0.7)]">
               A
             </span>
             <span className="text-[15px] font-semibold tracking-tight">{t('app.name')}</span>

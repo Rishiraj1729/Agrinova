@@ -34,7 +34,7 @@ export function CaseStudyDetail({ runCtaTo }: { runCtaTo: string }) {
         <CardContent className="pt-5 flex flex-wrap items-center justify-between gap-4">
           <div>
             <p className="font-semibold">
-              {region === 'west-bengal' ? 'Walk this as a Burdwan paddy farmer' : 'Walk this as Ramesh Singh, Kharar'}
+              {region === 'west-bengal' ? 'Walk this as a Madhyamgram–Barasat paddy farmer' : 'Walk this as Ramesh Singh, Kharar'}
             </p>
             <p className="text-sm text-nv-muted">
               {region === 'west-bengal'

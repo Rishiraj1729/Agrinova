@@ -1,31 +1,31 @@
 import type { Buyer, CaseStudyMeta, Farmer, ResidueListing, ResidueType } from '../../types'
 
-const wbVillages = ['Burdwan', 'Hooghly', 'Nadia', 'Murshidabad', 'Malda', 'Krishnanagar', 'Ranaghat']
+const wbVillages = ['Doltala', 'Hridaypur', 'Noapara', 'Michael Nagar', 'Nabapally', 'Ward 21', 'Madhyamgram', 'Barasat']
 const wbNames = [
-  'Ramesh Das', 'Sukumar Roy', 'Anil Ghosh', 'Pradip Sen', 'Tapas Mondal',
-  'Biplab Banerjee', 'Sanjay Mitra', 'Arun Bhattacharya', 'Debashis Sarkar', 'Kamal Haldar',
+  'Ramesh Das', 'Sukumar Roy', 'Anil Ghosh', 'Tapas Mondal', 'Kamal Haldar',
+  'Arun Bhattacharya', 'Biplab Banerjee', 'Sanjay Mitra', 'Debashis Sarkar', 'Pradip Sen',
 ]
 
 export const wbFarmers: Farmer[] = wbNames.map((name, i) => ({
   id: `wb-farmer-${String(i + 1).padStart(3, '0')}`,
   name,
   village: wbVillages[i % wbVillages.length],
-  district: ['Burdwan', 'Hooghly', 'Nadia', 'Murshidabad'][i % 4],
+  district: 'North 24 Parganas',
   state: 'West Bengal',
-  acres: 1.5 + (i % 5),
+  acres: [3, 2, 4, 1.5, 3.5, 5, 2.5, 3, 2, 4][i],
   crops: ['Rice', 'Wheat'],
   phone: `+91 9831${String(20000 + i).slice(1)}`,
-  lat: 22.5 + i * 0.03,
-  lng: 88.3 + i * 0.02,
+  lat: 22.68 + i * 0.008,
+  lng: 88.44 + i * 0.006,
 }))
 
 export const wbCurrentFarmer = wbFarmers[0]
 
 export const wbBuyers: Buyer[] = [
-  { id: 'wb-buy-001', name: 'Ganga Biomass Co-op', type: 'Biomass Plant', location: 'Burdwan', distanceKm: 12, pricePerTon: 680, demandTonnes: 400, rating: 4.6, residueTypes: ['Rice Straw'] },
-  { id: 'wb-buy-002', name: 'Bengal Paper Works', type: 'Paper Mill', location: 'Hooghly', distanceKm: 18, pricePerTon: 640, demandTonnes: 250, rating: 4.4, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
-  { id: 'wb-buy-003', name: 'Delta Compost', type: 'Compost Unit', location: 'Nadia', distanceKm: 9, pricePerTon: 590, demandTonnes: 180, rating: 4.3, residueTypes: ['Rice Straw'] },
-  { id: 'wb-buy-004', name: 'East Biochar', type: 'Biochar', location: 'Malda', distanceKm: 45, pricePerTon: 760, demandTonnes: 120, rating: 4.7, residueTypes: ['Rice Straw'] },
+  { id: 'wb-buy-001', name: 'Barasat paper / fibre desk', type: 'Paper Mill', location: 'Barasat', distanceKm: 6, pricePerTon: 640, demandTonnes: 120, rating: 4.4, residueTypes: ['Rice Straw'] },
+  { id: 'wb-buy-002', name: 'North 24 Pgs biomass co-op', type: 'Biomass Plant', location: 'Barrackpore belt', distanceKm: 14, pricePerTon: 680, demandTonnes: 200, rating: 4.5, residueTypes: ['Rice Straw'] },
+  { id: 'wb-buy-003', name: 'Madhyamgram conservancy compost', type: 'Compost Unit', location: 'Madhyamgram', distanceKm: 4, pricePerTon: 590, demandTonnes: 90, rating: 4.6, residueTypes: ['Rice Straw'] },
+  { id: 'wb-buy-004', name: 'Kolkata metro biogas trial', type: 'Biochar', location: 'Kolkata metro edge', distanceKm: 18, pricePerTon: 610, demandTonnes: 80, rating: 4.2, residueTypes: ['Rice Straw'] },
 ]
 
 const residueTypes: ResidueType[] = ['Rice Straw', 'Wheat Stubble']
@@ -47,31 +47,31 @@ export const wbListings: ResidueListing[] = wbFarmers.slice(0, 8).map((f, i) => 
 
 export const westBengalCaseStudy: CaseStudyMeta = {
   region: 'west-bengal',
-  title: 'West Bengal — residue, waste, and the missing marketplace',
+  title: 'West Bengal — Madhyamgram & Barasat residue-to-waste gap',
   problem:
-    'The Gangetic paddy belt generates a large straw surplus. Unlike Punjab, burning is not the only failure mode: straw is stacked wet, dumped in canals, or mixed into municipal biodegradable waste. Compost plants, paper mills, and biogas units exist, but smallholders cannot reach them in the post-kharif window.',
+    'From Kendriya Vidyalaya Dum Dum, the stream we can walk to is peri-urban paddy leftover in Madhyamgram and Barasat: straw stacked wet, dumped in drains, or mixed into municipal biodegradable waste. Compost pads exist, but small lots never become a listing. Punjab enters only as a phone comparison (burn clock).',
   methodology:
-    'Public policy (SWM Rules 2016, NPMCR, WBPCB municipal-waste notes, CRM literature) sets the gap. An 80-respondent demonstration survey in Burdwan, Hooghly, Nadia, and Murshidabad scales the cluster. Named farmers and plants are fictional. Live counters update only from this browser.',
+    'NCSC field book (September 2025): 6 nearby Madhyamgram–Barasat sheets + 4 Punjab phone sheets (n=10), 2 plant-floor calls, 2 civic conversations (Ward 21 Barasat; Madhyamgram SI). Platform cluster below is labelled demonstration data. Live counters update only from this browser.',
   observations: [
-    'Monsoon moisture makes straw harder to bale than in northwest India; plants cap moisture near 16–18%.',
-    'Shorter hauls to compost and paper units often beat biomass on net price.',
-    'Jute–rice rotations create mixed residue streams that informal brokers refuse.',
-    'Municipal compost plants report feedstock shortage while villages dump straw in drains.',
+    'Monsoon moisture makes straw harder to bale; compost-first beats dry biomass specs for wet heaps.',
+    'Shorter hauls to Madhyamgram conservancy pad often beat distant mills on net price.',
+    'Municipal compost reports feedstock shortage while lanes dump mixed straw.',
+    'Ward notes show drain complaints, not utilised tonnes.',
   ],
   limitations: [
-    'Survey pack is a demonstration sample of 80, not a census of West Bengal.',
-    'No live WBPCB or municipal SWM API.',
-    'Carbon figures are model estimates, not certified credits.',
+    'Field claim is n=10 nearby + phone — not a census of West Bengal.',
+    'Larger in-app cluster is demonstration data.',
+    'Carbon figures are model estimates (~1.5 tCO₂e/t), not certified credits.',
   ],
   provenance: 'DEMONSTRATION_DATA',
   baseline: {
     farmers: 10,
     buyers: 4,
-    tonnesRescued: 156,
-    co2Avoided: 312,
-    totalIncome: 890000,
+    tonnesRescued: 72,
+    co2Avoided: 108,
+    totalIncome: 50000,
   },
-  districts: ['Burdwan', 'Hooghly', 'Nadia', 'Murshidabad', 'Malda'],
+  districts: ['North 24 Parganas', 'Madhyamgram', 'Barasat'],
 }
 
 export const wbPlatformStats = westBengalCaseStudy.baseline

@@ -15,53 +15,85 @@ export interface DemoProfile {
   buyerId?: string
 }
 
-/** Named people judges meet — all fictional, grounded in Punjab CRM reality */
+/** Default booth personas — West Bengal first (KV Dum Dum field area), Punjab phone demos kept. */
 export const demoProfiles: DemoProfile[] = [
   {
     id: 'ramesh',
     role: 'seller',
-    name: 'Ramesh Singh',
-    title: 'Smallholder · 6 acres',
-    org: 'Kharar, Patiala',
-    location: '30.74°N, 76.65°E',
-    initials: 'RS',
-    quote: '12 days left for wheat. Last year I burned. This year I want the money and no notice from the thana.',
+    name: 'Ramesh Das',
+    title: 'Smallholder · 3 acres · Doltala',
+    org: 'Doltala, Madhyamgram',
+    location: 'North 24 Parganas, West Bengal',
+    initials: 'RD',
+    quote: 'Straw sits by the drain. Nobody has a pad number. If someone takes it as a lot, I will not dump it.',
     story: [
-      'Rice–wheat rotation. 2.5 acres of paddy just harvested → ~5 t straw at 2 t/acre.',
-      'Cannot afford a baler alone; neighbours already stacking at the Kharar hub.',
-      'KCC ending 4821. Happy Seeder booked for 18 Nov if residue is gone.',
+      'Peri-urban paddy leftover near Madhyamgram — wet stack / dump risk, not a dry burn sprint.',
+      '3 acres → ~6 t straw at 2.0 t/acre working figure.',
+      'Field book sheet: stacked; would list if pickup in five days.',
     ],
     startPath: '/farmer',
-    farmerId: 'farmer-001',
+    farmerId: 'wb-farmer-001',
   },
   {
-    id: 'simran',
+    id: 'sukumar',
     role: 'seller',
-    name: 'Simran Kaur',
-    title: '4 acres · already sold once',
-    org: 'Sangrur',
-    location: 'Sangrur district',
-    initials: 'SK',
-    quote: 'First lot went to AgroFeed. Credits bought urea. I will not burn the second lot.',
+    name: 'Sukumar Roy',
+    title: '2 acres · Ward 21 edge',
+    org: 'Ward 21, Barasat',
+    location: 'Barasat Municipality',
+    initials: 'SR',
+    quote: 'After rain we push it to the drain. Conservancy lifts mixed waste anyway.',
     story: [
-      'Completed 3.2 t wheat-stubble sale last week (demo history).',
-      'Wallet already holds credits from that sale — shows redemption working.',
+      'Mixed into municipal biodegradable waste last season.',
+      'Wants Bangla voice listing, not a scheme PDF.',
     ],
-    startPath: '/farmer/credits',
-    farmerId: 'farmer-023',
+    startPath: '/farmer/sell',
+    farmerId: 'wb-farmer-002',
+  },
+  {
+    id: 'tapas',
+    role: 'seller',
+    name: 'Tapas Mondal',
+    title: '1.5 acres · Hridaypur',
+    org: 'Hridaypur, Barasat',
+    location: 'September doorstep start',
+    initials: 'TM',
+    quote: 'Rain last week, still wet inside. Alone, nobody comes. Pool four houses.',
+    story: [
+      'First September sitting of the field book.',
+      'Maybe on 5-day pickup — needs neighbourhood pool.',
+    ],
+    startPath: '/farmer',
+    farmerId: 'wb-farmer-004',
+  },
+  {
+    id: 'biswajit',
+    role: 'buyer',
+    name: 'Biswajit Ghosh',
+    title: 'Conservancy pad staff',
+    org: 'Madhyamgram compost pad',
+    location: 'Madhyamgram Municipality',
+    initials: 'BG',
+    quote: 'We are short of clean feedstock. Mixed drain straw we will not take.',
+    story: [
+      'Moisture on a listing → can send one trolley.',
+      'Compost-first for wet peri-urban lots.',
+    ],
+    startPath: '/business',
+    buyerId: 'wb-buy-003',
   },
   {
     id: 'priya',
     role: 'buyer',
     name: 'Priya Malhotra',
-    title: 'Procurement lead',
+    title: 'Procurement lead (Punjab phone demo)',
     org: 'GreenPower Biomass, Rajpura',
-    location: '8 km from Kharar cluster',
+    location: 'Patiala belt — phone comparison',
     initials: 'PM',
-    quote: 'Plant needs 500 t this fortnight. Moisture under 15%. Informal brokers skip 2-acre farms.',
+    quote: 'Plant needs baled lots ≤15% moisture. Informal brokers skip 2-acre farms.',
     story: [
-      '15 TPD boiler. Spec: rice straw / wheat stubble, max 15% moisture, baled preferred.',
-      'Uses AgriNova to send offers to smallholders the mill never had on WhatsApp groups.',
+      'Kept as phone-comparison buyer for the burn belt.',
+      'Shows the same desk serving two clocks.',
     ],
     startPath: '/business',
     buyerId: 'buy-001',
@@ -69,15 +101,30 @@ export const demoProfiles: DemoProfile[] = [
   {
     id: 'anil',
     role: 'government',
-    name: 'Dr. Anil Bedi',
-    title: 'District Agriculture Officer (demo)',
-    org: 'Patiala',
-    location: 'Aggregates only — no farmer PII on this desk',
-    initials: 'AB',
-    quote: 'I need utilised vs burned by block, not another Excel of names.',
+    name: 'Sudip Biswas (demo desk)',
+    title: 'Sanitary Inspector view · Madhyamgram',
+    org: 'Madhyamgram Municipality',
+    location: 'Aggregates only — no farmer phones',
+    initials: 'SB',
+    quote: 'I see mixed biodegradable lift. Farm straw is not a specified lot.',
     story: [
-      'Sees district PM2.5 context + tonnes diverted + credits issued.',
-      'Policy AI summarises CRM gaps without exposing phones or KCC numbers.',
+      'Ward / ULB utilisation vs dumped.',
+      'Student conversation notes — not a ULB circular.',
+    ],
+    startPath: '/government',
+  },
+  {
+    id: 'ward21',
+    role: 'government',
+    name: 'Ward 21 desk (demo)',
+    title: 'Councillor view · Barasat Ward 21',
+    org: 'Barasat Municipality',
+    location: 'Complaints = drain / mixed waste',
+    initials: 'W21',
+    quote: 'I do not see tonnes that left the ward as a lot.',
+    story: [
+      'Public post used for student conversation framing.',
+      'Aggregate utilised tonnes help the weekly note.',
     ],
     startPath: '/government',
   },
@@ -89,49 +136,121 @@ export const demoProfiles: DemoProfile[] = [
     org: 'AgriNova',
     location: 'Platform cockpit',
     initials: 'KS',
-    quote: 'If a weighbridge slip is missing, the credit stays in Evidence pending — not in the farmer wallet as cash.',
+    quote: 'If a weighbridge slip is missing, the credit stays Evidence pending.',
     story: [
       'Watches listings → offers → collection → ledger → MRV.',
       'Can reset the demonstration dataset for a clean judge run.',
     ],
     startPath: '/admin',
   },
+  {
+    id: 'simran',
+    role: 'seller',
+    name: 'Harpreet Kaur (phone)',
+    title: '4.5 acres · Nabha phone',
+    org: 'Nabha (phone)',
+    location: 'Punjab comparison sheet',
+    initials: 'HK',
+    quote: 'Ten to twelve days. No plant number. We burned last year.',
+    story: [
+      'Punjab phone sheet in the field book.',
+      'Burn clock — not the home Madhyamgram failure mode.',
+    ],
+    startPath: '/farmer',
+    farmerId: 'farmer-023',
+  },
 ]
 
 export function enrichFarmer(f: Farmer): Farmer {
+  if (f.id === 'wb-farmer-001') {
+    return {
+      ...f,
+      name: 'Ramesh Das',
+      village: 'Doltala',
+      district: 'North 24 Parganas',
+      state: 'West Bengal',
+      acres: 3,
+      crops: ['Rice', 'Wheat'],
+      initials: 'RD',
+      riceAcresThisSeason: 3,
+      sowingWindowDays: 18,
+      lastSeasonBurnedTonnes: 0,
+      bio: 'Madhyamgram peri-urban. Last season straw stacked by the drain. Would list if pickup in five days.',
+    }
+  }
+  if (f.id === 'wb-farmer-002') {
+    return {
+      ...f,
+      name: 'Sukumar Roy',
+      village: 'Ward 21',
+      district: 'North 24 Parganas',
+      state: 'West Bengal',
+      acres: 2,
+      initials: 'SR',
+      riceAcresThisSeason: 2,
+      sowingWindowDays: 20,
+      lastSeasonBurnedTonnes: 0,
+      bio: 'Barasat Ward 21 edge. Mixed leftover into municipal waste after rain.',
+    }
+  }
+  if (f.id === 'wb-farmer-004') {
+    return {
+      ...f,
+      name: 'Tapas Mondal',
+      village: 'Hridaypur',
+      district: 'North 24 Parganas',
+      state: 'West Bengal',
+      acres: 1.5,
+      initials: 'TM',
+      riceAcresThisSeason: 1.5,
+      sowingWindowDays: 22,
+      lastSeasonBurnedTonnes: 0,
+      bio: 'September doorstep start. Wet heap; needs neighbourhood pool.',
+    }
+  }
   if (f.id === 'farmer-001') {
     return {
       ...f,
-      name: 'Ramesh Singh',
+      name: 'Jaswinder Singh',
       village: 'Kharar',
       district: 'Patiala',
       acres: 6,
       crops: ['Rice', 'Wheat'],
-      initials: 'RS',
-      riceAcresThisSeason: 2.5,
+      initials: 'JS',
+      riceAcresThisSeason: 6,
       sowingWindowDays: 12,
-      lastSeasonBurnedTonnes: 4.8,
-      kccLast4: '4821',
-      bio: 'Rice–wheat farmer. Burned last kharif under time pressure. This season listing 5 t straw.',
+      lastSeasonBurnedTonnes: 12,
+      bio: 'Punjab phone comparison — burn window.',
     }
   }
   if (f.id === 'farmer-023') {
     return {
       ...f,
-      name: 'Simran Kaur',
-      village: 'Sunam',
-      district: 'Sangrur',
-      initials: 'SK',
-      riceAcresThisSeason: 2,
-      sowingWindowDays: 9,
-      lastSeasonBurnedTonnes: 0,
-      bio: 'Sold stubble once; redeeming credits for urea.',
+      name: 'Harpreet Kaur',
+      village: 'Nabha',
+      district: 'Patiala',
+      initials: 'HK',
+      riceAcresThisSeason: 4.5,
+      sowingWindowDays: 10,
+      lastSeasonBurnedTonnes: 9,
+      bio: 'Punjab phone sheet — burned last season.',
     }
   }
   return { ...f, initials: f.name.split(' ').map((p) => p[0]).join('').slice(0, 2) }
 }
 
 export function enrichBuyer(b: Buyer): Buyer {
+  if (b.id === 'wb-buy-003') {
+    return {
+      ...b,
+      name: 'Madhyamgram conservancy compost',
+      location: 'Madhyamgram Municipality',
+      contactName: 'Biswajit Ghosh',
+      contactRole: 'Pad staff',
+      moistureSpecMax: 18,
+      plantCapacityTpd: 8,
+    }
+  }
   if (b.id === 'buy-001') {
     return {
       ...b,

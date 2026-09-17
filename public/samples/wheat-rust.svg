@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#ecece8"/>
+  <ellipse cx="320" cy="250" rx="170" ry="190" fill="#5a7a45" stroke="#1d1d1f" stroke-width="3"/>
+  <circle cx="260" cy="200" r="10" fill="#c45a20" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="290" cy="230" r="8" fill="#d46a28" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="330" cy="210" r="11" fill="#b84e18" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="360" cy="260" r="9" fill="#c45a20" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="300" cy="290" r="7" fill="#d46a28" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="340" cy="310" r="10" fill="#b84e18" stroke="#1d1d1f" stroke-width="1.5"/>
+  <text x="32" y="40" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#1d1d1f">SAMPLE · Wheat rust pattern</text>
+  <text x="32" y="68" font-family="Arial,sans-serif" font-size="14" fill="#333">Orange pustules · educational sample</text>
+</svg>

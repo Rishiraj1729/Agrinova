@@ -1,4 +1,5 @@
 import { scienceSteps } from '../data/agrinovaData'
+import { MATH } from '../data/indiaLocations'
 import { Card, CardContent } from '../components/ui/Card'
 import { ProvenanceBadge } from '../components/ProvenanceBadge'
 
@@ -10,20 +11,20 @@ const stepColors = [
 
 const extras = [
   {
-    title: 'Match score',
-    body: 'Distance, demand, moisture, pathway, price and rating. Wet Madhyamgram heaps prefer compost; dry Punjab lots prefer ≤15% biomass. Moisture can zero a bad match.',
+    title: 'Match score (weights sum 100)',
+    body: `Distance ${MATH.matchWeights.distance}, rating ${MATH.matchWeights.rating}, demand ${MATH.matchWeights.demand}, moisture ${MATH.matchWeights.moisture}, pathway ${MATH.matchWeights.pathway}, price ${MATH.matchWeights.price}. Wet Madhyamgram heaps prefer compost; dry Punjab lots prefer ≤15% biomass. Moisture can zero a bad match.`,
   },
   {
-    title: 'Residue & carbon factors',
-    body: 'Working figures: ~2.0 t straw/acre rice; ~1.5 tCO₂e/t avoided when burned straw is utilised (IPCC-style order-of-magnitude). Not Verra credits.',
+    title: 'Mathematical working constants',
+    body: `Rice straw ${MATH.strawPerAcreRice_t} t/acre (band ${MATH.strawBandMin_t}–${MATH.strawBandMax_t}); wheat ${MATH.strawPerAcreWheat_t} t/acre. Avoided CO₂e ≈ ${MATH.co2ePerTonneStraw} tCO₂e per tonne utilised vs open burn (order-of-magnitude, not Verra). Working gate price ₹${MATH.gatePriceWorking_INR}/t before freight. Example: 3 ac Doltala → 6.0 t → ≈ ₹4,200 gross → ≈ 9.0 tCO₂e avoided if sold instead of burned/dumped.`,
   },
   {
-    title: 'Kisan Bandhu vision pipeline',
-    body: 'Leaf photo → client compress → OpenAI vision JSON (crop, disease, confidence, first actions) with educational disclaimer. Offline heuristic KB if the API is down. Scans can persist to Supabase Storage.',
+    title: 'Kisan Bandhu vision + booth samples',
+    body: 'Leaf photo → OpenAI vision JSON (crop, disease, confidence, first actions) with educational disclaimer. Booth ships three curated samples (rice blast, bacterial blight, wheat rust) with known results. Offline heuristic if the API is down.',
   },
   {
     title: 'India 2070 contribution logic',
-    body: 'AgriNova does not claim national net-zero accounting. It shows a cluster pathway: fewer open burns, fewer mixed drain loads, ward utilised tonnes — practical abatement on the road to 2070.',
+    body: 'AgriNova does not claim national net-zero accounting. It shows a West Bengal ward pathway first: fewer mixed drain loads, utilised tonnes on the ULB desk — with Punjab phone comparison for the burn clock.',
   },
 ]
 

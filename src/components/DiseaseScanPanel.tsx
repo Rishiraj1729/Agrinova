@@ -3,10 +3,10 @@ import { Camera, Loader2, ShieldAlert } from 'lucide-react'
 import { Button } from './ui/Button'
 import { analyzePlantDisease } from '../services/diseaseDetect'
 import type { DiseaseScanResult } from '../data/plantDiseases'
+import { DISEASE_SAMPLES } from '../data/diseaseSamples'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useAuth } from '../contexts/AuthContext'
 
-// fix import - analyzePlantDisease returns DiseaseScanResult from plantDiseases via diseaseDetect
 export function DiseaseScanPanel({ cropHint = 'Rice' }: { cropHint?: string }) {
   const { lang, t } = useLanguage()
   const { user } = useAuth()
@@ -33,12 +33,41 @@ export function DiseaseScanPanel({ cropHint = 'Rice' }: { cropHint?: string }) {
     }
   }
 
+  function loadSample(id: string) {
+    const sample = DISEASE_SAMPLES.find((s) => s.id === id)
+    if (!sample) return
+    setPreview(sample.imageSrc)
+    setLoading(true)
+    setResult(null)
+    window.setTimeout(() => {
+      setResult(sample.result)
+      setLoading(false)
+    }, 450)
+  }
+
   return (
     <div className="space-y-4 rounded-[28px] border border-nv-border bg-white p-5">
       <div>
         <p className="text-[11px] font-medium uppercase tracking-[0.16em] text-nv-muted">{t('bandhu.scan.kicker')}</p>
         <h3 className="mt-1 text-xl font-semibold tracking-tight">{t('bandhu.scan.title')}</h3>
         <p className="mt-2 text-sm text-nv-muted">{t('bandhu.scan.sub')}</p>
+      </div>
+
+      <div>
+        <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-nv-muted">Booth samples (known result)</p>
+        <div className="grid gap-2 sm:grid-cols-3">
+          {DISEASE_SAMPLES.map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => loadSample(s.id)}
+              className="overflow-hidden rounded-2xl border border-nv-border text-left transition hover:border-nv-green"
+            >
+              <img src={s.imageSrc} alt={s.title} className="h-24 w-full object-cover" />
+              <span className="block px-2 py-1.5 text-[11px] font-medium">{s.title}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
@@ -87,7 +116,7 @@ export function DiseaseScanPanel({ cropHint = 'Rice' }: { cropHint?: string }) {
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-nv-border">
                   <div
-                    className="h-full rounded-full bg-nv-green transition-all"
+                    className="h-full rounded-full bg-nv-fg transition-all"
                     style={{ width: `${Math.round(result.confidence * 100)}%` }}
                   />
                 </div>
@@ -107,13 +136,11 @@ export function DiseaseScanPanel({ cropHint = 'Rice' }: { cropHint?: string }) {
                   ))}
                 </ul>
               </div>
-              <p className="flex gap-2 rounded-2xl bg-nv-saffron/10 px-3 py-2 text-[12px] leading-relaxed text-nv-saffron">
-                <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0" />
+              <p className="flex gap-2 rounded-2xl border border-nv-border bg-white px-3 py-2 text-[12px] leading-relaxed text-nv-muted">
+                <ShieldAlert className="mt-0.5 h-4 w-4 shrink-0 text-nv-fg" />
                 {result.modelNote}
               </p>
-              {result.whenToEscalate && (
-                <p className="text-xs text-nv-muted">{result.whenToEscalate}</p>
-              )}
+              {result.whenToEscalate && <p className="text-xs text-nv-muted">{result.whenToEscalate}</p>}
               <Button type="button" variant="secondary" onClick={() => inputRef.current?.click()}>
                 {t('bandhu.scan.again')}
               </Button>

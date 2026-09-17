@@ -24,6 +24,8 @@ export const MAP_CENTERS = {
   burdwan: { lat: 23.23, lng: 87.86 },
   hooghly: { lat: 22.89, lng: 88.39 },
   nadia: { lat: 23.47, lng: 88.56 },
+  madhyamgram: { lat: 22.7, lng: 88.45 },
+  barasat: { lat: 22.72, lng: 88.48 },
 } as const
 
 export const DISTRICT_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -32,11 +34,16 @@ export const DISTRICT_COORDS: Record<string, { lat: number; lng: number }> = {
   Barnala: { lat: 30.37, lng: 75.55 },
   Ludhiana: { lat: 30.9, lng: 75.85 },
   Fatehgarh: { lat: 30.68, lng: 76.4 },
+  'North 24 Parganas': { lat: 22.72, lng: 88.48 },
+  Madhyamgram: { lat: 22.7, lng: 88.45 },
+  Barasat: { lat: 22.72, lng: 88.48 },
   Burdwan: { lat: 23.23, lng: 87.86 },
   Hooghly: { lat: 22.89, lng: 88.39 },
   Nadia: { lat: 23.47, lng: 88.56 },
   Murshidabad: { lat: 24.18, lng: 88.27 },
   Malda: { lat: 25.01, lng: 88.14 },
+  Howrah: { lat: 22.59, lng: 88.31 },
+  Kolkata: { lat: 22.57, lng: 88.36 },
 }
 
 export function defaultParcelAround(center: { lat: number; lng: number }) {

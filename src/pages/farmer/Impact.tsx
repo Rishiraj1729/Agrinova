@@ -12,6 +12,7 @@ import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { calculateCarbonImpact } from '../../services/carbonLedger'
 import { rankBuyersForListing } from '../../services/scoreMatch'
 import { CREDITS_PER_TCO2E } from '../../data/redemptionCatalog'
+import { MATH } from '../../data/indiaLocations'
 import { formatINR } from '../../lib/utils'
 
 /** NGT environmental compensation slabs per burning incident (public policy reference) */
@@ -21,19 +22,17 @@ function fineForAcres(acres: number) {
   return 15000
 }
 
-const STRAW_PER_ACRE = 2
-
 export default function ImpactPage() {
   const { user } = useAuth()
   const { demoFarmer, farmers, buyers } = useCaseStudy()
   const farmer = farmerFromSession(user, farmers, demoFarmer)
 
   const [acres, setAcres] = useState(Math.min(user?.acres ?? farmer.acres, 2.5))
-  const [pricePerTon, setPricePerTon] = useState(750)
+  const [pricePerTon, setPricePerTon] = useState<number>(MATH.gatePriceWorking_INR)
   const [moisture, setMoisture] = useState(13)
   const [balingCostPerTon, setBalingCostPerTon] = useState(180)
 
-  const tonnes = +(acres * STRAW_PER_ACRE).toFixed(1)
+  const tonnes = +(acres * MATH.strawPerAcreRice_t).toFixed(1)
 
   const ranked = useMemo(
     () => rankBuyersForListing(buyers, 'Rice Straw', tonnes, 'biomass', moisture),
@@ -117,7 +116,7 @@ export default function ImpactPage() {
                 onChange={(e) => setAcres(Number(e.target.value))}
               />
               <p className="mt-1 text-[11px] text-nv-muted">
-                ~{STRAW_PER_ACRE} t/acre rice straw = <strong className="text-nv-fg">{tonnes} t</strong>
+                ~{MATH.strawPerAcreRice_t} t/acre rice straw = <strong className="text-nv-fg">{tonnes} t</strong>
               </p>
             </div>
             <div>

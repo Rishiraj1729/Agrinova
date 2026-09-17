@@ -66,6 +66,91 @@ a:focus-visible {
 
 .animate-fade-in { animation: fade-in 0.45s ease-out forwards; }
 
+/* Apple-like glass landing */
+.landing-apple {
+  min-height: 70vh;
+}
+
+.landing-glass {
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: linear-gradient(
+    155deg,
+    rgba(255, 255, 255, 0.72) 0%,
+    rgba(255, 255, 255, 0.42) 48%,
+    rgba(255, 255, 255, 0.28) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 18px 50px -28px rgba(29, 29, 31, 0.35);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.landing-glass-dark {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(
+    145deg,
+    rgba(16, 38, 28, 0.92) 0%,
+    rgba(31, 77, 58, 0.88) 45%,
+    rgba(26, 42, 34, 0.94) 100%
+  );
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 30px 80px -40px rgba(15, 40, 28, 0.75);
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+}
+
+.landing-brand-gradient {
+  background: linear-gradient(120deg, #1f4d3a 0%, #3d6b54 42%, #9a6b32 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.landing-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(48px);
+  opacity: 0.7;
+  animation: landing-float 14s ease-in-out infinite;
+}
+
+.landing-orb-a {
+  top: -8%;
+  left: 8%;
+  width: min(52vw, 420px);
+  height: min(52vw, 420px);
+  background: radial-gradient(circle, rgba(61, 107, 84, 0.45) 0%, transparent 70%);
+}
+
+.landing-orb-b {
+  top: 12%;
+  right: -6%;
+  width: min(48vw, 380px);
+  height: min(48vw, 380px);
+  background: radial-gradient(circle, rgba(154, 107, 50, 0.32) 0%, transparent 70%);
+  animation-delay: -4s;
+}
+
+.landing-orb-c {
+  top: 48%;
+  left: 28%;
+  width: min(40vw, 320px);
+  height: min(40vw, 320px);
+  background: radial-gradient(circle, rgba(143, 176, 158, 0.35) 0%, transparent 70%);
+  animation-delay: -8s;
+}
+
+@keyframes landing-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(12px, 22px, 0) scale(1.06); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-orb { animation: none; }
+}
+
 .tri-bar {
   height: 1px;
   width: 100%;

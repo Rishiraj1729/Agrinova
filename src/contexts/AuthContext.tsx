@@ -3,6 +3,7 @@ import type { Buyer, CropType, Farmer } from '../types'
 import { demoProfiles, type DemoProfile } from '../data/profiles'
 import { defaultParcelAround, DISTRICT_COORDS, polygonAreaAcresLatLng } from '../lib/geo'
 import { clearLocalAppState, supabase } from '../lib/supabase'
+import { MATH } from '../data/indiaLocations'
 
 export type AuthRole = 'seller' | 'buyer' | 'government' | 'admin'
 
@@ -63,7 +64,18 @@ export interface CustomLoginDraft {
 }
 
 const STORAGE = 'agrinova_session_v2'
-const WB_DISTRICTS = new Set(['Burdwan', 'Hooghly', 'Nadia', 'Murshidabad', 'Malda', 'Howrah', 'Kolkata'])
+const WB_DISTRICTS = new Set([
+  'Burdwan',
+  'Hooghly',
+  'Nadia',
+  'Murshidabad',
+  'Malda',
+  'Howrah',
+  'Kolkata',
+  'North 24 Parganas',
+  'Madhyamgram',
+  'Barasat',
+])
 export const DEMO_PROFILE_IDS = new Set(demoProfiles.map((p) => p.id))
 
 export function isDemoSession(user: SessionUser | null) {
@@ -102,20 +114,33 @@ function parcelsFor(district: string, role: AuthRole): PlotParcel[] {
 }
 
 function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): SessionUser {
-  const district =
-    overrides?.district ??
-    (p.role === 'government' ? 'Patiala' : p.org.includes('Sangrur') ? 'Sangrur' : 'Patiala')
+  const fromOrg = p.org.toLowerCase()
+  let district = overrides?.district
+  if (!district) {
+    if (fromOrg.includes('madhyamgram') || fromOrg.includes('doltala') || fromOrg.includes('barasat') || fromOrg.includes('ward')) {
+      district = 'North 24 Parganas'
+    } else if (fromOrg.includes('sangrur') || fromOrg.includes('nabha')) {
+      district = 'Patiala'
+    } else if (p.location.toLowerCase().includes('punjab')) {
+      district = 'Patiala'
+    } else {
+      district = 'North 24 Parganas'
+    }
+  }
+  const state = overrides?.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
+  const acresDefault =
+    p.id === 'ramesh' ? 3 : p.id === 'sukumar' ? 2 : p.id === 'tapas' ? 1.5 : p.id === 'simran' ? 4.5 : 5
   const base: SessionUser = {
     profileId: p.id,
     role: p.role,
     displayName: p.name,
-    village: p.org.includes(',') ? p.org.split(',')[0] : p.location.split(',')[0] || 'Kharar',
+    village: p.org.includes(',') ? p.org.split(',')[0] : p.org,
     district,
-    state: WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab',
-    acres: p.id === 'ramesh' ? 6 : p.id === 'simran' ? 4 : 5,
+    state,
+    acres: acresDefault,
     phone: '+91 98765 00001',
     gender: p.id === 'simran' || p.id === 'priya' || p.id === 'kavya' ? 'female' : 'male',
-    age: p.id === 'ramesh' ? 42 : p.id === 'simran' ? 34 : 38,
+    age: 38,
     crops: ['Rice', 'Wheat'],
     farmerId: p.farmerId,
     buyerId: p.buyerId,
@@ -283,7 +308,12 @@ export function estimateStrawFromParcels(parcels: PlotParcel[]) {
   return parcels
     .filter((p) => p.forSale)
     .reduce((sum, p) => {
-      const factor = p.crop === 'Rice' ? 2.0 : p.crop === 'Wheat' ? 1.6 : 1.4
+      const factor =
+        p.crop === 'Rice'
+          ? MATH.strawPerAcreRice_t
+          : p.crop === 'Wheat'
+            ? MATH.strawPerAcreWheat_t
+            : 1.4
       return sum + p.acres * factor
     }, 0)
 }

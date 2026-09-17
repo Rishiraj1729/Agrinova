@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#e8eee9"/>
+  <ellipse cx="320" cy="250" rx="160" ry="200" fill="#3d6b54" stroke="#1d1d1f" stroke-width="3"/>
+  <ellipse cx="300" cy="180" rx="55" ry="28" transform="rotate(-25 300 180)" fill="#c8c8c8" stroke="#1d1d1f" stroke-width="2"/>
+  <ellipse cx="350" cy="240" rx="48" ry="24" transform="rotate(15 350 240)" fill="#b0b0b0" stroke="#1d1d1f" stroke-width="2"/>
+  <ellipse cx="280" cy="300" rx="42" ry="22" transform="rotate(-10 280 300)" fill="#d0d0d0" stroke="#1d1d1f" stroke-width="2"/>
+  <text x="32" y="40" font-family="Arial,sans-serif" font-size="22" font-weight="700" fill="#1d1d1f">SAMPLE · Rice blast pattern</text>
+  <text x="32" y="68" font-family="Arial,sans-serif" font-size="14" fill="#333">NCSC booth · educational · not a photo of a named farm</text>
+</svg>

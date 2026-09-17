@@ -1,6 +1,8 @@
-% AgriNova --- NCSC Project Report
+% AgriNova --- NCSC Project Report (Form-A)
 % Theme: Science and Innovation for Sustainability
 % Group members: Shikha Sharma, Samriddhi Ghosh --- Class XI, KV Dum Dum
+% PRINT NOTE: Designed for black-and-white photocopy --- black ink, white paper,
+% hatching / bold rules instead of colour fills. Soft greys avoided for body text.
 \documentclass[12pt,a4paper]{article}
 
 \usepackage[a4paper,margin=2.2cm]{geometry}
@@ -13,64 +15,63 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit,decorations.pathreplacing}
+\usetikzlibrary{arrows.meta,positioning,calc,patterns,shapes.geometric}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.17}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{array}
-\usepackage{colortbl}
 \usepackage{caption}
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{fancyhdr}
 \usepackage{hyperref}
 
+% --- B&W print palette (high contrast) ---
+\definecolor{nvink}{gray}{0}
+\definecolor{nvmuted}{gray}{0.22}
+\definecolor{nvline}{gray}{0.55}
+\definecolor{nvband}{gray}{0.92}
+\definecolor{nvpaper}{gray}{1}
+\definecolor{nvgreen}{gray}{0}
+\definecolor{nvleaf}{gray}{0}
+\definecolor{nvsaff}{gray}{0.15}
+
 \hypersetup{
-  colorlinks=true,
-  linkcolor=nvgreen,
-  urlcolor=nvgreen,
-  citecolor=nvgreen,
-  pdftitle={AgriNova --- NCSC Project Report},
+  colorlinks=false,
+  pdfborder={0 0 0},
+  pdftitle={AgriNova --- NCSC Form-A Project Report},
   pdfauthor={Shikha Sharma, Samriddhi Ghosh}
 }
 
-\definecolor{nvgreen}{HTML}{1F4D3A}
-\definecolor{nvleaf}{HTML}{3D6B54}
-\definecolor{nvsaff}{HTML}{9A6B32}
-\definecolor{nvink}{HTML}{1D1D1F}
-\definecolor{nvmuted}{HTML}{6E6E73}
-\definecolor{nvline}{HTML}{E6E4DF}
-\definecolor{nvband}{HTML}{EEF3F0}
-\definecolor{nvpaper}{HTML}{F7F6F2}
-
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{\small\color{nvmuted}NCSC \textbullet\ Science and Innovation for Sustainability}
-\fancyhead[R]{\small\color{nvmuted}AgriNova}
-\fancyfoot[C]{\small\color{nvmuted}\thepage}
-\renewcommand{\headrulewidth}{0.3pt}
-\renewcommand{\footrulewidth}{0pt}
+\fancyhead[L]{\small\bfseries NCSC Form-A \textbullet\ Science and Innovation for Sustainability}
+\fancyhead[R]{\small\bfseries AgriNova}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\footrulewidth}{0.4pt}
 
-\titleformat{\section}{\large\bfseries\color{nvgreen}}{\thesection}{0.8em}{}
-\titleformat{\subsection}{\normalsize\bfseries\color{nvleaf}}{\thesubsection}{0.7em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries\color{nvsaff}}{\thesubsubsection}{0.6em}{}
+\titleformat{\section}{\large\bfseries}{\thesection}{0.8em}{}[\vspace{0.15em}{\titlerule[0.6pt]}]
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.6em}{}
 \titlespacing*{\section}{0pt}{1.15em}{0.45em}
 \titlespacing*{\subsection}{0pt}{0.9em}{0.3em}
 
 \setlist[itemize]{leftmargin=1.15em,itemsep=0.15em,topsep=0.25em}
 \setlist[enumerate]{leftmargin=1.25em,itemsep=0.15em,topsep=0.25em}
-\captionsetup{font=small,labelfont={bf,color=nvgreen},skip=4pt}
+\captionsetup{font=small,labelfont=bf,skip=4pt}
 
 \setlength{\headheight}{15pt}
 \onehalfspacing
 \setlength{\parskip}{0.4em}
 \setlength{\parindent}{0pt}
 \newcommand{\tick}{$\square$\ }
+\graphicspath{{figures/}}
 \newenvironment{conv}[1]{%
   \par\vspace{0.55em}%
-  {\small\bfseries\color{nvleaf}#1}\par\vspace{0.2em}%
-  \noindent{\color{nvgreen}\vrule width 2.4pt}\hspace{0.65em}%
+  {\small\bfseries #1}\par\vspace{0.2em}%
+  \noindent{\vrule width 2.4pt}\hspace{0.65em}%
   \begin{minipage}[t]{\dimexpr\linewidth-1.0em\relax}\small
 }{%
   \end{minipage}\par\vspace{0.25em}%
@@ -79,41 +80,42 @@
 % ---------------------------------------------------------------------------
 \begin{document}
 \thispagestyle{empty}
-\begin{tikzpicture}[remember picture,overlay]
-  \fill[nvgreen] (current page.north west) rectangle ([yshift=-18mm]current page.north east);
-  \fill[nvsaff] (current page.north west) ++(0,-18mm) rectangle ++(\paperwidth,1.6mm);
-\end{tikzpicture}
-
-\vspace*{6mm}
+\vspace*{2mm}
 \begin{center}
-{\color{nvgreen}\small NATIONAL CHILDREN'S SCIENCE CONGRESS}\\[0.35em]
-{\color{nvmuted}\footnotesize Theme: \textit{Science and Innovation for Sustainability}}\\
-{\color{nvmuted}\footnotesize Sub-themes: Waste Management \textbullet\ Food, Agriculture \& Health}\\[1.1em]
-{\LARGE\bfseries\color{nvgreen} AGRINOVA}\\[0.35em]
-{\large\color{nvink} Turning crop residue into income --- not smoke, not drain waste}\\[0.55em]
-{\small\itshape\color{nvmuted} Predict.\ Protect.\ Prosper.\ Recycle.}\\[1.15em]
+{\small\bfseries NATIONAL CHILDREN'S SCIENCE CONGRESS}\\[0.25em]
+{\footnotesize Theme: \textit{Science and Innovation for Sustainability}}\\
+{\footnotesize Sub-themes: Waste Management \textbullet\ Food, Agriculture \& Health}\\[0.35em]
+{\footnotesize\bfseries Project Report --- Form-A (strict structure)}\\[0.9em]
+{\LARGE\bfseries AGRINOVA}\\[0.3em]
+{\large Turning crop residue into income --- not smoke, not drain waste}\\[0.4em]
+{\small\itshape Predict.\ Protect.\ Prosper.\ Recycle.}\\[0.9em]
 \begin{tabular}{@{}ll@{}}
 \textbf{Group members} & Shikha Sharma \textbullet\ Samriddhi Ghosh\\
 \textbf{Class} & XI (upper age group)\\
 \textbf{School} & Kendriya Vidyalaya Dum Dum, Kolkata\\
 \textbf{Language} & English\\
-\textbf{Field area} & Madhyamgram \& Barasat (nearby) \textbullet\ Punjab by phone\\
+\textbf{Field area} & Madhyamgram \& Barasat (doorstep) \textbullet\ Punjab by phone\\
+\textbf{Live desk} & \url{https://agrinova-hazel.vercel.app}\\
 \textbf{Guide teacher} & \rule{5.4cm}{0.4pt}\\
 \end{tabular}
 \end{center}
 
-\vspace{0.7em}
-{\color{nvgreen}\rule{\textwidth}{0.6pt}}
+\vspace{0.5em}
+\hrule height 1.1pt
+\vspace{0.35em}
+{\footnotesize\textit{Print note:} This report is set for black-and-white photocopy --- black text, bold rules, hatched diagrams. Soft colour fills are avoided so contrast survives a B\&W printout.}
+\vspace{0.35em}
+\hrule height 0.5pt
 
 \section*{Abstract}
 
 AgriNova asks a local, measurable question: why does rice straw still leave the farm as smoke in Punjab and as mixed drain waste in West Bengal, when biomass plants, paper mills and compost pads already buy the same material? The missing step is a listing --- quantity, moisture, neighbourhood --- that a small farm and a nearby gate can both see. This project names that step and tests AgriNova as the abatement tool.
 
-Work had two parts. Part~I mapped rice straw from published CRM, SWM and air-quality notes. Part~II is the Class~XI field book from Kendriya Vidyalaya Dum Dum. Ten farmers were closed in September~2025: six at the door in Madhyamgram and Barasat, starting at Hridaypur, and four in Punjab by phone with family contacts, plus two plant-floor calls and two local civic officers (Councillor, Ward~21, Barasat Municipality; Sanitary Inspector, Madhyamgram Municipality). AgriNova at \url{https://agrinova-ochre.vercel.app} was then used as a demonstration desk on those sheets.
+Work had two parts. Part~I mapped rice straw from published CRM, SWM and air-quality notes. Part~II is the Class~XI field book from Kendriya Vidyalaya Dum Dum. Ten farmers were closed in September~2025: six at the door in Madhyamgram and Barasat, starting at Hridaypur, and four in Punjab by phone with family contacts, plus two plant-floor calls and two local civic officers (Councillor, Ward~21, Barasat Municipality; Sanitary Inspector, Madhyamgram Municipality). AgriNova at \url{https://agrinova-hazel.vercel.app} was then used as a demonstration desk on those sheets. Default login and case-study data are West Bengal ward-first (Madhyamgram / Barasat ULB localities).
 
 Last season, three of four Punjab phone sheets were burns; five of six local Bengal sheets were dump, mix or stack; only two of ten sold. Eight would list if a trolley came in five days. Officers see mixed drain waste and conservancy complaints, not tonnes utilised. The live desk matched a Kharar burn example and a Doltala dump example to moisture-aware gates.
 
-The gap is not another scheme pamphlet. It is a shared listing with moisture, buyer and pickup time. On this 10-farm book, about 72~t would move if the eight ``yes'' lots listed --- a cluster demonstration, not a state forecast. Carbon figures are estimates, not certified credits.
+The gap is not another scheme pamphlet. It is a shared listing with moisture, buyer and pickup time. On this 10-farm book, about 72~t would move if the eight ``yes'' lots listed --- a cluster demonstration, not a state forecast. Carbon figures use the working constant 1.5~tCO$_2$e per tonne straw (estimate, not certified credits).
 
 \vspace{0.15em}
 {\footnotesize\textit{Name \& address of Guide Teacher:} \rule{9.4cm}{0.4pt}}
@@ -212,9 +214,9 @@ Figure~\ref{fig:problem} is the causal sketch we used before writing the sheet.
 \centering
 \begin{tikzpicture}[
   font=\small,
-  box/.style={draw=nvgreen, rounded corners=3pt, align=center, inner sep=6pt, fill=nvband, text width=3.15cm},
-  bad/.style={draw=nvsaff, rounded corners=3pt, align=center, inner sep=6pt, fill=nvpaper, text width=3.15cm},
-  arr/.style={-{Latex}, thick, nvgreen}
+  box/.style={draw=black, line width=0.7pt, thick, align=center, inner sep=6pt, fill=white, text width=3.15cm},
+  bad/.style={draw=black, line width=0.9pt, align=center, inner sep=6pt, pattern=north east lines, pattern color=black!35, text width=3.15cm},
+  arr/.style={-{Latex}, thick, black}
 ]
 \node[box] (h) {Harvest\\paddy straw};
 \node[box, right=0.55cm of h] (w) {Short / wet\\window};
@@ -228,7 +230,7 @@ Figure~\ref{fig:problem} is the causal sketch we used before writing the sheet.
 \draw[arr] (n) -- (d);
 \draw[arr] (n) -- (z);
 \end{tikzpicture}
-\caption{Problem sketch used to design the questionnaire. The missing object is the middle box --- not a new law.}
+\caption{Problem sketch used to design the questionnaire. The missing object is the middle box --- not a new law. (Hatched boxes = failure modes; B\&W-safe.)}
 \label{fig:problem}
 \end{figure}
 
@@ -273,8 +275,7 @@ What we saw locally, before the ticks: in Doltala, Hridaypur and on the Ward~21 
 \small
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
 \toprule
-\rowcolor{nvband}
-When & Where & Who \\
+\textbf{When} & \textbf{Where} & \textbf{Who} \\
 \midrule
 Early September & Hridaypur, Barasat & Tapas Mondal (doorstep) \\
 Same week & Doltala; Noapara; Michael Nagar & Ramesh Das, Anil Ghosh, Kamal Haldar \\
@@ -323,8 +324,8 @@ Post as printed on the municipality board only: Councillor, Ward~21, Barasat; or
   \item September field start at Hridaypur (Tapas Mondal), then five more local sheets.
   \item Closed 10 farmer sheets (6 nearby, 4 phone) and 2 civic conversations.
   \item Two plant-floor phone calls --- Madhyamgram conservancy pad and a Punjab biomass cabin (family contact).
-  \item Built AgriNova: \url{https://agrinova-ochre.vercel.app}.
-  \item Demonstration walk-through on that desk using this book (Ramesh Das dump lot; Jaswinder Singh burn lot) plus the in-app Punjab case-study cluster as a labelled example.
+  \item Built AgriNova: \url{https://agrinova-hazel.vercel.app} (West Bengal ward defaults; India State / District / Ward login tabs).
+  \item Demonstration walk-through on that desk using this book (Ramesh Das dump lot; Jaswinder Singh burn lot) plus curated leaf-disease sample images with known results on Kisan Bandhu.
 \end{enumerate}
 
 Figure~\ref{fig:system} is the desk we tested.
@@ -333,9 +334,9 @@ Figure~\ref{fig:system} is the desk we tested.
 \centering
 \begin{tikzpicture}[
   font=\footnotesize,
-  d/.style={draw=nvgreen, rounded corners=4pt, align=center, inner sep=7pt, fill=white, text width=2.55cm, minimum height=1.35cm},
-  g/.style={draw=nvsaff, rounded corners=4pt, align=center, inner sep=7pt, fill=nvpaper, text width=2.55cm, minimum height=1.35cm},
-  arr/.style={-{Latex}, thick, nvleaf}
+  d/.style={draw=black, line width=0.7pt, align=center, inner sep=7pt, fill=white, text width=2.55cm, minimum height=1.35cm},
+  g/.style={draw=black, line width=0.9pt, align=center, inner sep=7pt, pattern=dots, pattern color=black!40, text width=2.55cm, minimum height=1.35cm},
+  arr/.style={-{Latex}, thick, black}
 ]
 \node[d] (f) {\textbf{Farmer}\\list lot + moisture};
 \node[d, right=0.42cm of f] (m) {\textbf{Match}\\distance, demand, spec};
@@ -351,6 +352,13 @@ Figure~\ref{fig:system} is the desk we tested.
 \label{fig:system}
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.92\textwidth]{11-landing.png}
+\caption{Live landing desk (reference screenshot). Brand-first entry to West Bengal case study and role login. Source: AgriNova web app.}
+\label{fig:landing}
+\end{figure}
+
 \section{Analysis of data}
 \subsection{Farmers (n = 10)}
 Table~\ref{tab:roster} is the whole book. Table~\ref{tab:fate} and Figure~\ref{fig:fate} add it up. Phone-Punjab is a burn pocket. Madhyamgram--Barasat is a dump-and-mix pocket. Only Balwinder (phone) and Anil (Noapara) sold last season.
@@ -362,8 +370,7 @@ Table~\ref{tab:roster} is the whole book. Table~\ref{tab:fate} and Figure~\ref{f
 \scriptsize
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}Xccrccc@{}}
 \toprule
-\rowcolor{nvband}
-Name & Place & How & St & Ac & Fate & Phone & 5d \\
+\textbf{Name} & \textbf{Place} & \textbf{How} & \textbf{St} & \textbf{Ac} & \textbf{Fate} & \textbf{Phone} & \textbf{5d} \\
 \midrule
 Ramesh Das & Doltala, Madhyamgram & D & WB & 3.0 & K & none & Y \\
 Sukumar Roy & Ward 21, Barasat & D & WB & 2.0 & M & none & Y \\
@@ -386,8 +393,7 @@ Gurmeet Singh & Rajpura rural (phone) & P & PB & 3.0 & B & none & M \\
 \small
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}Xcccc@{}}
 \toprule
-\rowcolor{nvband}
-Fate & PB phone & Local WB & All & Share \\
+\textbf{Fate} & \textbf{PB phone} & \textbf{Local WB} & \textbf{All} & \textbf{Share} \\
 \midrule
 Burned on a dry window & 3 & 0 & 3 & 30\% \\
 Stacked / left to rot or dump & 0 & 3 & 3 & 30\% \\
@@ -412,19 +418,18 @@ Mixed into municipal waste & 0 & 2 & 2 & 20\% \\
   xticklabel style={font=\small},
   ylabel style={font=\small},
   tick label style={font=\small},
-  legend style={font=\small, at={(0.5,0.98)}, anchor=north, legend columns=2, draw=none, fill=none},
+  legend style={font=\small, at={(0.5,0.98)}, anchor=north, legend columns=2, draw=black, fill=white},
   enlarge x limits=0.22,
   grid=major,
-  major grid style={nvline},
-  axis line style={nvmuted},
-  ytick={0,1,2,3,4},
+  major grid style={black!25},
+  axis line style={black},
 ]
-\addplot[fill=nvsaff, draw=none] coordinates {(Burned,3) (Stacked,0) (Sold,1) (Mixed,0)};
-\addplot[fill=nvleaf, draw=none] coordinates {(Burned,0) (Stacked,3) (Sold,1) (Mixed,2)};
+\addplot[pattern=north east lines, pattern color=black, draw=black, thick] coordinates {(Burned,3) (Stacked,0) (Sold,1) (Mixed,0)};
+\addplot[pattern=dots, pattern color=black, draw=black, thick] coordinates {(Burned,0) (Stacked,3) (Sold,1) (Mixed,2)};
 \legend{Punjab (phone), Madhyamgram--Barasat}
 \end{axis}
 \end{tikzpicture}
-\caption{Same straw, two failure modes on ten named sheets.}
+\caption{Same straw, two failure modes on ten named sheets. Patterns (not colours) survive B\&W photocopy.}
 \label{fig:fate}
 \end{figure}
 
@@ -549,8 +554,7 @@ SI: Yes --- utilised versus dumped. No KCC on a portal. I will not put farmer mo
 \small
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{2.2cm}X@{}}
 \toprule
-\rowcolor{nvband}
-Name & Post & Gate & Spec & Small lots / listing \\
+\textbf{Name} & \textbf{Post} & \textbf{Gate} & \textbf{Spec} & \textbf{Small lots / listing} \\
 \midrule
 Biswajit Ghosh & Pad staff & Madhyamgram conservancy compost yard & $\le$18\%; no mixed drain waste & Almost never without a broker. Listing: yes. \\
 Rakesh Kumar & Shift supervisor & Biomass cabin, Rajpura (phone) & $\le$15\% & Rarely. Listing: only if baled. \\
@@ -570,8 +574,7 @@ Both names are on the municipality boards. We asked for time; this is not an off
 \small
 \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{3.3cm}X@{}}
 \toprule
-\rowcolor{nvband}
-Name and post & Register today & Gap / desk \\
+\textbf{Name and post} & \textbf{Register today} & \textbf{Gap / desk} \\
 \midrule
 Dr.\ Bibartan Saha, Councillor, Ward No.~21, Barasat Municipality & Ward complaints; mixed drain and conservancy calls & Compost pad sits hungry while farm leftover enters the drain as mixed waste. A ward view of tonnes utilised --- without farmer phones --- would help the weekly note. \\
 Sudip Biswas, Sanitary Inspector, Madhyamgram Municipality & Conservancy / SWM complaints; mixed biodegradable lift & Farm straw is not a specified lot. SI sees mixed waste, not a trolley to the pad. Aggregate desk: yes, if it stays at ULB level. \\
@@ -580,13 +583,62 @@ Sudip Biswas, Sanitary Inspector, Madhyamgram Municipality & Conservancy / SWM c
 \end{table}
 
 \subsection{Demonstration on AgriNova}
-The survey is ten sheets. The software is a demonstration that those sheets can drive.
+The survey is ten sheets. The software is a demonstration that those sheets can drive. Default case study and login desk are \textbf{West Bengal} (North 24 Parganas wards / ULB localities), with Punjab as the phone comparison belt.
 
-On \url{https://agrinova-ochre.vercel.app} we listed Ramesh Das (3~ac Doltala, wet stack, $\approx$6~t) --- match preferred a short-haul compost spec, not a paper mill that would reject moisture. We listed Jaswinder Singh's phone sheet (6~ac, dry burn window, $\approx$12~t) --- match preferred a $\le$15\% biomass cabin. The same score, two clocks: dump here, burn there. The in-app Punjab case-study cluster (larger demo farms and plants) was used only as a \textbf{worked example} of distance, demand and moisture. It is labelled demonstration data. It is not extra interviews.
+On \url{https://agrinova-hazel.vercel.app} we listed Ramesh Das (3~ac Doltala, wet stack, $\approx$6~t) --- match preferred a short-haul compost spec, not a paper mill that would reject moisture. We listed Jaswinder Singh's phone sheet (6~ac, dry burn window, $\approx$12~t) --- match preferred a $\le$15\% biomass cabin. The same score, two clocks: dump here, burn there. The in-app Punjab case-study cluster (larger demo farms and plants) was used only as a \textbf{worked example} of distance, demand and moisture. It is labelled demonstration data. It is not extra interviews.
 
-A judge can repeat both listings in five minutes: Farmer desk $\rightarrow$ sell residue $\rightarrow$ match card $\rightarrow$ pickup. Government desk shows cluster tonnes, not names. That is the field test of the solution.
+A judge can repeat both listings in five minutes: Farmer desk $\rightarrow$ sell residue $\rightarrow$ match card $\rightarrow$ pickup. Government desk shows cluster tonnes, not names. Kisan Bandhu ships three curated leaf samples (rice blast, bacterial leaf blight, wheat rust) with fixed educational results for the booth.
 
-Completed sale writes avoided-CO$_2$e at about 1.5~tCO$_2$e per tonne straw (IPCC-style estimate, not Verra). Farmer credit / buyer CSR line are simulators.
+\subsubsection{Mathematical accuracy (working constants)}
+All income and carbon figures on the desk use the same documented constants (also on the Science page of the app):
+
+\begin{itemize}
+  \item Rice straw yield working figure: $Y = 2.0$~t/acre (literature band about 1.8--2.4~t/acre).
+  \item Wheat stubble working figure: $1.6$~t/acre.
+  \item Estimated straw on a farm: $T = A \times Y$ (acres $\times$ yield). Example: Doltala $A=3$ $\Rightarrow$ $T=6.0$~t.
+  \item Working gate price: $P = \mathrm{Rs}\,700$/t (before freight). Gross cash $C = T \times P$. Example: $6.0 \times 700 = \mathrm{Rs}\,4200$.
+  \item Avoided CO$_2$e estimate: $E = T \times 1.5$~tCO$_2$e/t (IPCC-style order-of-magnitude when open burn is replaced by utilisation). Example: $6.0 \times 1.5 = 9.0$~tCO$_2$e. \textbf{Not} a Verra / certified credit.
+  \item Match score weights (sum 100): Distance~22, Rating~22, Demand~18, Moisture~14, Pathway~12, Price~12. Moisture can zero a bad match.
+\end{itemize}
+
+On this book: 40.5~acres $\times$ 2.0 $= 81$~t total straw estimate; eight ``Yes'' lots cover 36~acres $\approx$ 72~t $\approx$ Rs~50{,}400 at Rs~700/t; burned pocket 27~t $\times$ 1.5 $\approx$ 40.5~tCO$_2$e as an estimate.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\textwidth]{01-login.png}
+\caption{Login with India-specific tabs: Identity / State--Ward / Land. Default desk: West Bengal, North 24 Parganas wards (Madhyamgram \& Barasat).}
+\label{fig:login}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\textwidth]{13-wb.png}
+\caption{West Bengal case-study hub --- peri-urban Madhyamgram--Barasat narrative used as the default region.}
+\label{fig:wb}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\textwidth]{04-sell.png}
+\caption{Sell / match desk used to list the Doltala wet stack and the Kharar burn-window lot.}
+\label{fig:sell}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\textwidth]{05-kisan-ai.png}
+\caption{Kisan Bandhu field desk --- residue advice, leaf scan, and curated sample results for the booth.}
+\label{fig:bandhu}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.88\textwidth]{08-government.png}
+\caption{Ward / ULB government desk --- utilised vs dumped aggregates without farmer phone numbers.}
+\label{fig:govdesk}
+\end{figure}
+
+Completed sale writes avoided-CO$_2$e at about 1.5~tCO$_2$e per tonne straw (estimate, not Verra). Farmer credit / buyer CSR line are simulators.
 
 Figure~\ref{fig:match} is the score a pad staff can argue with.
 
@@ -605,13 +657,13 @@ Figure~\ref{fig:match} is the score a pad staff can argue with.
   tick label style={font=\small},
   xlabel style={font=\small},
   grid=major,
-  major grid style={nvline},
-  axis line style={nvmuted},
+  major grid style={black!25},
+  axis line style={black},
 ]
-\addplot[fill=nvgreen, draw=none] coordinates {(14,Moisture) (12,Pathway) (12,Price) (18,Demand) (22,Distance) (22,Rating)};
+\addplot[pattern=horizontal lines, pattern color=black, draw=black, thick] coordinates {(14,Moisture) (12,Pathway) (12,Price) (18,Demand) (22,Distance) (22,Rating)};
 \end{axis}
 \end{tikzpicture}
-\caption{Explainable match --- moisture can zero a lot that would otherwise look close.}
+\caption{Explainable match --- moisture can zero a lot that would otherwise look close. Hatched bars for B\&W print.}
 \label{fig:match}
 \end{figure}
 
@@ -622,7 +674,7 @@ Eight of ten said they would list in five days (\textbf{36 acres $\approx$ 72~t}
 
 If those 72~t leave as a specified lot instead of smoke or mixed drain waste, the ward note can finally show utilised tonnes, and the farmer sees a gate price instead of a fine or a sweeper's complaint. That is the impact this activity can claim. It is a cluster demonstration on fourteen closed sheets, not a forecast for Punjab or North 24 Parganas.
 
-Live desk: \url{https://agrinova-ochre.vercel.app}.
+Live desk: \url{https://agrinova-hazel.vercel.app}.
 
 \begin{enumerate}
   \item From Dum Dum, the home failure is dump and mix. The phone-Punjab failure is burn. The shared cause is no plant number and no small-lot lift.
