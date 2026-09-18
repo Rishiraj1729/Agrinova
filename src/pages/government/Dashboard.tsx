@@ -26,7 +26,7 @@ export default function GovernmentDashboard() {
   const demo = isDemoSession(user)
   const { region } = useCaseStudy()
   const { ledger, transactions, wallets, listings, requirements } = useMarketplace()
-  const [district, setDistrict] = useState('Patiala')
+  const [district, setDistrict] = useState('North 24 Parganas')
   const [utilPct, setUtilPct] = useState(70)
 
   const liveCo2 = ledger.filter((e) => e.region === region).reduce((s, e) => s + e.avoidedTco2e, 0)
@@ -41,7 +41,7 @@ export default function GovernmentDashboard() {
   const dRow = districtUtilisation.find((d) => d.district === district)
 
   const compare = [
-    { name: 'Burned t', without: proj.without.burnedTonnes, withA: proj.withAgrinova70pct.burnedTonnes },
+    { name: 'Dumped t', without: proj.without.burnedTonnes, withA: proj.withAgrinova70pct.burnedTonnes },
     { name: 'Utilised t', without: proj.without.utilisedTonnes, withA: proj.withAgrinova70pct.utilisedTonnes },
     { name: 'PM2.5 idx', without: proj.without.indicativePm25Index, withA: proj.withAgrinova70pct.indicativePm25Index },
   ]
@@ -57,7 +57,7 @@ export default function GovernmentDashboard() {
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-[11px] font-semibold uppercase tracking-wide text-[#0b3d91]">
-              {user?.state ?? 'Punjab'} · {demo ? 'Demo portal' : 'Officer desk'}
+              {user?.state ?? 'West Bengal'} · {demo ? 'Demo portal' : 'Officer desk'}
             </p>
             <h1 className="text-xl font-bold text-slate-900 sm:text-2xl">
               Department of Agriculture &amp; Farmers Welfare
@@ -104,7 +104,7 @@ export default function GovernmentDashboard() {
         <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[
             {
-              label: 'Episode straw share (lit.)',
+              label: 'Dump / mix share (demo)',
               value: `${punjabBurningBaseline.pm25ContributionPercent}%`,
               icon: Factory,
             },
@@ -132,7 +132,7 @@ export default function GovernmentDashboard() {
               {dRow ? (
                 <dl className="mt-3 space-y-2 text-sm">
                   <div className="flex justify-between border-b border-slate-100 pb-1">
-                    <dt className="text-slate-500">Burned (demo t)</dt>
+                    <dt className="text-slate-500">Dumped / mixed (demo t)</dt>
                     <dd className="font-semibold">{dRow.burned}</dd>
                   </div>
                   <div className="flex justify-between border-b border-slate-100 pb-1">
@@ -188,7 +188,7 @@ export default function GovernmentDashboard() {
         </section>
 
         <EcologicalTracker
-          storageKey={demo ? 'agrinova_eco_demo' : `agrinova_eco_${user?.profileId ?? 'gov'}`}
+          storageKey={demo ? 'agrinova_eco_demo_v2' : `agrinova_eco_${user?.profileId ?? 'gov'}`}
           seedDemo={demo}
           officer={user?.displayName ?? 'Officer'}
           defaultDistrict={user?.district ?? district}
@@ -209,7 +209,7 @@ export default function GovernmentDashboard() {
                 <p className="text-lg font-bold">{ops.strawDivertedT} t</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase text-slate-500">Burn avoided</p>
+                <p className="text-[10px] uppercase text-slate-500">Dump avoided</p>
                 <p className="text-lg font-bold text-red-700">{ops.burnedAvoidedT} t</p>
               </div>
               <div>

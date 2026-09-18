@@ -56,15 +56,15 @@ export const residueListings: ResidueListing[] = farmers.slice(0, 12).map((f, i)
 }))
 
 export const weatherEvents: WeatherEvent[] = [
-  { id: 'wx-001', type: 'heavy_rain', severity: 'high', date: '2025-11-12', district: 'Patiala', confidence: 82, description: 'Heavy rainfall expected — delay harvest & protect stacked residue' },
-  { id: 'wx-002', type: 'heatwave', severity: 'medium', date: '2025-11-15', district: 'Patiala', confidence: 71, description: 'Above-normal temperatures — increase irrigation frequency' },
-  { id: 'wx-003', type: 'drought', severity: 'low', date: '2025-11-20', district: 'Sangrur', confidence: 58, description: 'Below-average rainfall trend — monitor soil moisture' },
+  { id: 'wx-001', type: 'heavy_rain', severity: 'high', date: '2025-11-12', district: 'North 24 Parganas', confidence: 82, description: 'Rain expected — keep leftover straw off the drain; compost-first if the heap stays wet' },
+  { id: 'wx-002', type: 'heatwave', severity: 'medium', date: '2025-11-15', district: 'Barasat', confidence: 71, description: 'Humid heat — scout rice leaves after fog; use Kisan Bandhu sample scan' },
+  { id: 'wx-003', type: 'drought', severity: 'low', date: '2025-11-20', district: 'Hooghly', confidence: 58, description: 'Below-average rainfall trend — monitor soil moisture before next sowing' },
 ]
 
 export const cropRisks: CropRisk[] = [
-  { crop: 'Rice', riskLevel: 'high', confidence: 78, reason: 'Late monsoon withdrawal + stubble burning season overlap', recommendation: 'Harvest early, list residue within 48hrs, book baler immediately', updatedAt: '2025-11-08' },
-  { crop: 'Wheat', riskLevel: 'medium', confidence: 65, reason: 'Delayed sowing window due to late rice harvest', recommendation: 'Use Happy Seeder for zero-till wheat sowing', updatedAt: '2025-11-08' },
-  { crop: 'Cotton', riskLevel: 'low', confidence: 72, reason: 'Normal pest pressure expected', recommendation: 'Continue standard IPM schedule', updatedAt: '2025-11-07' },
+  { crop: 'Rice', riskLevel: 'high', confidence: 78, reason: 'Wet leftover + drain dump after rain around Madhyamgram–Barasat', recommendation: 'List moisture today, keep heap off the drain, prefer compost pad for wet lots', updatedAt: '2025-11-08' },
+  { crop: 'Wheat', riskLevel: 'medium', confidence: 65, reason: 'Late rice leftover delays rabi prep on small peri-urban plots', recommendation: 'Remove residue as a listed lot; do not mix into household waste', updatedAt: '2025-11-08' },
+  { crop: 'Cotton', riskLevel: 'low', confidence: 72, reason: 'Limited cotton in this cluster — demo only', recommendation: 'Continue standard IPM if grown', updatedAt: '2025-11-07' },
 ]
 
 export const marketPrices: MarketPrice[] = crops.map((crop, i) => ({
@@ -96,8 +96,8 @@ export const impactRecords: ImpactRecord[] = [
 ]
 
 export const logisticsJobs: LogisticsJob[] = [
-  { id: 'log-001', listingId: 'lst-002', from: 'Kharar, Patiala', to: 'Rajpura Biomass Plant', distanceKm: 12, eta: 'Nov 10, 2:00 PM', status: 'in_transit', vehicle: 'Truck MH-12-4521' },
-  { id: 'log-002', listingId: 'lst-003', from: 'Samana, Patiala', to: 'Punjab Paper Mills', distanceKm: 28, eta: 'Nov 11, 10:00 AM', status: 'scheduled', vehicle: 'Truck PB-03-8876' },
+  { id: 'log-001', listingId: 'lst-002', from: 'Doltala, Madhyamgram', to: 'Madhyamgram compost pad', distanceKm: 4, eta: 'Nov 10, 2:00 PM', status: 'in_transit', vehicle: 'Trolley WB-26-4521' },
+  { id: 'log-002', listingId: 'lst-003', from: 'Noapara, Madhyamgram', to: 'Barasat paper / fibre desk', distanceKm: 8, eta: 'Nov 11, 10:00 AM', status: 'scheduled', vehicle: 'Truck WB-24-8876' },
 ]
 
 export const platformStats = {

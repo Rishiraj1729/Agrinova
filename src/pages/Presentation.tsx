@@ -13,8 +13,8 @@ type Slide = {
 const slides: Slide[] = [
   {
     kicker: 'AgriNova · NCSC demo',
-    title: 'Turning crop residue into income — not smoke',
-    body: 'A case-study marketplace for Punjab farmers, buyers, and agriculture officers.',
+    title: 'Turning leftover straw into a listed lot — not a drain dump',
+    body: 'A West Bengal marketplace for Madhyamgram–Barasat farmers, compost and paper desks, and ULB officers.',
     bullets: [
       'Sell straw instead of burning',
       'Match moisture-aware buyers',
@@ -24,12 +24,12 @@ const slides: Slide[] = [
   },
   {
     kicker: 'Why we built it',
-    title: 'The Punjab stubble problem',
-    body: 'After rice harvest, farmers have ~10–15 days before wheat sowing. Burning is fast and “free” — but it is not free for lungs or soil.',
+    title: 'The peri-urban leftover problem',
+    body: 'After paddy harvest around Madhyamgram and Barasat, straw sits wet, dumps in drains, or mixes into municipal waste. Compost pads are short of clean feedstock.',
     bullets: [
-      '~20 Mt residue burned yearly in North India (literature context)',
-      'Peak Nov PM2.5 episodes: straw fires often ~30–40% contribution',
-      'NGT fines; soil carbon lost; farmer earns ₹0 from burn',
+      'No pad number in the village — small lots never become a listing',
+      'Wet heaps fail ≤15% biomass specs; compost-first is the working path',
+      'ULB desks see mixed biodegradable lift, not utilised tonnes',
     ],
   },
   {
@@ -58,14 +58,14 @@ const slides: Slide[] = [
     ],
   },
   {
-    kicker: 'Punjab case study',
-    title: 'Patiala–Sangrur demo cluster',
-    body: '25 fictional farms grounded in CRM reality. Live counters update from transactions you run in the browser.',
+    kicker: 'West Bengal case',
+    title: 'Madhyamgram–Barasat demo cluster',
+    body: 'Doorstep leftover around KV Dum Dum. Live counters update from transactions you run in the browser.',
     bullets: [
-      'Ramesh Singh — 6 acres, Kharar · ~5 t rice straw',
-      'Simran Kaur — already completed a sale (credits work)',
-      'GreenPower Biomass — ≤15% moisture plant at Rajpura',
-      'Dr. Anil Bedi — DAO desk, aggregates only (no farmer PII)',
+      'Ramesh Das — 3 acres, Doltala · leftover by the drain',
+      'Biswajit Ghosh — Madhyamgram compost pad, clean feedstock only',
+      'Rekha Sen — Barasat paper desk, drier lots',
+      'Sudip Biswas — ULB desk, aggregates only (no farmer PII)',
     ],
     footer: 'Provenance labels: demonstration / model / public literature',
   },

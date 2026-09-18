@@ -22,9 +22,9 @@ const STREAM_FACTOR: Record<EcoStream, number> = {
 }
 
 const DEMO_SEED: EcoRecord[] = [
-  { id: 'eco-1', date: '2025-11-06', district: 'Patiala', stream: 'diverted', tonnes: 12.4, notes: 'Kharar cluster lift to GreenPower.', officer: 'Dr. Anil Bedi' },
-  { id: 'eco-2', date: '2025-11-08', district: 'Sangrur', stream: 'compost', tonnes: 6.1, notes: 'Sunam straw to municipal compost pad.', officer: 'Dr. Anil Bedi' },
-  { id: 'eco-3', date: '2025-11-09', district: 'Patiala', stream: 'burned', tonnes: 3.0, notes: 'Unlisted field, satellite hotspot follow-up.', officer: 'Dr. Anil Bedi' },
+  { id: 'eco-1', date: '2025-11-06', district: 'North 24 Parganas', stream: 'compost', tonnes: 8.4, notes: 'Doltala lift to Madhyamgram compost pad.', officer: 'Sudip Biswas (demo desk)' },
+  { id: 'eco-2', date: '2025-11-08', district: 'Barasat', stream: 'paper', tonnes: 4.1, notes: 'Drier Noapara lot to Barasat paper desk.', officer: 'Ward 21 desk' },
+  { id: 'eco-3', date: '2025-11-09', district: 'Madhyamgram', stream: 'dumped', tonnes: 3.0, notes: 'Unlisted wet heap mixed into biodegradable lift.', officer: 'Sudip Biswas (demo desk)' },
 ]
 
 export function useEcologicalLog(storageKey: string, seedDemo: boolean) {

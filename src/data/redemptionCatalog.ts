@@ -14,6 +14,6 @@ export const redemptionCatalog: RedemptionItem[] = [
   { id: 'seed-rice', name: 'Paddy seed (2 kg)', category: 'seed', creditsCost: 95, description: 'Short-duration variety for timely sowing' },
   { id: 'urea', name: 'Urea (1 bag)', category: 'fertiliser', creditsCost: 180, description: 'Redeem at partner agro-dealer (demo)' },
   { id: 'dap', name: 'DAP (1 bag)', category: 'fertiliser', creditsCost: 220, description: 'Phosphorus for Rabi crops' },
-  { id: 'baler-rent', name: 'Baler rental (1 day)', category: 'equipment', creditsCost: 350, description: 'Shared baler in Patiala cluster' },
+  { id: 'baler-rent', name: 'Baler rental (1 day)', category: 'equipment', creditsCost: 350, description: 'Shared baler in Madhyamgram–Barasat cluster' },
   { id: 'soil-test', name: 'Soil health test', category: 'service', creditsCost: 80, description: 'Lab kit via Krishi Vigyan Kendra partner' },
 ]

@@ -16,25 +16,24 @@ import {
 
 const tooltipStyle = { background: '#fff', border: '1px solid #d8e0d9', color: '#142018', borderRadius: 8, fontSize: 12 }
 
-/** NCSC field book (n=10) — Madhyamgram–Barasat + Punjab phone */
+/** NCSC field book — Madhyamgram–Barasat doorstep (Punjab phone lives on the comparison case page) */
 const fieldBookFate = [
-  { name: 'Burned', value: 3, fill: '#9a6b32' },
   { name: 'Stacked / dump', value: 3, fill: '#6e6e73' },
-  { name: 'Sold', value: 2, fill: '#1f4d3a' },
   { name: 'Mixed waste', value: 2, fill: '#3d6b54' },
+  { name: 'Sold', value: 1, fill: '#1f4d3a' },
 ]
 
 const fieldBookPickup = [
-  { label: 'Yes (5-day)', count: 8 },
-  { label: 'Maybe', count: 2 },
+  { label: 'Yes (5-day)', count: 5 },
+  { label: 'Maybe', count: 1 },
   { label: 'No', count: 0 },
 ]
 
 const fieldBookImpact = [
-  { k: 'Acres in book', v: '40.5' },
-  { k: 'Straw (~2 t/ac)', v: '81 t' },
-  { k: 'Burned last season', v: '27 t' },
-  { k: 'Would list (8/10)', v: '~72 t' },
+  { k: 'Acres in book', v: '16.0' },
+  { k: 'Straw (~2 t/ac)', v: '32 t' },
+  { k: 'Dumped / mixed', v: '18 t' },
+  { k: 'Would list (5/6)', v: '~27 t' },
 ]
 
 export default function AnalyticsPage() {
@@ -54,7 +53,7 @@ export default function AnalyticsPage() {
           <ProvenanceBadge provenance="FIELD_SURVEY" />
         </div>
         <p className="text-sm text-nv-muted">
-          Ten farmers (6 Madhyamgram–Barasat doorstep, 4 Punjab phone) · September 2025 · not a census.
+          Six nearby Madhyamgram–Barasat doorstep sheets · September 2025 · not a census. Punjab phone comparison is on the case-study page, not this default desk.
         </p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {fieldBookImpact.map((m) => (
@@ -66,7 +65,7 @@ export default function AnalyticsPage() {
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
           <Card>
-            <CardHeader><CardTitle>Last-season fate (n=10)</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Last-season fate (n=6 WB)</CardTitle></CardHeader>
             <CardContent>
               <DonutChart data={fieldBookFate} height={240} />
             </CardContent>
@@ -100,7 +99,7 @@ export default function AnalyticsPage() {
         {[
           { label: 'Farmer income (demo)', before: `₹${(comparisonStats.withoutAgrinova.income / 1000).toFixed(0)}k`, after: `₹${(comparisonStats.withAgrinova.income / 1000).toFixed(0)}k` },
           { label: 'CO₂ burden index', before: String(comparisonStats.withoutAgrinova.co2), after: String(comparisonStats.withAgrinova.co2) },
-          { label: 'Burn fines (demo)', before: `₹${comparisonStats.withoutAgrinova.fines / 1000}k`, after: `₹${comparisonStats.withAgrinova.fines}` },
+          { label: 'Dump cost (demo)', before: `₹${comparisonStats.withoutAgrinova.fines / 1000}k`, after: `₹${comparisonStats.withAgrinova.fines}` },
           { label: 'Soil score', before: String(comparisonStats.withoutAgrinova.soilScore), after: String(comparisonStats.withAgrinova.soilScore) },
         ].map((m) => (
           <Card key={m.label} className="text-center">

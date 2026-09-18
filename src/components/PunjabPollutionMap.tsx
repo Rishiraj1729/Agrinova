@@ -50,7 +50,7 @@ export function PunjabPollutionMap({
     <div className="overflow-hidden rounded-sm border border-[#c5cad3] bg-white text-slate-900 shadow-sm">
       <div className="flex flex-wrap items-start justify-between gap-2 border-b border-[#e2e5eb] bg-[#f7f8fa] px-4 py-3">
         <div>
-          <p className="text-sm font-semibold text-[#0b3d91]">Punjab pollution heatmap</p>
+          <p className="text-sm font-semibold text-[#0b3d91]">West Bengal leftover heatmap</p>
           <p className="text-xs text-slate-600">
             {livePollutionSnapshot.asOf} · AQI {livePollutionSnapshot.aqiBand}
           </p>
@@ -83,7 +83,7 @@ export function PunjabPollutionMap({
       </div>
 
       <div className="relative z-0 h-80">
-        <MapContainer center={[30.5, 75.9]} zoom={8} className="h-full w-full" scrollWheelZoom>
+        <MapContainer center={[22.71, 88.46]} zoom={11} className="h-full w-full" scrollWheelZoom>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -134,7 +134,7 @@ export function PunjabPollutionMap({
                     <br />
                     PM2.5 index: {d.pm25Index}
                     <br />
-                    Burned: {d.burned}t · Utilised: {d.utilised}t
+                    Burned / dumped: {d.burned}t · Utilised: {d.utilised}t
                   </Popup>
                 </CircleMarker>
               )
@@ -173,7 +173,7 @@ export function PunjabPollutionMap({
 
       <div className="flex flex-wrap gap-3 border-t border-[#e2e5eb] bg-[#f7f8fa] px-4 py-2 text-[10px] text-slate-600">
         <span className="inline-flex items-center gap-1">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-700" /> High PM heat
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-red-700" /> High dump / mix heat
         </span>
         <span className="inline-flex items-center gap-1">
           <span className="inline-block h-2.5 w-2.5 rounded-full bg-[#138808]" /> AgriNova operational
@@ -201,8 +201,8 @@ export function PunjabPollutionMap({
       </div>
       <div className="px-4 pb-3">
         <SourceNote provenance="PUBLIC_DATA">
-          OSM basemap. Heat blobs are demo intensity models, not CPCB sensors. Green markers =
-          AgriNova operational demo clusters with savings in popups.
+          OSM basemap. Heat blobs are demo dump/mix intensity, not CPCB sensors. Green markers =
+          AgriNova operational demo clusters around Madhyamgram–Barasat.
         </SourceNote>
       </div>
     </div>

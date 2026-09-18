@@ -1,60 +1,59 @@
-// Fictional demo analytics data for Agrinova
+// Demonstration analytics for the Madhyamgram–Barasat booth cluster
 
 export const monthlyImpact = [
-  { month: 'Jan', burned: 420, sold: 85, co2Avoided: 170, income: 180000 },
-  { month: 'Feb', burned: 380, sold: 95, co2Avoided: 190, income: 210000 },
-  { month: 'Mar', burned: 350, sold: 110, co2Avoided: 220, income: 245000 },
-  { month: 'Apr', burned: 310, sold: 130, co2Avoided: 260, income: 290000 },
-  { month: 'May', burned: 280, sold: 155, co2Avoided: 310, income: 340000 },
-  { month: 'Jun', burned: 250, sold: 180, co2Avoided: 360, income: 395000 },
-  { month: 'Jul', burned: 220, sold: 210, co2Avoided: 420, income: 460000 },
-  { month: 'Aug', burned: 190, sold: 245, co2Avoided: 490, income: 530000 },
-  { month: 'Sep', burned: 160, sold: 280, co2Avoided: 560, income: 610000 },
-  { month: 'Oct', burned: 120, sold: 320, co2Avoided: 640, income: 700000 },
-  { month: 'Nov', burned: 85, sold: 380, co2Avoided: 760, income: 820000 },
-  { month: 'Dec', burned: 60, sold: 420, co2Avoided: 840, income: 910000 },
+  { month: 'Jan', burned: 180, sold: 42, tonnes: 42, co2Avoided: 63, income: 25200 },
+  { month: 'Feb', burned: 165, sold: 48, tonnes: 48, co2Avoided: 72, income: 28800 },
+  { month: 'Mar', burned: 150, sold: 55, tonnes: 55, co2Avoided: 82, income: 33000 },
+  { month: 'Apr', burned: 140, sold: 62, tonnes: 62, co2Avoided: 93, income: 37200 },
+  { month: 'May', burned: 128, sold: 70, tonnes: 70, co2Avoided: 105, income: 42000 },
+  { month: 'Jun', burned: 118, sold: 78, tonnes: 78, co2Avoided: 117, income: 46800 },
+  { month: 'Jul', burned: 110, sold: 88, tonnes: 88, co2Avoided: 132, income: 52800 },
+  { month: 'Aug', burned: 98, sold: 96, tonnes: 96, co2Avoided: 144, income: 57600 },
+  { month: 'Sep', burned: 86, sold: 108, tonnes: 108, co2Avoided: 162, income: 64800 },
+  { month: 'Oct', burned: 72, sold: 124, tonnes: 124, co2Avoided: 186, income: 74400 },
+  { month: 'Nov', burned: 54, sold: 142, tonnes: 142, co2Avoided: 213, income: 85200 },
+  { month: 'Dec', burned: 40, sold: 156, tonnes: 156, co2Avoided: 234, income: 93600 },
 ]
 
 export const districtData = [
-  { district: 'Patiala', farmers: 8, tonnes: 142, co2: 284, income: 890000 },
-  { district: 'Sangrur', farmers: 6, tonnes: 98, co2: 196, income: 620000 },
-  { district: 'Barnala', farmers: 4, tonnes: 76, co2: 152, income: 480000 },
-  { district: 'Ludhiana', farmers: 3, tonnes: 58, co2: 116, income: 370000 },
-  { district: 'Fatehgarh', farmers: 2, tonnes: 42, co2: 84, income: 265000 },
-  { district: 'Malerkotla', farmers: 2, tonnes: 66, co2: 132, income: 415000 },
+  { district: 'N 24 Pgs', farmers: 10, tonnes: 72, co2: 108, income: 432000 },
+  { district: 'Madhyamgram', farmers: 6, tonnes: 28, co2: 42, income: 168000 },
+  { district: 'Barasat', farmers: 6, tonnes: 24, co2: 36, income: 144000 },
+  { district: 'Hooghly', farmers: 4, tonnes: 18, co2: 27, income: 108000 },
+  { district: 'Nadia', farmers: 3, tonnes: 14, co2: 21, income: 84000 },
+  { district: 'Howrah', farmers: 2, tonnes: 10, co2: 15, income: 60000 },
 ]
 
 export const emissionScopes = [
-  { name: 'Scope 1 (Burning)', value: 62, fill: '#ef4444' },
-  { name: 'Scope 1 (Machinery)', value: 18, fill: '#f97316' },
-  { name: 'Scope 2 (Energy)', value: 12, fill: '#eab308' },
-  { name: 'Scope 3 (Supply Chain)', value: 8, fill: '#3b82f6' },
+  { name: 'Dump / mix', value: 48, fill: '#6e6e73' },
+  { name: 'Rot / methane', value: 22, fill: '#f97316' },
+  { name: 'Burn (dry days)', value: 18, fill: '#ef4444' },
+  { name: 'Transport', value: 12, fill: '#3b82f6' },
 ]
 
 export const emissionScopesAfter = [
-  { name: 'Scope 1 (Burning)', value: 8, fill: '#ef4444' },
-  { name: 'Scope 1 (Machinery)', value: 22, fill: '#f97316' },
-  { name: 'Scope 2 (Energy)', value: 15, fill: '#eab308' },
-  { name: 'Scope 3 (Supply Chain)', value: 12, fill: '#3b82f6' },
-  { name: 'Avoided (Sold)', value: 43, fill: '#3ecf6e' },
+  { name: 'Dump / mix', value: 12, fill: '#6e6e73' },
+  { name: 'Rot / methane', value: 10, fill: '#f97316' },
+  { name: 'Burn (dry days)', value: 6, fill: '#ef4444' },
+  { name: 'Transport', value: 14, fill: '#3b82f6' },
+  { name: 'Avoided (listed)', value: 58, fill: '#3ecf6e' },
 ]
 
 export const sustainabilityRadar = [
-  { metric: 'Income', before: 35, after: 82 },
-  { metric: 'Soil Health', before: 28, after: 74 },
-  { metric: 'Water Use', before: 42, after: 68 },
-  { metric: 'Emissions', before: 15, after: 78 },
-  { metric: 'Residue Mgmt', before: 10, after: 91 },
-  { metric: 'Market Access', before: 22, after: 85 },
+  { metric: 'Income', axis: 'Income', before: 28, after: 74 },
+  { metric: 'Soil Health', axis: 'Soil Health', before: 32, after: 68 },
+  { metric: 'Water Use', axis: 'Water Use', before: 40, after: 62 },
+  { metric: 'Emissions', axis: 'Emissions', before: 18, after: 72 },
+  { metric: 'Residue Mgmt', axis: 'Residue Mgmt', before: 12, after: 86 },
+  { metric: 'Market Access', axis: 'Market Access', before: 16, after: 80 },
 ]
 
 export const residueFlow = [
-  { month: 'Jun', rice: 45, wheat: 30, cotton: 12, maize: 8 },
-  { month: 'Jul', rice: 52, wheat: 28, cotton: 15, maize: 10 },
-  { month: 'Aug', rice: 58, wheat: 35, cotton: 18, maize: 12 },
-  { month: 'Sep', rice: 72, wheat: 42, cotton: 22, maize: 15 },
-  { month: 'Oct', rice: 95, wheat: 55, cotton: 28, maize: 18 },
-  { month: 'Nov', rice: 120, wheat: 68, cotton: 32, maize: 22 },
+  { name: 'Field straw', value: 180, month: 'Jun', rice: 45, wheat: 12, cotton: 4, maize: 6 },
+  { name: 'Dumped / mixed', value: 74, month: 'Jul', rice: 52, wheat: 14, cotton: 5, maize: 7 },
+  { name: 'Burned', value: 40, month: 'Aug', rice: 58, wheat: 16, cotton: 6, maize: 8 },
+  { name: 'Sold / lifted', value: 32, month: 'Sep', rice: 72, wheat: 18, cotton: 6, maize: 8 },
+  { name: 'Rot / unused', value: 34, month: 'Oct', rice: 95, wheat: 22, cotton: 8, maize: 10 },
 ]
 
 export const aiAccuracy = [
@@ -67,36 +66,33 @@ export const aiAccuracy = [
 ]
 
 export const priceDemandScatter = [
-  { price: 600, demand: 250, type: 'Compost' },
-  { price: 630, demand: 180, type: 'Cattle Feed' },
-  { price: 650, demand: 200, type: 'Cattle Feed' },
-  { price: 680, demand: 400, type: 'Biomass' },
-  { price: 700, demand: 300, type: 'Paper' },
-  { price: 710, demand: 220, type: 'Paper' },
-  { price: 720, demand: 100, type: 'Packaging' },
-  { price: 750, demand: 500, type: 'Biomass' },
-  { price: 800, demand: 150, type: 'Biochar' },
-  { price: 820, demand: 120, type: 'Biochar' },
+  { price: 560, demand: 90, type: 'Compost' },
+  { price: 590, demand: 120, type: 'Compost' },
+  { price: 610, demand: 80, type: 'Biogas' },
+  { price: 640, demand: 110, type: 'Paper' },
+  { price: 660, demand: 70, type: 'Paper' },
+  { price: 680, demand: 200, type: 'Biomass' },
+  { price: 700, demand: 95, type: 'Biochar' },
 ]
 
 export const farmerIncomeWaterfall = [
-  { stage: 'Crop Sales', value: 185000, fill: '#7a8f7a' },
-  { stage: 'Residue', value: 42000, fill: '#3ecf6e' },
-  { stage: 'Govt Schemes', value: 6000, fill: '#3b82f6' },
-  { stage: 'Saved Fines', value: 15000, fill: '#eab308' },
-  { stage: 'Total', value: 248000, fill: '#4ade80' },
+  { stage: 'Crop sales', step: 'Crop sales', value: 92000, fill: '#7a8f7a' },
+  { stage: 'Residue lot', step: 'Residue lot', value: 18900, fill: '#3ecf6e' },
+  { stage: 'Credits / urea', step: 'Credits / urea', value: 4200, fill: '#3b82f6' },
+  { stage: 'Avoided dump cost', step: 'Avoided dump cost', value: 3500, fill: '#eab308' },
+  { stage: 'Total', step: 'Total', value: 118600, fill: '#4ade80' },
 ]
 
 export const liveMetrics = [
-  { label: 'Farmers Onboarded', value: '25', change: '+18%', icon: '👨‍🌾' },
-  { label: 'Tonnes Rescued', value: '482', change: '+34%', icon: '♻️' },
-  { label: 'CO₂ Avoided', value: '964 t', change: '+41%', icon: '🌍' },
-  { label: 'Income Generated', value: '₹28.4L', change: '+52%', icon: '💰' },
-  { label: 'Burning Reduced', value: '86%', change: '+12%', icon: '🔥' },
-  { label: 'Match Accuracy', value: '87%', change: '+5%', icon: '🎯' },
+  { label: 'Farmers onboarded', value: '25', change: '+18%', icon: '👨‍🌾' },
+  { label: 'Tonnes listed', value: '72', change: '+34%', icon: '♻️' },
+  { label: 'CO₂ avoided', value: '108 t', change: '+41%', icon: '🌍' },
+  { label: 'Income generated', value: '₹4.3L', change: '+52%', icon: '💰' },
+  { label: 'Dump / mix cut', value: '58%', change: '+12%', icon: '🔥' },
+  { label: 'Match accuracy', value: '87%', change: '+5%', icon: '🎯' },
 ]
 
 export const comparisonStats = {
-  withoutAgrinova: { income: 185000, co2: 12.4, fines: 75000, soilScore: 28 },
-  withAgrinova: { income: 248000, co2: 3.7, fines: 0, soilScore: 74 },
+  withoutAgrinova: { income: 92000, co2: 9.8, fines: 0, soilScore: 32 },
+  withAgrinova: { income: 118600, co2: 3.2, fines: 0, soilScore: 68 },
 }

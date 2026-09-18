@@ -38,7 +38,7 @@ export default function HomePage() {
             </>
           )}
           {isBuyer && <Link to="/business"><Button>Open procurement <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>}
-          {isGov && <Link to="/government"><Button>Air & policy desk <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>}
+          {isGov && <Link to="/government"><Button>ULB leftover desk <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>}
           {isAdmin && <Link to="/admin"><Button>Operations <ArrowRight className="ml-2 h-4 w-4" /></Button></Link>}
           <Link to="/login" onClick={() => logout()}>
             <Button variant="ghost"><LogOut className="mr-2 h-4 w-4" /> Switch account</Button>
@@ -57,8 +57,8 @@ export default function HomePage() {
 
       <Card className="overflow-hidden">
         <CardContent className="pt-6">
-          <p className="font-semibold mb-1">Punjab residue trend (demo cluster)</p>
-          <p className="text-xs text-nv-muted mb-4">Shared context — not your personal ledger</p>
+          <p className="font-semibold mb-1">West Bengal leftover trend (demo cluster)</p>
+          <p className="text-xs text-nv-muted mb-4">Madhyamgram–Barasat shared context — not your personal ledger</p>
           <ResponsiveContainer width="100%" height={160}>
             <AreaChart data={monthlyImpact}>
               <Area type="monotone" dataKey="sold" stroke="#138808" fill="#138808" fillOpacity={0.25} />
@@ -66,7 +66,7 @@ export default function HomePage() {
             </AreaChart>
           </ResponsiveContainer>
           <SourceNote provenance="MODEL_ESTIMATE">
-            Green utilised · saffron burned trend. Scaled to the 25-farm demo pack.
+            Green utilised · saffron dumped / mixed trend. Scaled to the Madhyamgram–Barasat demo pack.
           </SourceNote>
         </CardContent>
       </Card>

@@ -17,7 +17,7 @@ export default function FarmMapPage() {
       <div>
         <h1 className="text-2xl font-semibold">Map your sown plots</h1>
         <p className="text-sm text-nv-muted mt-1">
-          Draw sown fields on the real OpenStreetMap around Kharar. Mark parcels for sale — AgriNova estimates straw and ranks pathways.
+          Draw sown fields on the real OpenStreetMap around Madhyamgram. Mark parcels for sale — AgriNova estimates straw and ranks pathways.
         </p>
       </div>
 

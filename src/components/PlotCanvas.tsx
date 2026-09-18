@@ -22,7 +22,7 @@ function ClickCapture({ onClick }: { onClick: (lat: number, lng: number) => void
 export function PlotCanvas({
   parcels,
   onChange,
-  center = MAP_CENTERS.kharar,
+  center = MAP_CENTERS.madhyamgram,
 }: {
   parcels: PlotParcel[]
   onChange: (parcels: PlotParcel[]) => void
@@ -81,7 +81,7 @@ export function PlotCanvas({
       </div>
 
       <p className="text-xs text-nv-muted">
-        OpenStreetMap · click field corners on the real map around Kharar / Patiala. Acres from geodesic area.
+        OpenStreetMap · click field corners on the real map around Madhyamgram / Barasat. Acres from geodesic area.
       </p>
 
       <div className="relative rounded-xl border border-nv-border overflow-hidden z-0">

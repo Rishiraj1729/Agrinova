@@ -63,6 +63,6 @@ export const farmingPractices: FarmingPractice[] = [
     category: 'income',
     summary: 'Add short-duration pulses or oilseeds where water and market allow.',
     benefits: ['Nitrogen fix', 'Extra income stream', 'Policy support schemes'],
-    askPrompt: 'Suggest a simple diversification plan after rice for Patiala with limited irrigation.',
+    askPrompt: 'Suggest a simple diversification plan after rice for Madhyamgram with limited irrigation.',
   },
 ]

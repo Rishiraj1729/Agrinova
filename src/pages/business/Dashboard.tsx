@@ -26,9 +26,9 @@ export default function BusinessDashboard() {
   const taxRelief = Math.round((buyerWallet.lifetimeEarned / 1000) * (1200 / 0.7))
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  const [reqQty, setReqQty] = useState(100)
-  const [reqPrice, setReqPrice] = useState(3000)
-  const [reqMoistureMax, setReqMoistureMax] = useState(15)
+  const [reqQty, setReqQty] = useState(40)
+  const [reqPrice, setReqPrice] = useState(600)
+  const [reqMoistureMax, setReqMoistureMax] = useState(18)
   const [reqResidue, setReqResidue] = useState<ResidueType>('Rice Straw')
 
   const available = listings.filter((l) => l.status === 'listed' || l.status === 'offer_received')
@@ -46,7 +46,7 @@ export default function BusinessDashboard() {
       buyerName: demoBuyer.name,
       residueTypes: [reqResidue],
       quantityTonnes: reqQty,
-      maxRadiusKm: 75,
+      maxRadiusKm: 15,
       targetPricePerTon: reqPrice,
       horizonDays: 30,
       region,

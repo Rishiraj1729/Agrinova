@@ -15,17 +15,18 @@ export function polygonAreaAcresLatLng(points: { lat: number; lng: number }[]): 
   return Math.max(0.1, Math.round((m2 / 4046.8564224) * 10) / 10)
 }
 
-/** Kharar / Patiala farm belt defaults */
+/** Default farm map: Madhyamgram–Barasat. Punjab coords kept for the optional case-study route. */
 export const MAP_CENTERS = {
-  kharar: { lat: 30.74, lng: 76.65 },
-  sunam: { lat: 30.13, lng: 75.8 },
-  rajpura: { lat: 30.48, lng: 76.59 },
-  patiala: { lat: 30.34, lng: 76.38 },
+  kharar: { lat: 22.7, lng: 88.45 },
+  sunam: { lat: 22.72, lng: 88.48 },
+  rajpura: { lat: 22.71, lng: 88.46 },
+  patiala: { lat: 22.72, lng: 88.48 },
   burdwan: { lat: 23.23, lng: 87.86 },
   hooghly: { lat: 22.89, lng: 88.39 },
   nadia: { lat: 23.47, lng: 88.56 },
   madhyamgram: { lat: 22.7, lng: 88.45 },
   barasat: { lat: 22.72, lng: 88.48 },
+  kolkata: { lat: 22.57, lng: 88.36 },
 } as const
 
 export const DISTRICT_COORDS: Record<string, { lat: number; lng: number }> = {
@@ -37,6 +38,7 @@ export const DISTRICT_COORDS: Record<string, { lat: number; lng: number }> = {
   'North 24 Parganas': { lat: 22.72, lng: 88.48 },
   Madhyamgram: { lat: 22.7, lng: 88.45 },
   Barasat: { lat: 22.72, lng: 88.48 },
+  Barrackpore: { lat: 22.76, lng: 88.37 },
   Burdwan: { lat: 23.23, lng: 87.86 },
   Hooghly: { lat: 22.89, lng: 88.39 },
   Nadia: { lat: 23.47, lng: 88.56 },
@@ -58,5 +60,5 @@ export function defaultParcelAround(center: { lat: number; lng: number }) {
 }
 
 export function defaultKhararRiceParcel() {
-  return defaultParcelAround(MAP_CENTERS.kharar)
+  return defaultParcelAround(MAP_CENTERS.madhyamgram)
 }

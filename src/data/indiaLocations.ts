@@ -24,7 +24,7 @@ export const WB_WARDS: WardOption[] = [
   { id: 'mg-doltala', label: 'Doltala', municipality: 'Madhyamgram Municipality', district: 'North 24 Parganas' },
   { id: 'mg-noapara', label: 'Noapara', municipality: 'Madhyamgram Municipality', district: 'North 24 Parganas' },
   { id: 'mg-michael', label: 'Michael Nagar', municipality: 'Madhyamgram Municipality', district: 'North 24 Parganas' },
-  { id: 'mg-conservancy', label: 'Conservancy / compost pad zone', municipality: 'Madhyamgram Municipality', district: 'North 24 Parganas' },
+  { id: 'mg-conservancy', label: 'Udayrajpur compost pad', municipality: 'Madhyamgram Municipality', district: 'North 24 Parganas' },
 ]
 
 export const PB_LOCALITIES: WardOption[] = [

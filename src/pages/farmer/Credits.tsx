@@ -96,7 +96,7 @@ export default function CreditsPage() {
         <CardContent className="pt-5 flex gap-3 text-sm text-nv-muted">
           <Leaf className="h-5 w-5 text-nv-green shrink-0" />
           <p>
-            Completing a sale on the marketplace issues credits automatically. This prototype is not a regulated carbon market — credits are for demonstration of circular incentives in Punjab.
+            Completing a sale on the marketplace issues credits automatically. This prototype is not a regulated carbon market — credits are for demonstration of circular incentives in West Bengal.
           </p>
         </CardContent>
       </Card>

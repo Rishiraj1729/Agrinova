@@ -12,15 +12,15 @@ import { nutritionPlan, type CropKey } from '../../services/nutritionPlan'
 type Tab = 'chat' | 'scan' | 'tips' | 'weather' | 'nutrition'
 
 const TIPS = [
-  { title: 'Sell before the window closes', body: 'In Punjab, 10–15 dry days decide burn vs sell. List moisture and acres so a trolley can find you.' },
-  { title: 'Wet Bengal heaps need compost-first', body: 'Do not send a wet Madhyamgram heap to a ≤15% biomass cabin. Prefer the conservancy pad with a clean lot.' },
+  { title: 'List before it hits the drain', body: 'In Madhyamgram–Barasat, leftover straw dumps or mixes after rain. List moisture and acres so a trolley can find you in five days.' },
+  { title: 'Wet Bengal heaps need compost-first', body: 'Do not send a wet Madhyamgram heap to a ≤15% biomass cabin. Prefer the Udayrajpur compost pad with a clean lot.' },
   { title: 'Neighbourhood pool for 1.5–3 acres', body: 'Alone, mills skip small lots. Four houses on one lane listing together can fill a trolley.' },
   { title: 'Moisture slip before the truck leaves', body: 'Write moisture on the slip at the lane — not after a gate argument.' },
 ]
 
 const WEATHER = [
   { level: 'Watch', title: 'Residue moisture rising', detail: 'Light rain in the next 48h can push stacks above plant specs. Sun-dry or choose compost pathway.' },
-  { level: 'Window', title: 'Pickup favourable (dry belt)', detail: 'If your sheet is a burn-risk dry window, list today for a 5-day slot.' },
+  { level: 'Window', title: 'Pickup favourable after a dry spell', detail: 'If the heap is drier, list today for a 5-day compost or paper slot.' },
   { level: 'Health', title: 'Humid leaf disease risk', detail: 'Scout rice/wheat for spots after foggy mornings. Use Kisan Bandhu leaf scan.' },
 ]
 
@@ -46,7 +46,7 @@ export default function KisanSathiPage() {
     )
   }
 
-  const contextPrefix = `${user.displayName}, ${user.village}. ${user.acres} ac. Soil ${user.soil.type} pH ${user.soil.ph}. Sale straw ~${straw.toFixed(1)} t.`
+  const contextPrefix = `West Bengal · ${user.displayName}, ${user.village}, ${user.district}. ${user.acres} ac. Soil ${user.soil.type} pH ${user.soil.ph}. Sale straw ~${straw.toFixed(1)} t. Default: dump/mix leftover, compost-first if wet. Reply in labelled sections with no asterisks.`
 
   const tabs: { id: Tab; label: string; icon: typeof Leaf }[] = [
     { id: 'chat', label: t('bandhu.tab.chat'), icon: MessageSquare },
@@ -99,8 +99,8 @@ export default function KisanSathiPage() {
               contextLine={contextPrefix}
               promptLabels={[t('bandhu.q1'), t('bandhu.q2'), t('bandhu.q3'), t('bandhu.q4')]}
               prompts={[
-                'Should I sell this straw or incorporate it before next sowing? Give a 4-line farm decision.',
-                'My straw moisture may be above 15%. Compost pad or biomass cabin?',
+                'Should I sell this wet straw or dump it by the drain? Give a farm decision for Madhyamgram.',
+                'My straw moisture may be above 15%. Compost pad or paper desk?',
                 'Give a simple nutrition plan after rice for my acres and soil N.',
                 'I see spots on rice leaves after fog. What should I check before spraying?',
               ]}

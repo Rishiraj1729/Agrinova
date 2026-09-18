@@ -63,7 +63,7 @@ export interface CustomLoginDraft {
   age?: number
 }
 
-const STORAGE = 'agrinova_session_v2'
+const STORAGE = 'agrinova_session_v3'
 const WB_DISTRICTS = new Set([
   'Burdwan',
   'Hooghly',
@@ -93,13 +93,13 @@ function defaultSoil(district: string): SoilProfile {
     nitrogen: 'medium',
     notes: wb
       ? 'Gangetic alluvium — demo soil card for West Bengal listings.'
-      : 'Patiala belt alluvial — demo soil card for Kisan AI.',
+      : 'Alluvial demo soil card (optional Punjab phone comparison).',
   }
 }
 
 function parcelsFor(district: string, role: AuthRole): PlotParcel[] {
   if (role !== 'seller') return []
-  const center = DISTRICT_COORDS[district] ?? DISTRICT_COORDS.Patiala
+  const center = DISTRICT_COORDS[district] ?? DISTRICT_COORDS['North 24 Parganas']
   const points = defaultParcelAround(center)
   return [
     {
@@ -117,19 +117,17 @@ function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): S
   const fromOrg = p.org.toLowerCase()
   let district = overrides?.district
   if (!district) {
-    if (fromOrg.includes('madhyamgram') || fromOrg.includes('doltala') || fromOrg.includes('barasat') || fromOrg.includes('ward')) {
-      district = 'North 24 Parganas'
-    } else if (fromOrg.includes('sangrur') || fromOrg.includes('nabha')) {
-      district = 'Patiala'
-    } else if (p.location.toLowerCase().includes('punjab')) {
-      district = 'Patiala'
+    if (fromOrg.includes('kolkata') || p.location.toLowerCase().includes('kolkata')) {
+      district = 'Kolkata'
+    } else if (fromOrg.includes('barasat') || fromOrg.includes('hridaypur') || fromOrg.includes('ward 21')) {
+      district = 'Barasat'
     } else {
       district = 'North 24 Parganas'
     }
   }
   const state = overrides?.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
   const acresDefault =
-    p.id === 'ramesh' ? 3 : p.id === 'sukumar' ? 2 : p.id === 'tapas' ? 1.5 : p.id === 'simran' ? 4.5 : 5
+    p.id === 'ramesh' ? 3 : p.id === 'sukumar' ? 2 : p.id === 'tapas' ? 1.5 : p.id === 'anilghosh' ? 4 : 0
   const base: SessionUser = {
     profileId: p.id,
     role: p.role,
@@ -139,7 +137,7 @@ function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): S
     state,
     acres: acresDefault,
     phone: '+91 98765 00001',
-    gender: p.id === 'simran' || p.id === 'priya' || p.id === 'kavya' ? 'female' : 'male',
+    gender: p.id === 'rekha' || p.id === 'kavya' ? 'female' : 'male',
     age: 38,
     crops: ['Rice', 'Wheat'],
     farmerId: p.farmerId,
@@ -257,7 +255,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         beginSession(sessionFromProfile(p, overrides))
       },
       loginCustom: (draft) => {
-        const district = draft.district.trim() || 'Patiala'
+        const district = draft.district.trim() || 'North 24 Parganas'
         const state = draft.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
         const id = `custom-${draft.role}-${Date.now()}`
         const role = draft.role

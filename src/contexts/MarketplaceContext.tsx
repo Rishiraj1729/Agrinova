@@ -20,7 +20,7 @@ import { useCaseStudy } from './CaseStudyContext'
 import { isDemoSession, useAuth } from './AuthContext'
 import { supabase } from '../lib/supabase'
 
-const STORAGE_KEY = 'agrinova_marketplace_v4'
+const STORAGE_KEY = 'agrinova_marketplace_v5'
 
 interface StoredState {
   listings: ResidueListing[]
@@ -104,7 +104,7 @@ function loadState(): StoredState | null {
 }
 
 function isSeedId(id: string) {
-  return /^(lst-simran|lst-harpreet|lst-cluster|off-harpreet|off-simran|req-gp|txn-simran|ledger-txn-simran|mrv-ledger-txn-simran|red-simran)/.test(id)
+  return /^(lst-ramesh|lst-sukumar|lst-tapas|lst-simran|lst-harpreet|lst-cluster|off-sukumar|off-harpreet|off-simran|req-compost|req-gp|txn-ramesh|txn-simran|ledger-txn-ramesh|ledger-txn-simran|mrv-ledger-txn-ramesh|mrv-ledger-txn-simran|red-ramesh|red-simran)/.test(id)
 }
 
 export function MarketplaceProvider({ children }: { children: ReactNode }) {

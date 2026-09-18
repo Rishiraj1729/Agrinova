@@ -5,6 +5,38 @@ import { Textarea } from './ui/Input'
 import { sendAgentMessage, type AgentRole, type ChatMessage } from '../services/openaiChat'
 import { SPEECH_LOCALE, useLanguage } from '../contexts/LanguageContext'
 import type { Lang } from '../types'
+import { parseBandhuReply, stripMarkdownStars } from '../lib/bandhuFormat'
+
+function BandhuBody({ content }: { content: string }) {
+  const blocks = parseBandhuReply(content)
+  return (
+    <div className="space-y-3">
+      {blocks.map((block, i) => (
+        <div key={`${block.heading ?? 'p'}-${i}`}>
+          {block.heading ? (
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#9bb5a6]">
+              {block.heading}
+            </p>
+          ) : null}
+          <div className="space-y-1.5">
+            {block.lines.map((line, j) => {
+              const numbered = line.match(/^(\d+)[.)]\s+(.*)$/)
+              if (numbered) {
+                return (
+                  <p key={j} className="flex gap-2">
+                    <span className="shrink-0 font-semibold text-[#9bb5a6]">{numbered[1]}.</span>
+                    <span>{numbered[2]}</span>
+                  </p>
+                )
+              }
+              return <p key={j}>{line}</p>
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 type SpeechRec = {
   lang: string
@@ -69,7 +101,7 @@ export function AgentChat({
   function speak(text: string, l: Lang) {
     if (!speakReplies || !window.speechSynthesis) return
     window.speechSynthesis.cancel()
-    const u = new SpeechSynthesisUtterance(text.slice(0, 600))
+    const u = new SpeechSynthesisUtterance(stripMarkdownStars(text).slice(0, 600))
     u.lang = SPEECH_LOCALE[l]
     u.rate = 1
     window.speechSynthesis.speak(u)
@@ -153,7 +185,7 @@ export function AgentChat({
         {messages.length === 0 && (
           <div className="space-y-4">
             <p className="max-w-md text-sm leading-relaxed text-[#b7c9be]">
-              Field decisions only — residue, moisture, nutrition, leaf health. Not a generic chatbot.
+              Field decisions in labelled sections — no asterisks. Residue, moisture, nutrition, leaf health. Not a generic chatbot.
             </p>
             {prompts && prompts.length > 0 && (
               <div className="grid gap-2 sm:grid-cols-2">
@@ -178,7 +210,7 @@ export function AgentChat({
               <div className="flex max-w-[92%] gap-3">
                 <div className="mt-1 w-1 shrink-0 rounded-full bg-nv-leaf" />
                 <div className="rounded-2xl rounded-tl-md bg-[#173328] px-4 py-3 text-sm leading-relaxed text-[#e7f0ea]">
-                  {m.content}
+                  <BandhuBody content={m.content} />
                 </div>
               </div>
             ) : (

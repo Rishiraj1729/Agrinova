@@ -8,7 +8,7 @@ import type {
   Offer,
   ResidueListing,
 } from '../types'
-import { farmers, buyers } from './agrinovaData'
+import { wbFarmers, wbBuyers } from './caseStudies/westBengal'
 import { CREDITS_PER_TCO2E } from './redemptionCatalog'
 
 export interface LivedInSeed {
@@ -32,153 +32,156 @@ const breakdown = (total: number) => ({
   total,
 })
 
-/** Pre-populated cluster so the app looks used on first open */
+/** Pre-populated Madhyamgram–Barasat cluster so the booth looks used on first open */
 export function buildLivedInSeed(): LivedInSeed {
-  const ramesh = farmers[0]
-  const simran = farmers.find((f) => f.id === 'farmer-023') ?? farmers[22]
-  const harpreet = farmers[2]
+  const ramesh = wbFarmers[0]
+  const sukumar = wbFarmers[1]
+  const tapas = wbFarmers[3]
+  const compost = wbBuyers.find((b) => b.id === 'wb-buy-003') ?? wbBuyers[2]
+  const paper = wbBuyers.find((b) => b.id === 'wb-buy-001') ?? wbBuyers[0]
 
   const listings: ResidueListing[] = [
     {
-      id: 'lst-simran-done',
-      farmerId: simran.id,
-      farmerName: simran.name,
-      residueType: 'Wheat Stubble',
-      crop: 'Wheat',
+      id: 'lst-ramesh-done',
+      farmerId: ramesh.id,
+      farmerName: ramesh.name,
+      residueType: 'Rice Straw',
+      crop: 'Rice',
       quantityTonnes: 3.2,
-      location: `${simran.village}, ${simran.district}`,
+      location: `${ramesh.village}, ${ramesh.district}`,
       status: 'completed',
-      pricePerTon: 650,
-      matchedBuyerId: 'buy-003',
+      pricePerTon: 590,
+      matchedBuyerId: compost.id,
       createdAt: '2025-11-04',
-      condition: 'Moisture 11%, baled, ash ~7%',
+      condition: 'Moisture 16%, stacked, ash ~8%',
       availabilityWindow: 'Collected 6 Nov',
-      pathway: 'cattle_feed',
+      pathway: 'compost',
       provenance: 'DEMONSTRATION_DATA',
-      region: 'punjab',
+      region: 'west-bengal',
       carbonCreditsIssued: 3840,
       details: {
-        landAcres: 4,
-        residueAcres: 2,
-        moisturePercent: 11,
-        isBaled: true,
-        storageType: 'covered',
+        landAcres: 3,
+        residueAcres: 1.6,
+        moisturePercent: 16,
+        isBaled: false,
+        storageType: 'stacked',
         harvestDate: '2025-10-28',
-        ashPercent: 7,
-        pickupNotes: 'Sunam feeder road, 2 km from AgroFeed gate.',
+        ashPercent: 8,
+        pickupNotes: 'Doltala lane, 2 km from Madhyamgram compost pad.',
       },
     },
     {
-      id: 'lst-harpreet-open',
-      farmerId: harpreet.id,
-      farmerName: harpreet.name,
+      id: 'lst-sukumar-open',
+      farmerId: sukumar.id,
+      farmerName: sukumar.name,
       residueType: 'Rice Straw',
       crop: 'Rice',
-      quantityTonnes: 8,
-      location: `${harpreet.village}, ${harpreet.district}`,
+      quantityTonnes: 4,
+      location: `${sukumar.village}, ${sukumar.district}`,
       status: 'offer_received',
-      pricePerTon: 760,
+      pricePerTon: 620,
       createdAt: '2025-11-09',
-      condition: 'Moisture 13%, loose stack, ash ~9%',
+      condition: 'Moisture 17%, loose stack, ash ~9%',
       availabilityWindow: '10 days',
-      expectedPricePerTon: 760,
-      pathway: 'biomass',
+      expectedPricePerTon: 620,
+      pathway: 'compost',
       provenance: 'DEMONSTRATION_DATA',
-      region: 'punjab',
+      region: 'west-bengal',
       details: {
-        landAcres: 9,
-        residueAcres: 4,
-        moisturePercent: 13,
+        landAcres: 2,
+        residueAcres: 2,
+        moisturePercent: 17,
         isBaled: false,
         storageType: 'stacked',
         harvestDate: '2025-11-06',
         ashPercent: 9,
-        pickupNotes: 'Needs baler before GreenPower will lift.',
+        pickupNotes: 'Ward 21 edge — keep off the drain until trolley comes.',
       },
     },
     {
-      id: 'lst-cluster-open',
-      farmerId: farmers[5].id,
-      farmerName: farmers[5].name,
+      id: 'lst-tapas-open',
+      farmerId: tapas.id,
+      farmerName: tapas.name,
       residueType: 'Rice Straw',
       crop: 'Rice',
-      quantityTonnes: 4.5,
-      location: `${farmers[5].village}, ${farmers[5].district}`,
+      quantityTonnes: 3,
+      location: `${tapas.village}, ${tapas.district}`,
       status: 'listed',
-      pricePerTon: 720,
+      pricePerTon: 600,
       createdAt: '2025-11-10',
-      condition: 'Moisture 14%, baled',
+      condition: 'Moisture 18%, wet heap — compost-first',
       availabilityWindow: '6 days',
-      pathway: 'biomass',
+      pathway: 'compost',
       provenance: 'DEMONSTRATION_DATA',
-      region: 'punjab',
+      region: 'west-bengal',
       details: {
-        landAcres: 5,
-        residueAcres: 2.2,
-        moisturePercent: 14,
-        isBaled: true,
-        storageType: 'covered',
+        landAcres: 1.5,
+        residueAcres: 1.5,
+        moisturePercent: 18,
+        isBaled: false,
+        storageType: 'field',
         harvestDate: '2025-11-07',
-        ashPercent: 8,
-        pickupNotes: 'Nabha–Patiala highway, tractor trolley OK.',
+        ashPercent: 10,
+        pickupNotes: 'Hridaypur — pool with neighbours to fill one trolley.',
       },
     },
   ]
 
   const offers: Offer[] = [
     {
-      id: 'off-harpreet-gp',
-      listingId: 'lst-harpreet-open',
-      buyerId: 'buy-001',
-      buyerName: 'GreenPower Biomass',
-      pricePerTon: 750,
-      quantityTonnes: 8,
+      id: 'off-sukumar-compost',
+      listingId: 'lst-sukumar-open',
+      buyerId: compost.id,
+      buyerName: compost.name,
+      pricePerTon: 590,
+      quantityTonnes: 4,
       validUntil: '2025-11-16',
       matchScore: 88,
       breakdown: breakdown(88),
       status: 'pending',
-      message: 'Need baled. We can send contractor 11 Nov.',
+      message: 'Clean lot only. We can send a trolley 11 Nov.',
     },
     {
-      id: 'off-harpreet-paper',
-      listingId: 'lst-harpreet-open',
-      buyerId: 'buy-002',
-      buyerName: 'Punjab Paper Mills',
-      pricePerTon: 700,
-      quantityTonnes: 8,
+      id: 'off-sukumar-paper',
+      listingId: 'lst-sukumar-open',
+      buyerId: paper.id,
+      buyerName: paper.name,
+      pricePerTon: 640,
+      quantityTonnes: 4,
       validUntil: '2025-11-15',
-      matchScore: 74,
-      breakdown: breakdown(74),
+      matchScore: 62,
+      breakdown: breakdown(62),
       status: 'pending',
+      message: 'Moisture 17% is high for paper. Dry two days or send to compost.',
     },
   ]
 
   const requirements: BuyerRequirement[] = [
     {
-      id: 'req-gp-nov',
-      buyerId: 'buy-001',
-      buyerName: 'GreenPower Biomass',
+      id: 'req-compost-nov',
+      buyerId: compost.id,
+      buyerName: compost.name,
       residueTypes: ['Rice Straw'],
-      quantityTonnes: 100,
-      maxRadiusKm: 25,
-      targetPricePerTon: 780,
+      quantityTonnes: 40,
+      maxRadiusKm: 15,
+      targetPricePerTon: 600,
       horizonDays: 14,
-      region: 'punjab',
+      region: 'west-bengal',
       createdAt: '2025-11-08',
     },
   ]
 
-  const simranTxn: MarketplaceTransaction = {
-    id: 'txn-simran-001',
-    listingId: 'lst-simran-done',
-    offerId: 'off-simran-hist',
-    farmerId: simran.id,
-    buyerId: 'buy-003',
+  const rameshTxn: MarketplaceTransaction = {
+    id: 'txn-ramesh-001',
+    listingId: 'lst-ramesh-done',
+    offerId: 'off-ramesh-hist',
+    farmerId: ramesh.id,
+    buyerId: compost.id,
     quantityTonnes: 3.2,
-    amount: 3.2 * 650,
+    amount: 3.2 * 590,
     status: 'completed',
-    pathway: 'cattle_feed',
-    region: 'punjab',
+    pathway: 'compost',
+    region: 'west-bengal',
     logisticsMode: 'individual',
     updatedAt: '2025-11-06T14:00:00.000Z',
   }
@@ -188,28 +191,28 @@ export function buildLivedInSeed(): LivedInSeed {
 
   const ledger: CarbonLedgerEntry[] = [
     {
-      id: 'ledger-txn-simran-001',
-      txnId: simranTxn.id,
-      farmerId: simran.id,
-      residueType: 'Wheat Stubble',
+      id: 'ledger-txn-ramesh-001',
+      txnId: rameshTxn.id,
+      farmerId: ramesh.id,
+      residueType: 'Rice Straw',
       quantityTonnes: 3.2,
       baselineTco2e: 3.2 * 1.5,
       alternativeTco2e: 3.2 * 0.25,
       transportTco2e: 3.2 * 0.05,
       avoidedTco2e: avoided,
       indicativeValueInr: Math.round(avoided * 850),
-      pathway: 'cattle_feed',
+      pathway: 'compost',
       mrvStatus: 'mrv_ready',
-      region: 'punjab',
+      region: 'west-bengal',
       date: '2025-11-06',
     },
   ]
 
   const mrv: MrvRecord[] = [
     {
-      id: 'mrv-ledger-txn-simran-001',
+      id: 'mrv-ledger-txn-ramesh-001',
       ledgerEntryId: ledger[0].id,
-      txnId: simranTxn.id,
+      txnId: rameshTxn.id,
       status: 'mrv_ready',
       evidence: [
         { item: 'Weighbridge slip (demo)', done: true },
@@ -222,14 +225,14 @@ export function buildLivedInSeed(): LivedInSeed {
   ]
 
   const wallets: Record<string, FarmerCreditWallet> = {
-    [simran.id]: {
-      farmerId: simran.id,
+    [ramesh.id]: {
+      farmerId: ramesh.id,
       balance: credits - 180,
       lifetimeEarned: credits,
       lifetimeRedeemed: 180,
     },
-    [ramesh.id]: {
-      farmerId: ramesh.id,
+    [sukumar.id]: {
+      farmerId: sukumar.id,
       balance: 0,
       lifetimeEarned: 0,
       lifetimeRedeemed: 0,
@@ -238,8 +241,8 @@ export function buildLivedInSeed(): LivedInSeed {
 
   const redemptions: CreditRedemption[] = [
     {
-      id: 'red-simran-urea',
-      farmerId: simran.id,
+      id: 'red-ramesh-urea',
+      farmerId: ramesh.id,
       itemName: 'Urea (1 bag)',
       creditsSpent: 180,
       date: '2025-11-07',
@@ -250,7 +253,7 @@ export function buildLivedInSeed(): LivedInSeed {
     listings,
     offers,
     requirements,
-    transactions: [simranTxn],
+    transactions: [rameshTxn],
     ledger,
     mrv,
     wallets,
@@ -258,4 +261,4 @@ export function buildLivedInSeed(): LivedInSeed {
   }
 }
 
-export { buyers }
+export { wbBuyers as buyers }

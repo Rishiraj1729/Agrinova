@@ -55,7 +55,7 @@ export function DiseaseScanPanel({ cropHint = 'Rice' }: { cropHint?: string }) {
 
       <div>
         <p className="mb-2 text-[11px] font-medium uppercase tracking-wide text-nv-muted">Booth samples (known result)</p>
-        <div className="grid gap-2 sm:grid-cols-3">
+        <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
           {DISEASE_SAMPLES.map((s) => (
             <button
               key={s.id}

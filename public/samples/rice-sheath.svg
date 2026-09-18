@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#e7eee8"/>
+  <rect x="250" y="70" width="28" height="340" rx="10" fill="#4a7a58" stroke="#1d1d1f" stroke-width="3"/>
+  <ellipse cx="360" cy="240" rx="150" ry="70" fill="#3d6b54" stroke="#1d1d1f" stroke-width="3"/>
+  <ellipse cx="330" cy="220" rx="70" ry="28" fill="#cfcfcf" stroke="#1d1d1f" stroke-width="2"/>
+  <ellipse cx="400" cy="255" rx="55" ry="22" fill="#b8b8b8" stroke="#1d1d1f" stroke-width="2"/>
+  <text x="28" y="40" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#1d1d1f">SAMPLE · Rice sheath blight</text>
+  <text x="28" y="66" font-family="Arial,sans-serif" font-size="13" fill="#333">Tap to load known result · educational · not a named farm</text>
+</svg>

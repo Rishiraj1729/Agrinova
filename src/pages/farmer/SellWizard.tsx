@@ -138,7 +138,7 @@ export default function SellWizardPage() {
         <h1 className="text-2xl font-semibold tracking-tight">List residue — {user?.displayName ?? farmer.name}</h1>
         <p className="text-sm text-nv-muted">
           {farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)} acres paddy × ~2 t/acre ≈ {((farmer.riceAcresThisSeason ?? Math.min(farmer.acres, 2.5)) * 2).toFixed(1)} t straw.
-          Moisture and bales decide whether GreenPower can lift it.
+          Moisture and bales decide whether the compost pad or paper desk can lift it.
         </p>
       </div>
 
@@ -350,7 +350,7 @@ export default function SellWizardPage() {
               </div>
             </div>
             <TransactionStepper status="completed" />
-            <p className="text-sm text-nv-muted">~{carbon.avoided.toFixed(1)} tCO₂e avoided vs burning — supports Punjab air quality (model).</p>
+            <p className="text-sm text-nv-muted">~{carbon.avoided.toFixed(1)} tCO₂e avoided vs dump / mix — supports a cleaner ward stream (model).</p>
             <div className="flex flex-wrap gap-2">
               <Link to="/farmer/credits"><Button>Redeem credits</Button></Link>
               <Link to="/government"><Button variant="outline">See pollution impact</Button></Link>

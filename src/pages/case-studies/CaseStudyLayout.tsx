@@ -106,7 +106,7 @@ export function CaseStudyDetail({ runCtaTo }: { runCtaTo: string }) {
         </div>
         <p className="text-sm text-nv-muted mt-3">
           Ledger farmer value: <strong className="text-nv-fg">{formatINR(liveIncome)}</strong>
-          {' '}· Simran Kaur’s 3.2 t sale is already in the seed so this page is never empty.
+          {' '}· Ramesh Das’s 3.2 t compost-pad sale is already in the seed so this page is never empty.
         </p>
       </section>
 

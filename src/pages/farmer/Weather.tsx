@@ -9,7 +9,7 @@ export default function WeatherPage() {
     <div className="animate-fade-in space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">Weather Intelligence</h1>
-        <p className="text-sm text-nv-muted">Patiala, Punjab · Demo IMD-style data</p>
+        <p className="text-sm text-nv-muted">Madhyamgram, North 24 Parganas · Demo IMD-style data</p>
       </div>
 
       <Card>

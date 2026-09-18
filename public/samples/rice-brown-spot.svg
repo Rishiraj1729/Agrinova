@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480">
+  <rect width="640" height="480" fill="#e7eee8"/>
+  <ellipse cx="320" cy="255" rx="155" ry="195" fill="#3a6a4e" stroke="#1d1d1f" stroke-width="3"/>
+  <circle cx="250" cy="170" r="14" fill="#6b3a1f" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="250" cy="170" r="22" fill="none" stroke="#c4a32a" stroke-width="3"/>
+  <circle cx="340" cy="230" r="12" fill="#5a3018" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="340" cy="230" r="20" fill="none" stroke="#c4a32a" stroke-width="3"/>
+  <circle cx="290" cy="300" r="11" fill="#6b3a1f" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="400" cy="280" r="13" fill="#5a3018" stroke="#1d1d1f" stroke-width="1.5"/>
+  <circle cx="400" cy="280" r="21" fill="none" stroke="#c4a32a" stroke-width="3"/>
+  <text x="28" y="40" font-family="Arial,sans-serif" font-size="20" font-weight="700" fill="#1d1d1f">SAMPLE · Rice brown spot</text>
+  <text x="28" y="66" font-family="Arial,sans-serif" font-size="13" fill="#333">Tap to load known result · educational · not a named farm</text>
+</svg>

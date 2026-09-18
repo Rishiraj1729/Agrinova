@@ -175,7 +175,7 @@ function SurveyForm({
   setExtra: (rows: SurveyEntry[]) => void
 }) {
   const [role, setRole] = useState<SurveyRole>('farmer')
-  const [answers, setAnswers] = useState<Record<string, string>>({ state: 'Punjab' })
+  const [answers, setAnswers] = useState<Record<string, string>>({ state: 'West Bengal' })
 
   function set(id: string, value: string) {
     setAnswers((a) => ({ ...a, [id]: value }))
@@ -190,14 +190,14 @@ function SurveyForm({
       designation: answers.rank,
       village: answers.village || '—',
       district: answers.district || '—',
-      state: (answers.state as SurveyEntry['state']) || 'Punjab',
+      state: (answers.state as SurveyEntry['state']) || 'West Bengal',
       acres: answers.acres ? Number(answers.acres) : undefined,
       answers,
     }
     const next = [entry, ...extra]
     setExtra(next)
     localStorage.setItem(EXTRA_KEY, JSON.stringify(next))
-    setAnswers({ state: answers.state || 'Punjab' })
+    setAnswers({ state: answers.state || 'West Bengal' })
   }
 
   const qs = questionsFor(role)

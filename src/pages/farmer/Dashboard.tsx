@@ -8,7 +8,7 @@ import { SourceNote } from '../../components/SourceNote'
 import { useCaseStudy } from '../../contexts/CaseStudyContext'
 import { useMarketplace } from '../../contexts/MarketplaceContext'
 import { farmerFromSession, isDemoSession, useAuth } from '../../contexts/AuthContext'
-import { cropRisks } from '../../data/caseStudies/punjab'
+import { cropRisks } from '../../data/agrinovaData'
 import { demoProfiles } from '../../data/profiles'
 import { formatINR } from '../../lib/utils'
 
@@ -77,10 +77,10 @@ export default function FarmerDashboard() {
         <CardContent className="pt-5 flex flex-wrap justify-between gap-4 items-center">
           <div>
             <Badge variant="info">This season’s job</Badge>
-            <p className="font-semibold mt-2">Sell ~5 t rice straw before the window closes</p>
+            <p className="font-semibold mt-2">List leftover straw before it dumps in the drain</p>
             <p className="text-sm text-nv-muted max-w-lg mt-1">
               {demo
-                ? `Last kharif you burned ${farmer.lastSeasonBurnedTonnes ?? 4.8} t — ₹0 and a fire risk. Moisture, bales, and land area go on the listing so GreenPower can bid.`
+                ? `Last kharif about ${farmer.lastSeasonBurnedTonnes ?? strawEstimate.toFixed(0)} t sat by the lane — ₹0. Moisture and acres go on the listing so the Madhyamgram compost pad can send a trolley.`
                 : `List this season’s straw from ${user?.village ?? farmer.village}. No past demo sales are attached to this login.`}
             </p>
           </div>
