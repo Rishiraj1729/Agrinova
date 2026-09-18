@@ -20,7 +20,7 @@ import { useCaseStudy } from './CaseStudyContext'
 import { isDemoSession, useAuth } from './AuthContext'
 import { supabase } from '../lib/supabase'
 
-const STORAGE_KEY = 'agrinova_marketplace_v5'
+const STORAGE_KEY = 'agrinova_marketplace_v6'
 
 interface StoredState {
   listings: ResidueListing[]

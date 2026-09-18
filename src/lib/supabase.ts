@@ -10,6 +10,7 @@ export const supabase: SupabaseClient | null = supabaseConfigured
   : null
 
 export const MARKETPLACE_KEYS = [
+  'agrinova_marketplace_v6',
   'agrinova_marketplace_v5',
   'agrinova_marketplace_v4',
   'agrinova_marketplace_v3',

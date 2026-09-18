@@ -9,15 +9,21 @@ export interface WardOption {
   district: string
 }
 
-export const INDIA_STATES: IndiaState[] = ['West Bengal', 'Punjab']
+export const INDIA_STATES: IndiaState[] = ['West Bengal']
+export const LOGIN_STATES: IndiaState[] = ['West Bengal']
 
 export const DISTRICTS_BY_STATE: Record<IndiaState, string[]> = {
-  'West Bengal': ['North 24 Parganas', 'Hooghly', 'Nadia', 'Burdwan', 'Howrah'],
+  'West Bengal': ['Kolkata', 'North 24 Parganas', 'Howrah', 'Hooghly', 'Nadia', 'Burdwan'],
   Punjab: ['Patiala', 'Sangrur', 'Ludhiana', 'Fatehgarh Sahib'],
 }
 
-/** Peri-urban wards / neighbourhoods students can actually reach from Dum Dum */
+/** Peri-urban wards / neighbourhoods from Dum Dum / Kolkata metro */
 export const WB_WARDS: WardOption[] = [
+  { id: 'kol-dumdum', label: 'Dum Dum', municipality: 'Kolkata metro', district: 'Kolkata' },
+  { id: 'kol-laketown', label: 'Lake Town', municipality: 'Kolkata metro', district: 'Kolkata' },
+  { id: 'kol-belgachia', label: 'Belgachia', municipality: 'Kolkata metro', district: 'Kolkata' },
+  { id: 'kol-sinthi', label: 'Sinthi', municipality: 'Kolkata metro', district: 'Kolkata' },
+  { id: 'kol-patipukur', label: 'Patipukur', municipality: 'Kolkata metro', district: 'Kolkata' },
   { id: 'barasat-w21', label: 'Ward No. 21', municipality: 'Barasat Municipality', district: 'North 24 Parganas' },
   { id: 'barasat-hridaypur', label: 'Hridaypur (Ward edge)', municipality: 'Barasat Municipality', district: 'North 24 Parganas' },
   { id: 'barasat-nabapally', label: 'Nabapally', municipality: 'Barasat Municipality', district: 'North 24 Parganas' },
@@ -36,9 +42,11 @@ export const PB_LOCALITIES: WardOption[] = [
 
 export function localitiesFor(state: IndiaState, district: string): WardOption[] {
   if (state === 'West Bengal') {
-    return WB_WARDS.filter((w) => w.district === district || district === 'North 24 Parganas')
+    const exact = WB_WARDS.filter((w) => w.district === district)
+    if (exact.length) return exact
+    return WB_WARDS.filter((w) => w.district === 'Kolkata')
   }
-  return PB_LOCALITIES.filter((w) => w.district === district || true)
+  return PB_LOCALITIES.filter((w) => w.district === district)
 }
 
 /** Working constants used across app + report (document accuracy). */

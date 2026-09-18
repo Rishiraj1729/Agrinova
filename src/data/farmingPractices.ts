@@ -18,7 +18,7 @@ export const farmingPractices: FarmingPractice[] = [
     category: 'sowing',
     summary: 'Sow wheat into standing rice residue without burning. Saves time between harvest and sowing.',
     benefits: ['Avoids residue burn fines', 'Keeps soil cover', 'Often lower diesel than full tillage'],
-    askPrompt: 'Explain Happy Seeder for my Punjab rice–wheat farm: when to use, moisture, and cost vs burning.',
+    askPrompt: 'Explain Happy Seeder for my Kolkata-edge rice plot: when to use, moisture, and cost vs dumping.',
   },
   {
     id: 'dsr',
@@ -27,7 +27,7 @@ export const farmingPractices: FarmingPractice[] = [
     category: 'water',
     summary: 'Rice without puddling transplant. Cuts labour and can save irrigation water when timed well.',
     benefits: ['Lower transplant labour', 'Water saving potential', 'Earlier harvest window'],
-    askPrompt: 'Teach me Direct Seeded Rice for Punjab: weed control, herbicide timing, and yield risk.',
+    askPrompt: 'Teach me Direct Seeded Rice for West Bengal: weed control, herbicide timing, and yield risk.',
   },
   {
     id: 'residue-bale',
@@ -63,6 +63,6 @@ export const farmingPractices: FarmingPractice[] = [
     category: 'income',
     summary: 'Add short-duration pulses or oilseeds where water and market allow.',
     benefits: ['Nitrogen fix', 'Extra income stream', 'Policy support schemes'],
-    askPrompt: 'Suggest a simple diversification plan after rice for Madhyamgram with limited irrigation.',
+    askPrompt: 'Suggest a simple diversification plan after rice for Dum Dum / Kolkata with limited irrigation.',
   },
 ]

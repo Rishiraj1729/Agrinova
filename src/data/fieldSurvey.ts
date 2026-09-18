@@ -23,7 +23,7 @@ export interface SurveyEntry {
 
 export const surveyQuestions: SurveyQuestion[] = [
   { id: 'role', roles: ['farmer', 'buyer', 'government'], prompt: 'Who are you filling this for?', type: 'choice', options: ['Farmer', 'Buyer / plant staff', 'Government official'] },
-  { id: 'state', roles: ['farmer', 'buyer', 'government'], prompt: 'State', type: 'choice', options: ['Punjab', 'West Bengal'] },
+  { id: 'state', roles: ['farmer', 'buyer', 'government'], prompt: 'State', type: 'choice', options: ['West Bengal', 'Punjab'] },
   { id: 'district', roles: ['farmer', 'buyer', 'government'], prompt: 'District / block', type: 'text' },
   { id: 'village', roles: ['farmer', 'buyer', 'government'], prompt: 'Village / plant / office', type: 'text' },
   { id: 'name', roles: ['farmer', 'buyer', 'government'], prompt: 'Name (first name is enough)', type: 'text' },

@@ -6,7 +6,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { demoProfiles } from '../data/profiles'
 import {
   DISTRICTS_BY_STATE,
-  INDIA_STATES,
+  LOGIN_STATES,
   localitiesFor,
   type IndiaState,
 } from '../data/indiaLocations'
@@ -43,11 +43,11 @@ export default function LoginPage() {
   const [role, setRole] = useState<AuthRole>('seller')
   const [name, setName] = useState('')
   const [stateName, setStateName] = useState<IndiaState>('West Bengal')
-  const [district, setDistrict] = useState('North 24 Parganas')
-  const [wardId, setWardId] = useState('mg-doltala')
+  const [district, setDistrict] = useState('Kolkata')
+  const [wardId, setWardId] = useState('kol-dumdum')
   const [acres, setAcres] = useState(3)
   const [phone, setPhone] = useState('')
-  const [showDemo, setShowDemo] = useState(false)
+  const [showDemo, setShowDemo] = useState(true)
   const [demoId, setDemoId] = useState('ramesh')
   const [formTab, setFormTab] = useState<'identity' | 'place' | 'land'>('identity')
 
@@ -59,13 +59,14 @@ export default function LoginPage() {
   function chooseRole(next: AuthRole) {
     setRole(next)
     setStateName('West Bengal')
-    setDistrict('North 24 Parganas')
-    setWardId(next === 'government' ? 'mg-conservancy' : next === 'buyer' ? 'mg-conservancy' : 'mg-doltala')
+    setDistrict('Kolkata')
+    setWardId('kol-dumdum')
     setAcres(next === 'seller' ? 3 : 0)
     setPhone('')
-    setName('')
+    const demo = demoProfiles.find((p) => p.id === defaultByRole[next])
+    setName(demo?.name ?? '')
     setDemoId(defaultByRole[next])
-    setShowDemo(false)
+    setShowDemo(true)
     setFormTab('identity')
     setStep('form')
   }
@@ -111,7 +112,7 @@ export default function LoginPage() {
       <div className="text-center">
         <h1 className="text-3xl font-semibold tracking-tight">{t('login.title')}</h1>
         <p className="mt-2 text-sm leading-relaxed text-nv-muted">{t('login.sub')}</p>
-        <p className="mt-2 text-[12px] text-nv-green">Default desk: West Bengal · North 24 Parganas wards</p>
+        <p className="mt-2 text-[12px] text-nv-green">Default desk: West Bengal · Kolkata (Dum Dum)</p>
       </div>
 
       {step === 'role' && (
@@ -141,7 +142,9 @@ export default function LoginPage() {
           className="mt-8 space-y-4 rounded-3xl border border-nv-border bg-white p-6"
           onSubmit={(e) => {
             e.preventDefault()
-            enterNew()
+            const p = demoProfiles.find((x) => x.id === demoId)
+            if (p && (!name.trim() || name.trim() === p.name)) enterDemo()
+            else enterNew()
           }}
         >
           <p className="text-sm text-nv-muted">
@@ -179,7 +182,7 @@ export default function LoginPage() {
             <div className="space-y-3">
               <div>
                 <Label>{t('login.name')}</Label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" />
+                <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Ramesh Das" />
               </div>
               <div>
                 <Label>{t('login.phone')}</Label>
@@ -196,7 +199,7 @@ export default function LoginPage() {
                   value={stateName}
                   onChange={(e) => onStateChange(e.target.value as IndiaState)}
                 >
-                  {INDIA_STATES.map((s) => (
+                  {LOGIN_STATES.map((s) => (
                     <option key={s} value={s}>
                       {s}
                     </option>
@@ -221,7 +224,7 @@ export default function LoginPage() {
                 </Select>
               </div>
               <div>
-                <Label>{stateName === 'West Bengal' ? 'Ward / locality (ULB)' : 'Locality (phone belt)'}</Label>
+                <Label>{stateName === 'West Bengal' ? 'Ward / locality (Kolkata metro)' : 'Locality'}</Label>
                 <Select value={wardId} onChange={(e) => setWardId(e.target.value)}>
                   {wards.map((w) => (
                     <option key={w.id} value={w.id}>
@@ -230,7 +233,7 @@ export default function LoginPage() {
                   ))}
                 </Select>
                 <p className="mt-1 text-[11px] text-nv-muted">
-                  India municipal / ward framing for NCSC — Madhyamgram & Barasat first.
+                  India municipal / ward framing — Kolkata and Dum Dum first. No Punjab / Patiala on this desk.
                 </p>
               </div>
             </div>

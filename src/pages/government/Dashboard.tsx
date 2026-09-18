@@ -26,7 +26,7 @@ export default function GovernmentDashboard() {
   const demo = isDemoSession(user)
   const { region } = useCaseStudy()
   const { ledger, transactions, wallets, listings, requirements } = useMarketplace()
-  const [district, setDistrict] = useState('North 24 Parganas')
+  const [district, setDistrict] = useState('Kolkata')
   const [utilPct, setUtilPct] = useState(70)
 
   const liveCo2 = ledger.filter((e) => e.region === region).reduce((s, e) => s + e.avoidedTco2e, 0)

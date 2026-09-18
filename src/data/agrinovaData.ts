@@ -3,9 +3,9 @@ import type {
   MarketPrice, ResidueListing, ResidueType, Transaction, WeatherEvent,
 } from '../types'
 
-const villages = ['Kharar', 'Samana', 'Rajpura', 'Nabha', 'Patran', 'Dirba', 'Sunam', 'Sangrur', 'Barnala', 'Malerkotla']
-const firstNames = ['Rajinder', 'Gurpreet', 'Harpreet', 'Balwinder', 'Manpreet', 'Jaswinder', 'Surinder', 'Kulwinder', 'Amarjit', 'Sukhwinder', 'Ranjit', 'Daljit', 'Paramjit', 'Bhupinder', 'Joginder', 'Avtar', 'Gurnam', 'Satnam', 'Harbhajan', 'Lakhwinder', 'Mandeep', 'Navdeep', 'Simran', 'Kiran', 'Pawan']
-const lastNames = ['Singh', 'Kaur', 'Gill', 'Brar', 'Sandhu', 'Dhillon', 'Grewal', 'Bajwa', 'Cheema', 'Sidhu']
+const villages = ['Dum Dum', 'Lake Town', 'Belgachia', 'Sinthi', 'Patipukur', 'Doltala', 'Noapara', 'Hridaypur', 'Nabapally', 'Barasat']
+const firstNames = ['Ramesh', 'Sukumar', 'Anil', 'Tapas', 'Kamal', 'Arun', 'Biplab', 'Sanjay', 'Debashis', 'Pradip', 'Gopal', 'Nirmal', 'Ashok', 'Bikash', 'Chandan', 'Dipak', 'Goutam', 'Hari', 'Indrajit', 'Jayanta', 'Kalyan', 'Manas', 'Mita', 'Namita', 'Partha']
+const lastNames = ['Das', 'Roy', 'Ghosh', 'Mondal', 'Sen', 'Banerjee', 'Chatterjee', 'Mukherjee', 'Bose', 'Dutta']
 
 const crops: CropType[] = ['Rice', 'Wheat', 'Cotton', 'Sugarcane', 'Maize']
 
@@ -13,30 +13,30 @@ export const DEMO_FARMER_ID = 'farmer-001'
 
 export const farmers: Farmer[] = firstNames.map((first, i) => ({
   id: `farmer-${String(i + 1).padStart(3, '0')}`,
-  name: i === 0 ? 'Ramesh Singh' : i === 22 ? 'Simran Kaur' : `${first} ${lastNames[i % lastNames.length]}`,
+  name: i === 0 ? 'Ramesh Das' : i === 22 ? 'Mita Banerjee' : `${first} ${lastNames[i % lastNames.length]}`,
   village: villages[i % villages.length],
-  district: i === 22 ? 'Sangrur' : 'Patiala',
-  state: 'Punjab',
-  acres: i === 0 ? 6 : 2 + (i % 8),
-  crops: [crops[i % crops.length], crops[(i + 2) % crops.length]],
-  phone: `+91 9876${String(10000 + i).slice(1)}`,
-  lat: 30.2 + (i * 0.02),
-  lng: 76.3 + (i * 0.015),
+  district: i < 5 ? 'Kolkata' : 'North 24 Parganas',
+  state: 'West Bengal',
+  acres: i === 0 ? 3 : 1.5 + (i % 5),
+  crops: [crops[i % 2], crops[(i + 1) % 2]],
+  phone: `+91 9831${String(20000 + i).slice(1)}`,
+  lat: 22.57 + (i * 0.008),
+  lng: 88.36 + (i * 0.006),
 }))
 
 export const currentFarmer = farmers[0]
 
 export const buyers: Buyer[] = [
-  { id: 'buy-001', name: 'GreenPower Biomass', type: 'Biomass Plant', location: 'Rajpura', distanceKm: 8.2, pricePerTon: 750, demandTonnes: 500, rating: 4.8, residueTypes: ['Rice Straw', 'Wheat Stubble'], contactName: 'Priya Malhotra', contactRole: 'Procurement lead', plantCapacityTpd: 15, moistureSpecMax: 15 },
-  { id: 'buy-002', name: 'Punjab Paper Mills', type: 'Paper Mill', location: 'Barnala', distanceKm: 14.5, pricePerTon: 700, demandTonnes: 300, rating: 4.6, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
-  { id: 'buy-003', name: 'AgroFeed Cattle Unit', type: 'Cattle Feed', location: 'Sangrur', distanceKm: 6.1, pricePerTon: 650, demandTonnes: 200, rating: 4.5, residueTypes: ['Rice Straw', 'Maize Stover'] },
-  { id: 'buy-004', name: 'CarbonEarth Biochar', type: 'Biochar', location: 'Ludhiana', distanceKm: 22.0, pricePerTon: 800, demandTonnes: 150, rating: 4.9, residueTypes: ['Rice Straw', 'Wheat Stubble', 'Cotton Stalks'] },
-  { id: 'buy-005', name: 'EcoPack Industries', type: 'Packaging', location: 'Mohali', distanceKm: 18.0, pricePerTon: 720, demandTonnes: 100, rating: 4.4, residueTypes: ['Rice Straw'] },
-  { id: 'buy-006', name: 'VerdeCompost', type: 'Compost Unit', location: 'Patiala', distanceKm: 5.5, pricePerTon: 600, demandTonnes: 250, rating: 4.3, residueTypes: ['Wheat Stubble', 'Maize Stover', 'Sugarcane Tops'] },
-  { id: 'buy-007', name: 'NorthBio Energy', type: 'Biomass Plant', location: 'Ambala', distanceKm: 35.0, pricePerTon: 680, demandTonnes: 400, rating: 4.7, residueTypes: ['Rice Straw', 'Cotton Stalks'] },
-  { id: 'buy-008', name: 'Haryana Feed Co.', type: 'Cattle Feed', location: 'Karnal', distanceKm: 42.0, pricePerTon: 630, demandTonnes: 180, rating: 4.2, residueTypes: ['Wheat Stubble', 'Maize Stover'] },
-  { id: 'buy-009', name: 'Punjab Biochar Hub', type: 'Biochar', location: 'Bathinda', distanceKm: 55.0, pricePerTon: 820, demandTonnes: 120, rating: 4.8, residueTypes: ['Rice Straw', 'Cotton Stalks'] },
-  { id: 'buy-010', name: 'AgriCircle Logistics', type: 'Paper Mill', location: 'Jalandhar', distanceKm: 48.0, pricePerTon: 710, demandTonnes: 220, rating: 4.5, residueTypes: ['Rice Straw', 'Wheat Stubble', 'Sugarcane Tops'] },
+  { id: 'buy-001', name: 'Barasat paper / fibre desk', type: 'Paper Mill', location: 'Barasat', distanceKm: 8, pricePerTon: 640, demandTonnes: 120, rating: 4.4, residueTypes: ['Rice Straw'], contactName: 'Rekha Sen', contactRole: 'Procurement', plantCapacityTpd: 10, moistureSpecMax: 16 },
+  { id: 'buy-002', name: 'North 24 Pgs biomass co-op', type: 'Biomass Plant', location: 'Barrackpore belt', distanceKm: 14, pricePerTon: 680, demandTonnes: 200, rating: 4.5, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
+  { id: 'buy-003', name: 'Dum Dum ward compost pad', type: 'Compost Unit', location: 'Kolkata', distanceKm: 4, pricePerTon: 590, demandTonnes: 90, rating: 4.6, residueTypes: ['Rice Straw'], contactName: 'Biswajit Ghosh', contactRole: 'Pad staff', plantCapacityTpd: 8, moistureSpecMax: 18 },
+  { id: 'buy-004', name: 'Kolkata metro biogas trial', type: 'Biochar', location: 'Kolkata', distanceKm: 10, pricePerTon: 610, demandTonnes: 80, rating: 4.2, residueTypes: ['Rice Straw'] },
+  { id: 'buy-005', name: 'Howrah fibre mill', type: 'Packaging', location: 'Howrah', distanceKm: 16, pricePerTon: 630, demandTonnes: 70, rating: 4.3, residueTypes: ['Rice Straw'] },
+  { id: 'buy-006', name: 'Hooghly compost unit', type: 'Compost Unit', location: 'Hooghly', distanceKm: 22, pricePerTon: 580, demandTonnes: 85, rating: 4.1, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
+  { id: 'buy-007', name: 'Nadia paddy desk', type: 'Biomass Plant', location: 'Nadia', distanceKm: 35, pricePerTon: 650, demandTonnes: 110, rating: 4.4, residueTypes: ['Rice Straw'] },
+  { id: 'buy-008', name: 'Barrackpore cattle feed', type: 'Cattle Feed', location: 'Barrackpore', distanceKm: 12, pricePerTon: 600, demandTonnes: 60, rating: 4.0, residueTypes: ['Rice Straw', 'Wheat Stubble'] },
+  { id: 'buy-009', name: 'New Town biochar desk', type: 'Biochar', location: 'New Town', distanceKm: 18, pricePerTon: 700, demandTonnes: 50, rating: 4.5, residueTypes: ['Rice Straw'] },
+  { id: 'buy-010', name: 'Madhyamgram Udayrajpur pad', type: 'Compost Unit', location: 'Madhyamgram', distanceKm: 7, pricePerTon: 590, demandTonnes: 75, rating: 4.6, residueTypes: ['Rice Straw'] },
 ]
 
 const residueTypes: ResidueType[] = ['Rice Straw', 'Wheat Stubble', 'Cotton Stalks', 'Maize Stover']
@@ -138,15 +138,15 @@ export function parseVoiceInput(text: string): { residueType: ResidueType; quant
   if (qtyMatch) {
     quantity = hindiNums[qtyMatch[1]] ?? parseFloat(qtyMatch[1])
   }
-  if (/धान|राइस|rice|भूसा|straw/i.test(text)) return { residueType: 'Rice Straw', quantity }
-  if (/गेहूं|wheat|पराली|stubble/i.test(text)) return { residueType: 'Wheat Stubble', quantity }
+  if (/ধান|খড়|धान|राइस|rice|भूसा|straw/i.test(text)) return { residueType: 'Rice Straw', quantity }
+  if (/গম|गेहूं|wheat|पराली|stubble/i.test(text)) return { residueType: 'Wheat Stubble', quantity }
   if (/कपास|cotton/i.test(text)) return { residueType: 'Cotton Stalks', quantity }
   return { residueType: 'Rice Straw', quantity }
 }
 
 export const scienceSteps = [
-  { step: 'Problem', content: '20M tonnes of crop residue burned annually in North India — causing air pollution, soil degradation, and zero farmer income.' },
-  { step: 'Observation', content: 'Farmers burn residue due to 10–15 day harvest-sowing window and lack of affordable alternatives. Buyers exist but matching is inefficient.' },
+  { step: 'Problem', content: 'Peri-urban paddy leftover around Kolkata dumps, rots, or mixes into municipal waste — compost pads stay short of clean feedstock.' },
+  { step: 'Observation', content: 'Small Bengali lots never become a listing. Wet heaps fail dry biomass specs; compost-first is the working path.' },
   { step: 'Research Question', content: 'Can an AI-powered platform predict risks, optimize decisions, and connect farmers to residue buyers to create income while reducing emissions?' },
   { step: 'Hypothesis', content: 'If farmers receive timely weather/risk alerts + market intelligence + automated buyer matching, they will choose selling over burning when net income > burning cost.' },
   { step: 'Data', content: 'Demo dataset: 25 farmers, 10 buyers, weather events, crop risks, market prices, residue listings, transactions (all fictional).' },

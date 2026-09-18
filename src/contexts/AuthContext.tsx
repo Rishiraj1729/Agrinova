@@ -63,7 +63,7 @@ export interface CustomLoginDraft {
   age?: number
 }
 
-const STORAGE = 'agrinova_session_v3'
+const STORAGE = 'agrinova_session_v4'
 const WB_DISTRICTS = new Set([
   'Burdwan',
   'Hooghly',
@@ -122,10 +122,10 @@ function sessionFromProfile(p: DemoProfile, overrides?: Partial<SessionUser>): S
     } else if (fromOrg.includes('barasat') || fromOrg.includes('hridaypur') || fromOrg.includes('ward 21')) {
       district = 'Barasat'
     } else {
-      district = 'North 24 Parganas'
+      district = 'Kolkata'
     }
   }
-  const state = overrides?.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
+  const state = overrides?.state ?? 'West Bengal'
   const acresDefault =
     p.id === 'ramesh' ? 3 : p.id === 'sukumar' ? 2 : p.id === 'tapas' ? 1.5 : p.id === 'anilghosh' ? 4 : 0
   const base: SessionUser = {
@@ -255,8 +255,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         beginSession(sessionFromProfile(p, overrides))
       },
       loginCustom: (draft) => {
-        const district = draft.district.trim() || 'North 24 Parganas'
-        const state = draft.state ?? (WB_DISTRICTS.has(district) ? 'West Bengal' : 'Punjab')
+        const district = draft.district.trim() || 'Kolkata'
+        const state = draft.state ?? 'West Bengal'
         const id = `custom-${draft.role}-${Date.now()}`
         const role = draft.role
         const next: SessionUser = {
