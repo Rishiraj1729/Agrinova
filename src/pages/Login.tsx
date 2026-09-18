@@ -4,12 +4,7 @@ import { Sprout, Building2, Landmark, Shield, ChevronDown } from 'lucide-react'
 import { useAuth, type AuthRole } from '../contexts/AuthContext'
 import { useLanguage } from '../contexts/LanguageContext'
 import { demoProfiles } from '../data/profiles'
-import {
-  DISTRICTS_BY_STATE,
-  LOGIN_STATES,
-  localitiesFor,
-  type IndiaState,
-} from '../data/indiaLocations'
+import { DISTRICTS_BY_STATE, localitiesFor } from '../data/indiaLocations'
 import { Button } from '../components/ui/Button'
 import { Input, Label, Select } from '../components/ui/Input'
 import { cn } from '../lib/utils'
@@ -35,6 +30,8 @@ const defaultByRole: Record<AuthRole, string> = {
   admin: 'kavya',
 }
 
+const WB_DISTRICTS = DISTRICTS_BY_STATE['West Bengal']
+
 export default function LoginPage() {
   const { loginAs, loginCustom } = useAuth()
   const { t } = useLanguage()
@@ -42,50 +39,37 @@ export default function LoginPage() {
   const [step, setStep] = useState<'role' | 'form'>('role')
   const [role, setRole] = useState<AuthRole>('seller')
   const [name, setName] = useState('')
-  const [stateName, setStateName] = useState<IndiaState>('West Bengal')
   const [district, setDistrict] = useState('Kolkata')
   const [wardId, setWardId] = useState('kol-dumdum')
   const [acres, setAcres] = useState(3)
   const [phone, setPhone] = useState('')
   const [showDemo, setShowDemo] = useState(true)
   const [demoId, setDemoId] = useState('ramesh')
-  const [formTab, setFormTab] = useState<'identity' | 'place' | 'land'>('identity')
 
   const people = demoProfiles.filter((p) => p.role === role)
-  const districts = DISTRICTS_BY_STATE[stateName]
-  const wards = useMemo(() => localitiesFor(stateName, district), [stateName, district])
+  const wards = useMemo(() => localitiesFor('West Bengal', district), [district])
   const ward = wards.find((w) => w.id === wardId) ?? wards[0]
 
   function chooseRole(next: AuthRole) {
+    const demo = demoProfiles.find((p) => p.id === defaultByRole[next])
     setRole(next)
-    setStateName('West Bengal')
     setDistrict('Kolkata')
     setWardId('kol-dumdum')
     setAcres(next === 'seller' ? 3 : 0)
     setPhone('')
-    const demo = demoProfiles.find((p) => p.id === defaultByRole[next])
     setName(demo?.name ?? '')
     setDemoId(defaultByRole[next])
     setShowDemo(true)
-    setFormTab('identity')
     setStep('form')
-  }
-
-  function onStateChange(s: IndiaState) {
-    setStateName(s)
-    const first = DISTRICTS_BY_STATE[s][0]
-    setDistrict(first)
-    const locs = localitiesFor(s, first)
-    setWardId(locs[0]?.id ?? '')
   }
 
   function enterNew() {
     loginCustom({
       role,
       displayName: name,
-      village: ward?.label ?? '',
+      village: ward?.label ?? 'Dum Dum',
       district,
-      state: stateName,
+      state: 'West Bengal',
       acres,
       phone,
     })
@@ -95,15 +79,14 @@ export default function LoginPage() {
   function enterDemo() {
     const p = demoProfiles.find((x) => x.id === demoId)
     if (!p) return
-    const overrides: Parameters<typeof loginAs>[1] = {
-      state: stateName,
+    loginAs(demoId, {
+      state: 'West Bengal',
       district,
-      village: ward?.label,
-    }
-    if (name.trim()) overrides.displayName = name.trim()
-    if (phone.trim()) overrides.phone = phone.trim()
-    if (role === 'seller') overrides.acres = acres
-    loginAs(demoId, overrides)
+      village: ward?.label ?? 'Dum Dum',
+      displayName: name.trim() || p.name,
+      phone: phone.trim() || undefined,
+      acres: role === 'seller' ? acres : undefined,
+    })
     navigate(homeFor[p.role])
   }
 
@@ -112,7 +95,6 @@ export default function LoginPage() {
       <div className="text-center">
         <h1 className="text-3xl font-semibold tracking-tight">{t('login.title')}</h1>
         <p className="mt-2 text-sm leading-relaxed text-nv-muted">{t('login.sub')}</p>
-        <p className="mt-2 text-[12px] text-nv-green">Default desk: West Bengal · Kolkata (Dum Dum)</p>
       </div>
 
       {step === 'role' && (
@@ -156,108 +138,56 @@ export default function LoginPage() {
             </button>
           </p>
 
-          <div className="flex gap-1 rounded-full bg-nv-elevated p-1">
-            {(
-              [
-                ['identity', 'Identity'],
-                ['place', 'State / Ward'],
-                ['land', 'Land'],
-              ] as const
-            ).map(([id, label]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setFormTab(id)}
-                className={cn(
-                  'flex-1 rounded-full px-2 py-1.5 text-[12px] font-medium',
-                  formTab === id ? 'bg-white text-nv-fg shadow-sm' : 'text-nv-muted',
-                )}
-              >
-                {label}
-              </button>
-            ))}
+          <div>
+            <Label>{t('login.name')}</Label>
+            <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Ramesh Das" />
           </div>
 
-          {formTab === 'identity' && (
-            <div className="space-y-3">
-              <div>
-                <Label>{t('login.name')}</Label>
-                <Input value={name} onChange={(e) => setName(e.target.value)} required placeholder="Ramesh Das" />
-              </div>
-              <div>
-                <Label>{t('login.phone')}</Label>
-                <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91" />
-              </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>{t('login.district')}</Label>
+              <Select
+                value={district}
+                onChange={(e) => {
+                  setDistrict(e.target.value)
+                  const locs = localitiesFor('West Bengal', e.target.value)
+                  setWardId(locs[0]?.id ?? 'kol-dumdum')
+                }}
+              >
+                {WB_DISTRICTS.map((d) => (
+                  <option key={d} value={d}>
+                    {d}
+                  </option>
+                ))}
+              </Select>
             </div>
-          )}
-
-          {formTab === 'place' && (
-            <div className="space-y-3">
-              <div>
-                <Label>State (India)</Label>
-                <Select
-                  value={stateName}
-                  onChange={(e) => onStateChange(e.target.value as IndiaState)}
-                >
-                  {LOGIN_STATES.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Label>District</Label>
-                <Select
-                  value={district}
-                  onChange={(e) => {
-                    setDistrict(e.target.value)
-                    const locs = localitiesFor(stateName, e.target.value)
-                    setWardId(locs[0]?.id ?? '')
-                  }}
-                >
-                  {districts.map((d) => (
-                    <option key={d} value={d}>
-                      {d}
-                    </option>
-                  ))}
-                </Select>
-              </div>
-              <div>
-                <Label>{stateName === 'West Bengal' ? 'Ward / locality (Kolkata metro)' : 'Locality'}</Label>
-                <Select value={wardId} onChange={(e) => setWardId(e.target.value)}>
-                  {wards.map((w) => (
-                    <option key={w.id} value={w.id}>
-                      {w.label} — {w.municipality}
-                    </option>
-                  ))}
-                </Select>
-                <p className="mt-1 text-[11px] text-nv-muted">
-                  India municipal / ward framing — Kolkata and Dum Dum first. No Punjab / Patiala on this desk.
-                </p>
-              </div>
+            <div>
+              <Label>{t('login.village')}</Label>
+              <Select value={ward?.id ?? wardId} onChange={(e) => setWardId(e.target.value)}>
+                {wards.map((w) => (
+                  <option key={w.id} value={w.id}>
+                    {w.label}
+                  </option>
+                ))}
+              </Select>
             </div>
-          )}
+          </div>
 
-          {formTab === 'land' && (
-            <div className="space-y-3">
-              {role === 'seller' ? (
-                <div>
-                  <Label>{t('login.acres')}</Label>
-                  <Input
-                    type="number"
-                    min={0.5}
-                    step={0.5}
-                    value={acres}
-                    onChange={(e) => setAcres(Number(e.target.value))}
-                  />
-                  <p className="mt-1 text-[11px] text-nv-muted">
-                    Working straw ≈ acres × 2.0 t/acre (rice). Shown on Kisan Bandhu.
-                  </p>
-                </div>
-              ) : (
-                <p className="text-sm text-nv-muted">Land acres apply to farmer desks. Continue to enter.</p>
-              )}
+          <div>
+            <Label>{t('login.phone')}</Label>
+            <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91" />
+          </div>
+
+          {role === 'seller' && (
+            <div>
+              <Label>{t('login.acres')}</Label>
+              <Input
+                type="number"
+                min={0.5}
+                step={0.5}
+                value={acres}
+                onChange={(e) => setAcres(Number(e.target.value))}
+              />
             </div>
           )}
 
@@ -276,7 +206,6 @@ export default function LoginPage() {
             </button>
             {showDemo && (
               <div className="mt-3 space-y-3">
-                <p className="text-[12px] leading-relaxed text-nv-muted">{t('login.demoHint')}</p>
                 <Select value={demoId} onChange={(e) => setDemoId(e.target.value)}>
                   {people.map((p) => (
                     <option key={p.id} value={p.id}>
